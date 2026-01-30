@@ -1,0 +1,228 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Project data - easy to update
+const projects = [
+  {
+    id: 'sales-conference',
+    title: 'Sales Conference Infographic Video',
+    category: 'Motion Graphics',
+    year: '2019',
+    description: 'As part of a full conference video experience for our company\'s Sales Conference in 2019, I was tasked with building out an impressive data-driven infographic video from scratch. It was displayed on a massive 100\' wide video display to the entire sales organization.',
+    tags: ['After Effects', 'Motion Design', 'Data Visualization'],
+    videoUrl: '', // Add your video URL
+    thumbnail: '',
+  },
+  {
+    id: 'enrollment-platform',
+    title: 'Enrollment Platform Promo',
+    category: 'Product Video',
+    year: '2020',
+    description: 'As we launched a major update to our customer enrollment platform, this ad was to show how our comprehensive interactive enrollment platform set us apart from our competitors.',
+    tags: ['Premiere Pro', 'After Effects', 'Product Marketing'],
+    videoUrl: '',
+    thumbnail: '',
+  },
+  {
+    id: 'pandemic-safety',
+    title: 'Guided Enrollment | Pandemic Safety',
+    category: 'Explainer Video',
+    year: '2020',
+    description: 'During COVID-19 in 2020, many of our account managers adjusted how enrollments were done. This video was to reassure customers that safety was our priority. The clip above showcases the sections of the video project that I specifically animated.',
+    tags: ['After Effects', 'Animation', 'Corporate Communication'],
+    videoUrl: '',
+    thumbnail: '',
+  },
+  {
+    id: 'billing-platform',
+    title: 'Billing Platform Promo',
+    category: 'Feature Highlight',
+    year: '2020',
+    description: 'This video showcases one of the biggest features offered in our company\'s billing platform. The hands-free option was a major time-saver for our employer customers and helped take some of the burden off their shoulders.',
+    tags: ['Premiere Pro', 'After Effects', 'Feature Marketing'],
+    videoUrl: '',
+    thumbnail: '',
+  },
+  {
+    id: 'indiana-testimonial',
+    title: 'Indiana Customer Testimonial',
+    category: 'Documentary',
+    year: '2019',
+    description: 'In 2019 we traveled to four cities in Indiana over the course of a week and filmed numerous customer testimonials. I took part in the planning, logistics for travel, as well as aiding in full production and post-production roles for the entire project. This video was one of six that we created as a result of the production.',
+    tags: ['Video Production', 'Documentary', 'Post-Production'],
+    videoUrl: '',
+    thumbnail: '',
+  },
+  {
+    id: 'danny-testimonial',
+    title: 'Danny Customer Testimonial',
+    category: 'Documentary',
+    year: '2020',
+    description: 'In early 2020 we traveled to Fresno, CA to film this story from an employee customer who used our Cancer benefits to help him through the most challenging time of his life. I took part in the planning, logistics for travel, as well as aiding in the full production and post-production roles for the entire project.',
+    tags: ['Video Production', 'Storytelling', 'Post-Production'],
+    videoUrl: '',
+    thumbnail: '',
+  },
+  {
+    id: 'billing-new-feature',
+    title: 'Billing New Feature Promo',
+    category: 'Product Video',
+    year: '2021',
+    description: 'In 2021 we began rolling out a major new feature to our billing platform. This video promo was to inform our employer customers about the big changes and how it will save them time month after month. I was involved in the pre-production, production on set and handled the color and animation for the entire project.',
+    tags: ['After Effects', 'Color Grading', 'Animation'],
+    videoUrl: '',
+    thumbnail: '',
+  },
+];
+---
+
+<Layout title="Work | Chris Hawk - Motion Designer">
+  <!-- Hero Section -->
+  <section class="section-padding bg-gradient-to-b from-dark-900/50 to-dark-950">
+    <div class="container-custom">
+      <div class="max-w-3xl">
+        <span class="text-hawk-500 font-medium text-sm uppercase tracking-wider reveal">Portfolio</span>
+        <h1 class="heading-xl mt-4 mb-6 reveal animate-delay-100">
+          Selected <span class="text-gradient">Work</span>
+        </h1>
+        <p class="text-xl text-dark-300 reveal animate-delay-200">
+          A collection of motion design, video production, and animation projects
+          I've had the pleasure of working on over the years.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter/Categories (Optional) -->
+  <section class="py-8 border-b border-dark-800 sticky top-16 md:top-20 bg-dark-950/90 backdrop-blur-lg z-40">
+    <div class="container-custom">
+      <div class="flex flex-wrap items-center gap-4">
+        <span class="text-dark-400 text-sm">Filter:</span>
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="motion">Motion Graphics</button>
+        <button class="filter-btn" data-filter="video">Video Production</button>
+        <button class="filter-btn" data-filter="documentary">Documentary</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Grid -->
+  <section class="section-padding">
+    <div class="container-custom">
+      <div class="space-y-24">
+        {projects.map((project, index) => (
+          <article
+            id={project.id}
+            class={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
+          >
+            <!-- Video/Image Side -->
+            <div class={`reveal ${index % 2 === 1 ? 'reveal-right lg:order-2' : 'reveal-left'}`}>
+              <div class="video-container bg-dark-800 rounded-2xl overflow-hidden shadow-2xl shadow-black/30 group">
+                {project.videoUrl ? (
+                  <iframe
+                    src={project.videoUrl}
+                    frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowfullscreen
+                    class="absolute inset-0 w-full h-full"
+                  ></iframe>
+                ) : (
+                  <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-hawk-900/20 to-dark-800 group-hover:from-hawk-900/30 transition-all duration-500">
+                    <div class="text-center">
+                      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-hawk-600/20 flex items-center justify-center group-hover:bg-hawk-600/30 transition-colors">
+                        <svg class="w-8 h-8 text-hawk-500" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                      </div>
+                      <p class="text-dark-400 text-sm">Video Preview</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <!-- Content Side -->
+            <div class={`reveal ${index % 2 === 1 ? 'reveal-left lg:order-1' : 'reveal-right'}`}>
+              <div class="flex items-center gap-3 mb-4">
+                <span class="text-hawk-500 text-sm font-medium uppercase tracking-wider">{project.category}</span>
+                <span class="w-1 h-1 bg-dark-600 rounded-full"></span>
+                <span class="text-dark-500 text-sm">{project.year}</span>
+              </div>
+
+              <h2 class="heading-md text-white mb-4">{project.title}</h2>
+
+              <p class="text-dark-300 mb-6 leading-relaxed">{project.description}</p>
+
+              <div class="flex flex-wrap gap-2">
+                {project.tags.map(tag => (
+                  <span class="skill-badge text-xs">{tag}</span>
+                ))}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- More Work Coming Section -->
+  <section class="py-16 bg-dark-900/30">
+    <div class="container-custom text-center">
+      <div class="max-w-2xl mx-auto">
+        <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-hawk-600/20 flex items-center justify-center reveal">
+          <svg class="w-8 h-8 text-hawk-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+          </svg>
+        </div>
+        <h3 class="heading-md mb-4 reveal animate-delay-100">More projects coming soon</h3>
+        <p class="text-dark-400 reveal animate-delay-200">
+          I'm constantly working on new and exciting projects.
+          Follow me on social media or get in touch to see the latest work.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section-padding">
+    <div class="container-custom">
+      <div class="card p-8 md:p-12 text-center reveal">
+        <h2 class="heading-md mb-4">Have a project in mind?</h2>
+        <p class="text-dark-300 max-w-xl mx-auto mb-8">
+          I'd love to hear about your next video or motion design project.
+          Let's create something amazing together.
+        </p>
+        <a href="/contact" class="btn-primary">
+          Start a Conversation
+          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .filter-btn {
+      @apply px-4 py-2 text-sm rounded-lg transition-all duration-300;
+      @apply text-dark-400 hover:text-white hover:bg-dark-800;
+    }
+
+    .filter-btn.active {
+      @apply bg-hawk-600 text-white;
+    }
+  </style>
+
+  <script>
+    // Simple filter functionality
+    const filterBtns = document.querySelectorAll('.filter-btn');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        // Add filter logic here if needed
+      });
+    });
+  </script>
+</Layout>

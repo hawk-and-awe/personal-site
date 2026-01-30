@@ -1,0 +1,23 @@
+{
+  "name": "chris-hawk-portfolio",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Chris Hawk - Motion Designer Portfolio",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^4.5.0",
+    "@astrojs/tailwind": "^5.1.0",
+    "tailwindcss": "^3.4.1",
+    "lottie-web": "^5.12.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.0"
+  }
+}

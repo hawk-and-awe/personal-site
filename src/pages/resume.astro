@@ -1,0 +1,299 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const skills = [
+  { name: 'After Effects', abbr: 'Ae', color: '#9999FF', level: 95 },
+  { name: 'Premiere Pro', abbr: 'Pr', color: '#9999FF', level: 90 },
+  { name: 'Audition', abbr: 'Au', color: '#9999FF', level: 80 },
+  { name: 'DaVinci Resolve', abbr: 'DV', color: '#FF6B4A', level: 85 },
+  { name: 'Photoshop', abbr: 'Ps', color: '#31A8FF', level: 85 },
+  { name: 'Illustrator', abbr: 'Ai', color: '#FF9A00', level: 80 },
+];
+
+const experience = [
+  {
+    company: 'American Fidelity Inc.',
+    logo: null,
+    role: 'Multimedia Design Specialist',
+    period: 'January 2017 - Present',
+    description: 'My role is primarily responsible for creating realistic and stylized multimedia content to support any and all marketing efforts across the entire organization.',
+    highlights: [
+      'End-to-end live and animated video production, and producing hundreds of custom video requests from remote sales staff across the United States',
+      'Completed many full pipeline film productions, both on set and on location across the country using RED cameras and other advanced video equipment',
+      'Achieved the goal of increasing our yearly video views across the entire organization by 30%',
+      'Re-imagined and modernized our corporate animation style to include character animations using After Effects and DUIK Bassel',
+      'Integrated and advocated for introducing a Lottie workflow for animations, including assisting the development team in implementing them on our website',
+      'Managed tight deadlines and unexpected projects with fast turnarounds, while communicating production progress across all internal and external stakeholders',
+    ],
+  },
+  {
+    company: 'Bigwing Interactive',
+    logo: null,
+    role: 'Content Marketing & Video Strategist III',
+    period: 'March 2016 - December 2018',
+    description: 'My role was to manage and develop strategy for video production, content marketing, and social media campaigns for clients as both a lead and support specialist.',
+    highlights: [
+      'Full-pipeline video production, organic social media and advertising campaigns, as well as creating content marketing strategy, blog writing, and email marketing',
+      'Launched and managed BigWing\'s digital marketing video service line, and strategized with clients',
+      'Managed the entire video production process: script copywriting, pre-production, on-location shoots and post-production including motion graphic creation',
+      'Generated $100,000+ revenue in new video business in 2018',
+      'Collaborated with content marketing, social media management, search engine optimization and programmatic advertising teams to cohesively integrate video marketing into the client\'s overall campaign',
+    ],
+  },
+  {
+    company: 'Pluralsight (formerly Digital-tutors)',
+    logo: null,
+    role: 'Product Marketing Manager & Copywriter',
+    period: 'July 2014 - January 2016',
+    description: 'Created new product marketing strategies for Sales Enablement and B2B, clarifying customer communication through writing and editing articles, landing pages, video scripts and storyboards.',
+    highlights: [
+      'Grew Pluralsight\'s Creative YouTube channel engagement by over 30%',
+      'Targeted individual users through diverse social marketing campaigns via Facebook, driving users to follow our page and sign up for our services',
+      'Wrote content marketing articles for the B2B market, informing users about the benefits of our services',
+      'Managed the production of Pluralsight\'s Creative newsletter with more than 200,000 subscribers',
+    ],
+  },
+  {
+    company: 'Digital-Tutors',
+    logo: null,
+    role: 'Production Manager and Jr. Motion Graphics Designer',
+    period: 'July 2009 - July 2014',
+    description: 'Throughout my time in this role I played a major part in improving our video output from 12 courses released per month to over 35 courses released per month, an increase of over 200%.',
+    highlights: [
+      'Managed the entire production pipeline for the website, with over two years of flawless daily releases',
+      'Edited and fixed video issues for a team of over nine video authors, reducing their production time by 20%',
+      'Kept over 50 terabytes of video and course data organized and easily accessible',
+      'Ensured error-free copy on all video introductions, titles, descriptions and course information',
+      'Worked with content acquisitions to help our contract video authors deliver the best video content quality possible from all across the globe',
+      'Edited hundreds of hours of video content in After Effects and Premiere Pro, from splitting and combining video files to resolving errors',
+    ],
+  },
+];
+
+const education = {
+  school: 'University of Central Oklahoma',
+  degree: 'B.A. Strategic Communications',
+  period: 'Fall 2009 - Fall 2014',
+  description: 'The Strategic Communications degree teaches to research, develop and communicate effective written/electronic/graphic messages for target audiences. I learned a blend of advertising and public relations to prepare for leadership opportunities in the fields of communications including advertising agencies, PR firms, corporate communications and non-profit organizations.',
+};
+
+const funFacts = [
+  'Won an Oreo stacking contest at my local Kmart in 1997',
+  'Awarded "Most Dependable" by my H.S. football coach 2 years in a row',
+  'Self-taught unicyclist',
+  'Watched Lord of the Rings: Return of the King in theaters four times during it\'s initial theatrical release',
+];
+---
+
+<Layout title="Resume | Chris Hawk - Motion Designer">
+  <!-- Hero Section -->
+  <section class="section-padding bg-gradient-to-b from-dark-900/50 to-dark-950">
+    <div class="container-custom">
+      <div class="max-w-3xl">
+        <span class="text-hawk-500 font-medium text-sm uppercase tracking-wider reveal">Career</span>
+        <h1 class="heading-xl mt-4 mb-6 reveal animate-delay-100">
+          <span class="text-gradient">Resume</span>
+        </h1>
+        <p class="text-xl text-dark-300 mb-8 reveal animate-delay-200">
+          10+ years of experience in motion design, video production, and
+          content marketing strategy.
+        </p>
+        <a
+          href="/chris-hawk-resume.pdf"
+          download
+          class="btn-primary reveal animate-delay-300"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          Download Resume (PDF)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="section-padding bg-dark-900/30">
+    <div class="container-custom">
+      <div class="text-center mb-12">
+        <span class="text-hawk-500 font-medium text-sm uppercase tracking-wider reveal">Expertise</span>
+        <h2 class="heading-lg mt-2 reveal animate-delay-100">
+          Software <span class="text-gradient">Skills</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+        {skills.map((skill, index) => (
+          <div
+            class="card p-6 text-center reveal group"
+            style={`animation-delay: ${index * 100}ms`}
+          >
+            <div
+              class="w-16 h-16 mx-auto mb-4 rounded-xl flex items-center justify-center transition-all duration-300"
+              style={`background: ${skill.color}15;`}
+            >
+              <span class="text-2xl font-bold" style={`color: ${skill.color};`}>
+                {skill.abbr}
+              </span>
+            </div>
+            <p class="text-dark-200 font-medium text-sm mb-3">{skill.name}</p>
+            <div class="w-full h-1.5 bg-dark-800 rounded-full overflow-hidden">
+              <div
+                class="h-full rounded-full transition-all duration-1000 ease-out skill-bar"
+                style={`width: 0%; background: ${skill.color};`}
+                data-width={skill.level}
+              ></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Work Experience Section -->
+  <section class="section-padding">
+    <div class="container-custom">
+      <div class="mb-12">
+        <span class="text-hawk-500 font-medium text-sm uppercase tracking-wider reveal">Career</span>
+        <h2 class="heading-lg mt-2 reveal animate-delay-100">
+          Work <span class="text-gradient">Experience</span>
+        </h2>
+      </div>
+
+      <div class="space-y-12">
+        {experience.map((job, index) => (
+          <div class="card p-6 md:p-8 reveal" style={`animation-delay: ${index * 100}ms`}>
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
+              <div>
+                <h3 class="heading-sm text-white">{job.company}</h3>
+                <p class="text-hawk-500 font-medium mt-1">{job.role}</p>
+              </div>
+              <span class="text-dark-400 text-sm whitespace-nowrap">{job.period}</span>
+            </div>
+
+            <p class="text-dark-300 mb-6">{job.description}</p>
+
+            <ul class="space-y-3">
+              {job.highlights.map(highlight => (
+                <li class="flex items-start gap-3 text-dark-300 text-sm">
+                  <svg class="w-5 h-5 text-hawk-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  <span>{highlight}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Education Section -->
+  <section class="section-padding bg-dark-900/30">
+    <div class="container-custom">
+      <div class="mb-12">
+        <span class="text-hawk-500 font-medium text-sm uppercase tracking-wider reveal">Background</span>
+        <h2 class="heading-lg mt-2 reveal animate-delay-100">
+          <span class="text-gradient">Education</span>
+        </h2>
+      </div>
+
+      <div class="card p-6 md:p-8 reveal">
+        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
+          <div>
+            <h3 class="heading-sm text-white">{education.school}</h3>
+            <p class="text-hawk-500 font-medium mt-1">{education.degree}</p>
+          </div>
+          <span class="text-dark-400 text-sm whitespace-nowrap">{education.period}</span>
+        </div>
+        <p class="text-dark-300">{education.description}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fun Facts Section -->
+  <section class="section-padding">
+    <div class="container-custom">
+      <div class="max-w-2xl mx-auto text-center">
+        <span class="text-hawk-500 font-medium text-sm uppercase tracking-wider reveal">Personal</span>
+        <h2 class="heading-lg mt-2 mb-8 reveal animate-delay-100">
+          Mostly Irrelevant But<br />
+          <span class="text-gradient">Somewhat Interesting</span>
+        </h2>
+
+        <div class="space-y-4">
+          {funFacts.map((fact, index) => (
+            <div
+              class="card p-4 text-left reveal"
+              style={`animation-delay: ${index * 100}ms`}
+            >
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-hawk-600/20 flex items-center justify-center flex-shrink-0">
+                  <span class="text-hawk-500">
+                    {index === 0 ? '🏆' : index === 1 ? '🏈' : index === 2 ? '🎪' : '🎬'}
+                  </span>
+                </div>
+                <p class="text-dark-300">{fact}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section-padding bg-gradient-to-br from-hawk-900/30 via-dark-900 to-dark-950">
+    <div class="container-custom">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-lg mb-6 reveal">
+          Let's work <span class="text-gradient">together</span>
+        </h2>
+        <p class="text-xl text-dark-300 mb-8 reveal animate-delay-100">
+          I'm always open to discussing new opportunities and creative projects.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 reveal animate-delay-200">
+          <a href="/contact" class="btn-primary">
+            Get in Touch
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+          <a
+            href="/chris-hawk-resume.pdf"
+            download
+            class="btn-secondary"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+            Download PDF
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Animate skill bars when visible
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const skillBars = entry.target.querySelectorAll('.skill-bar');
+          skillBars.forEach(bar => {
+            const width = bar.getAttribute('data-width');
+            setTimeout(() => {
+              (bar as HTMLElement).style.width = width + '%';
+            }, 300);
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+
+    const skillsSection = document.querySelector('section:nth-of-type(2)');
+    if (skillsSection) {
+      observer.observe(skillsSection);
+    }
+  </script>
+</Layout>

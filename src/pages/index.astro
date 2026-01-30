@@ -1,0 +1,369 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Chris Hawk | Motion Designer & Video Producer">
+  <!-- Hero Section -->
+  <section class="relative min-h-[90vh] flex items-center overflow-hidden">
+    <!-- Background Effects -->
+    <div class="absolute inset-0 bg-gradient-to-br from-dark-950 via-dark-900 to-dark-950"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-hawk-900/20 via-transparent to-transparent"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-hawk-800/10 via-transparent to-transparent"></div>
+
+    <!-- Floating Elements -->
+    <div class="absolute top-1/4 right-1/4 w-64 h-64 bg-hawk-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+    <div class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-hawk-600/5 rounded-full blur-3xl animate-pulse-slow animate-delay-500"></div>
+
+    <div class="container-custom relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+        <!-- Text Content -->
+        <div class="order-2 lg:order-1">
+          <div class="space-y-6">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-hawk-600/10 border border-hawk-600/20 rounded-full animate-fade-in">
+              <span class="w-2 h-2 bg-hawk-500 rounded-full animate-pulse"></span>
+              <span class="text-hawk-400 text-sm font-medium">Available for work</span>
+            </div>
+
+            <h1 class="heading-xl animate-fade-in-up animate-delay-100">
+              I help ideas<br />
+              <span class="text-gradient">take flight.</span>
+            </h1>
+
+            <p class="text-xl text-dark-300 max-w-xl animate-fade-in-up animate-delay-200">
+              Motion designer and video producer with 10+ years of experience
+              crafting compelling visual stories through animation, video production,
+              and creative strategy.
+            </p>
+
+            <div class="flex flex-wrap gap-4 pt-4 animate-fade-in-up animate-delay-300">
+              <a href="/work" class="btn-primary">
+                <span>View My Work</span>
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </a>
+              <a href="/contact" class="btn-secondary">
+                Get in Touch
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lottie Animation Container -->
+        <div class="order-1 lg:order-2 flex justify-center lg:justify-end">
+          <div class="relative">
+            <!-- Glow Effect Behind Avatar -->
+            <div class="absolute inset-0 bg-gradient-to-br from-hawk-500/30 to-hawk-700/30 rounded-full blur-3xl scale-75"></div>
+
+            <!-- Lottie Animation Placeholder -->
+            <div
+              id="lottie-avatar"
+              class="relative w-72 h-72 md:w-96 md:h-96 rounded-full bg-gradient-to-br from-hawk-600 to-hawk-800 flex items-center justify-center animate-float"
+            >
+              <!-- Placeholder content - Replace with your Lottie animation -->
+              <div class="text-center">
+                <div class="w-48 h-48 md:w-64 md:h-64 rounded-full bg-hawk-700/50 flex items-center justify-center">
+                  <span class="text-6xl md:text-8xl">🦅</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Decorative Elements -->
+            <div class="absolute -top-4 -right-4 w-8 h-8 bg-hawk-500 rounded-full animate-pulse"></div>
+            <div class="absolute -bottom-2 -left-2 w-6 h-6 bg-hawk-400 rounded-full animate-pulse animate-delay-300"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <svg class="w-6 h-6 text-dark-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Reel Section -->
+  <section class="section-padding bg-dark-900/30">
+    <div class="container-custom">
+      <div class="text-center mb-12">
+        <h2 class="heading-lg mb-4 reveal">
+          <span class="text-gradient">Demo Reel</span>
+        </h2>
+        <p class="text-dark-400 max-w-2xl mx-auto reveal animate-delay-100">
+          A curated showcase of my best motion design and video production work.
+        </p>
+      </div>
+
+      <!-- Video Embed -->
+      <div class="max-w-4xl mx-auto reveal-scale">
+        <div class="video-container bg-dark-800 rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
+          <!-- Replace with your actual Vimeo/YouTube embed -->
+          <div class="absolute inset-0 flex items-center justify-center bg-dark-800">
+            <div class="text-center p-8">
+              <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-hawk-600/20 flex items-center justify-center">
+                <svg class="w-10 h-10 text-hawk-500" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </div>
+              <p class="text-dark-400">Demo Reel Video</p>
+              <p class="text-dark-500 text-sm mt-2">Replace with your Vimeo/YouTube embed</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Preview Section -->
+  <section class="section-padding">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Image/Animation Side -->
+        <div class="reveal-left">
+          <div class="relative">
+            <div class="aspect-square rounded-2xl bg-gradient-to-br from-dark-800 to-dark-900 border border-dark-700 overflow-hidden">
+              <!-- Lottie animation or image placeholder -->
+              <div id="lottie-about" class="w-full h-full flex items-center justify-center">
+                <div class="text-center p-8">
+                  <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-hawk-600/20 flex items-center justify-center">
+                    <svg class="w-16 h-16 text-hawk-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                  </div>
+                  <p class="text-dark-400 text-sm">Lottie Animation Placeholder</p>
+                </div>
+              </div>
+            </div>
+            <!-- Decorative accent -->
+            <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-hawk-600/20 rounded-2xl -z-10"></div>
+          </div>
+        </div>
+
+        <!-- Text Content -->
+        <div class="reveal-right">
+          <span class="text-hawk-500 font-medium text-sm uppercase tracking-wider">About Me</span>
+          <h2 class="heading-lg mt-2 mb-6">
+            Passionate about<br />
+            <span class="text-gradient">visual storytelling</span>
+          </h2>
+          <div class="space-y-4 text-dark-300">
+            <p>
+              Hey there! I'm Chris Hawk. I have more than ten years of experience in
+              multimedia animation and video production, with a strong foundation in
+              script writing and content marketing strategy.
+            </p>
+            <p>
+              Whether it's animated videos or professionally shot video testimonials,
+              I'm passionate about telling stories that excite people through video
+              and motion design.
+            </p>
+            <p>
+              I have years of results-proven practice managing high-pressure,
+              deadline-driven production pipelines and collaborating with internal
+              and external stakeholders to produce excellent digital video content.
+            </p>
+          </div>
+          <div class="mt-8">
+            <a href="/resume" class="btn-outline">
+              View My Resume
+              <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Work Section -->
+  <section class="section-padding bg-dark-900/30">
+    <div class="container-custom">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
+        <div>
+          <span class="text-hawk-500 font-medium text-sm uppercase tracking-wider reveal">Featured Work</span>
+          <h2 class="heading-lg mt-2 reveal animate-delay-100">
+            Selected <span class="text-gradient">Projects</span>
+          </h2>
+        </div>
+        <a href="/work" class="mt-4 md:mt-0 text-hawk-400 hover:text-hawk-300 font-medium flex items-center gap-2 transition-colors reveal animate-delay-200">
+          View All Projects
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Project Card 1 -->
+        <a href="/work#sales-conference" class="card-hover group reveal">
+          <div class="aspect-video bg-dark-800 rounded-t-2xl overflow-hidden">
+            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-hawk-900/30 to-dark-800 group-hover:scale-105 transition-transform duration-500">
+              <svg class="w-12 h-12 text-hawk-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="p-6">
+            <span class="text-hawk-500 text-xs font-medium uppercase tracking-wider">Motion Graphics</span>
+            <h3 class="heading-sm mt-2 text-white group-hover:text-hawk-400 transition-colors">Sales Conference Infographic</h3>
+            <p class="text-dark-400 text-sm mt-2 line-clamp-2">
+              Data-driven infographic video displayed on a massive 100' wide video display.
+            </p>
+          </div>
+        </a>
+
+        <!-- Project Card 2 -->
+        <a href="/work#enrollment-platform" class="card-hover group reveal animate-delay-100">
+          <div class="aspect-video bg-dark-800 rounded-t-2xl overflow-hidden">
+            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-hawk-900/30 to-dark-800 group-hover:scale-105 transition-transform duration-500">
+              <svg class="w-12 h-12 text-hawk-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="p-6">
+            <span class="text-hawk-500 text-xs font-medium uppercase tracking-wider">Product Video</span>
+            <h3 class="heading-sm mt-2 text-white group-hover:text-hawk-400 transition-colors">Enrollment Platform Promo</h3>
+            <p class="text-dark-400 text-sm mt-2 line-clamp-2">
+              Showcasing the comprehensive interactive enrollment platform features.
+            </p>
+          </div>
+        </a>
+
+        <!-- Project Card 3 -->
+        <a href="/work#customer-testimonials" class="card-hover group reveal animate-delay-200">
+          <div class="aspect-video bg-dark-800 rounded-t-2xl overflow-hidden">
+            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-hawk-900/30 to-dark-800 group-hover:scale-105 transition-transform duration-500">
+              <svg class="w-12 h-12 text-hawk-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="p-6">
+            <span class="text-hawk-500 text-xs font-medium uppercase tracking-wider">Documentary</span>
+            <h3 class="heading-sm mt-2 text-white group-hover:text-hawk-400 transition-colors">Customer Testimonials</h3>
+            <p class="text-dark-400 text-sm mt-2 line-clamp-2">
+              On-location testimonial shoots across multiple states with full production.
+            </p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="section-padding">
+    <div class="container-custom">
+      <div class="text-center mb-12">
+        <span class="text-hawk-500 font-medium text-sm uppercase tracking-wider reveal">Expertise</span>
+        <h2 class="heading-lg mt-2 reveal animate-delay-100">
+          Tools of the <span class="text-gradient">Trade</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+        <!-- After Effects -->
+        <div class="card p-6 text-center reveal group hover:border-[#9999FF]/50">
+          <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-[#9999FF]/10 flex items-center justify-center group-hover:bg-[#9999FF]/20 transition-colors">
+            <span class="text-2xl font-bold text-[#9999FF]">Ae</span>
+          </div>
+          <p class="text-dark-300 text-sm font-medium">After Effects</p>
+        </div>
+
+        <!-- Premiere Pro -->
+        <div class="card p-6 text-center reveal animate-delay-100 group hover:border-[#9999FF]/50">
+          <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-[#9999FF]/10 flex items-center justify-center group-hover:bg-[#9999FF]/20 transition-colors">
+            <span class="text-2xl font-bold text-[#9999FF]">Pr</span>
+          </div>
+          <p class="text-dark-300 text-sm font-medium">Premiere Pro</p>
+        </div>
+
+        <!-- Audition -->
+        <div class="card p-6 text-center reveal animate-delay-200 group hover:border-[#9999FF]/50">
+          <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-[#9999FF]/10 flex items-center justify-center group-hover:bg-[#9999FF]/20 transition-colors">
+            <span class="text-2xl font-bold text-[#9999FF]">Au</span>
+          </div>
+          <p class="text-dark-300 text-sm font-medium">Audition</p>
+        </div>
+
+        <!-- DaVinci Resolve -->
+        <div class="card p-6 text-center reveal animate-delay-300 group hover:border-[#FF6B4A]/50">
+          <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-[#FF6B4A]/10 flex items-center justify-center group-hover:bg-[#FF6B4A]/20 transition-colors">
+            <span class="text-xl font-bold text-[#FF6B4A]">DV</span>
+          </div>
+          <p class="text-dark-300 text-sm font-medium">DaVinci Resolve</p>
+        </div>
+
+        <!-- Photoshop -->
+        <div class="card p-6 text-center reveal animate-delay-400 group hover:border-[#31A8FF]/50">
+          <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-[#31A8FF]/10 flex items-center justify-center group-hover:bg-[#31A8FF]/20 transition-colors">
+            <span class="text-2xl font-bold text-[#31A8FF]">Ps</span>
+          </div>
+          <p class="text-dark-300 text-sm font-medium">Photoshop</p>
+        </div>
+
+        <!-- Illustrator -->
+        <div class="card p-6 text-center reveal animate-delay-500 group hover:border-[#FF9A00]/50">
+          <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-[#FF9A00]/10 flex items-center justify-center group-hover:bg-[#FF9A00]/20 transition-colors">
+            <span class="text-2xl font-bold text-[#FF9A00]">Ai</span>
+          </div>
+          <p class="text-dark-300 text-sm font-medium">Illustrator</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section-padding bg-gradient-to-br from-hawk-900/30 via-dark-900 to-dark-950">
+    <div class="container-custom">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-lg mb-6 reveal">
+          Ready to bring your<br />
+          <span class="text-gradient">ideas to life?</span>
+        </h2>
+        <p class="text-xl text-dark-300 mb-8 reveal animate-delay-100">
+          Let's collaborate on your next project. I'm excited to hear about
+          your vision and help make it a reality.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 reveal animate-delay-200">
+          <a href="/contact" class="btn-primary">
+            Start a Conversation
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+          </a>
+          <a href="mailto:hawk@chrishawk.net" class="btn-secondary">
+            hawk@chrishawk.net
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lottie Integration Script -->
+  <script>
+    // Lottie animation integration
+    // To use your own Lottie animations:
+    // 1. Add your .json animation files to the public/animations/ folder
+    // 2. Update the paths below
+
+    // Example of how to load a Lottie animation:
+    /*
+    import lottie from 'lottie-web';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      lottie.loadAnimation({
+        container: document.getElementById('lottie-avatar'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: '/animations/avatar.json' // Path to your animation JSON
+      });
+    });
+    */
+  </script>
+</Layout>
