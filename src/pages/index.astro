@@ -43,7 +43,7 @@ const reel = site.reel;
       <div class="hero__copy">
         <p class="kicker kicker--acid hero__kicker">{site.role} — {site.location}</p>
         <h1 id="hero-title" class="display hero__title">
-          I help ideas <span class="hero__flight blackletter">take flight.</span>
+          I help ideas <span class="hero__flight bl">take flight.</span>
         </h1>
         <p class="lede hero__lede">
           Animation, live-action production and post — fifteen-plus years of turning briefs into films people
@@ -215,11 +215,11 @@ const reel = site.reel;
     grid-column: 2;
     grid-row: 1;
     align-self: center;
-    justify-self: end;
-    width: min(100%, 36rem);
-    height: auto;
-    --hawk-fill: rgb(11 10 9 / 0.5);
-    filter: drop-shadow(0 0 28px rgb(228 240 74 / 0.18));
+    justify-self: center;
+    width: auto;
+    height: min(66svh, 38rem);
+    max-width: 100%;
+    filter: drop-shadow(0 0 40px rgb(228 240 74 / 0.16));
   }
   .hero__title {
     max-width: 10ch;
@@ -228,8 +228,6 @@ const reel = site.reel;
   .hero__flight {
     display: inline-block;
     color: var(--acid);
-    font-size: 1.08em;
-    letter-spacing: -0.01em;
   }
   .hero__kicker {
     animation: rise 1s var(--ease-out) both;
@@ -289,8 +287,8 @@ const reel = site.reel;
       grid-column: 1;
       grid-row: 1;
       justify-self: start;
-      width: min(62vw, 20rem);
-      margin-top: 1rem;
+      height: min(36svh, 17rem);
+      margin-top: 0.5rem;
     }
     .hero__copy {
       grid-row: 2;

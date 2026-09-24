@@ -193,6 +193,15 @@ ol[role='list'] {
   letter-spacing: 0;
   line-height: 0.9;
 }
+/* Blackletter set inline with the sans. Jacquard's x-height is ~26% smaller than Geist's,
+   so it's scaled up to match optically; the tight line-height keeps the line box steady. */
+.bl {
+  font-family: var(--font-black);
+  font-weight: 400;
+  font-size: 1.34em;
+  letter-spacing: 0;
+  line-height: 0.6;
+}
 /* Roman numerals set in blackletter read best lowercase, as scribes wrote them (i, ii, iii…). */
 .numeral {
   text-transform: lowercase;

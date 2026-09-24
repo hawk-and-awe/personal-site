@@ -1,54 +1,71 @@
 ---
-/** Compact brand mark: the hawk's head in its halo. */
+/** Compact brand mark: the hawk's head in a roundel. */
 interface Props {
   class?: string;
   title?: string;
   [attr: string]: unknown;
 }
 const { class: className, title, ...rest } = Astro.props;
+const clip = `mark-clip-${Math.random().toString(36).slice(2, 8)}`;
 ---
 
 <svg
   class:list={['mark', className]}
-  viewBox="129 22 124 124"
+  viewBox="112 60 158 158"
   role={title ? 'img' : undefined}
   aria-hidden={title ? undefined : 'true'}
   aria-label={title}
   {...rest}
 >
-  <path class="fill" d="M147 84 A47 47 0 1 0 241 84 A47 47 0 1 0 147 84" />
-  <path class="thin" d="M140 84 A54 54 0 1 0 248 84 A54 54 0 1 0 140 84" />
-  <g class="head-g" transform="translate(194 90) scale(1.3) translate(-194 -90)">
-  <path class="fill" d="M214 112 C224 96 222 70 204 60 C190 53 176 58 170 70 C160 70 150 78 148 92 C147 100 149 106 153 108 C154 101 158 97 164 97 L171 97 C168 101 170 105 176 106 C180 110 183 114 186 117"/>
-  <path  d="M170 70 C166 77 166 88 171 97"/>
-  <path  d="M164 97 C168 98 171 100 171 103"/>
-  <path  d="M172 70 C180 66 190 66 198 70"/>
-  <path  d="M178.8 78 A5.2 5.2 0 1 0 189.2 78 A5.2 5.2 0 1 0 178.8 78"/>
-  <path class="dot" d="M183.2 78 A1.8 1.8 0 1 0 186.8 78 A1.8 1.8 0 1 0 183.2 78"/>
-  <path  d="M183 86 C181 92 181 98 184 104"/>
-  <path  d="M198 86 C204 92 208 100 208 108"/>
-</g>
+  <clipPath id={clip}><circle cx="191" cy="139" r="72" /></clipPath>
+  <circle class="mark__bg" cx="191" cy="139" r="72" />
+  <g clip-path={`url(#${clip})`}>
+    <path class="fill" d="M133 152 C126 142 128 126 139 116 C145 110 152 106 159 104 C165 92 180 84 200 82 C222 80 240 88 248 104 C256 122 262 144 270 170 C286 214 296 296 300 372 L256 390 C246 388 236 386 226 384 C212 382 198 380 188 372 C170 352 155 318 152 276 C149 234 151 194 162 166 C165 158 162 152 155 152 C149 152 144 154 140 156 C136 157 134 155 133 152 Z" />
+    <path class="fill" d="M262 160 C238 188 222 248 228 302 C232 346 262 402 306 440 C316 448 323 441 319 429 C307 385 297 307 287 231 C283 201 275 176 262 160 Z" />
+    <path class="ink" d="M154 108 C168 97 190 93 208 98 L206 104 C190 101 175 103 160 111 Z" />
+    <path class="ink" d="M175 128 C171 136 169 148 173 160 C178 153 183 141 185 129 C182 127 178 127 175 128 Z" />
+    <path class="fine" d="M159 104 C151 112 149 124 153 134" />
+    <path class="fine" d="M139 152 C149 148 159 146 168 143" />
+    <path class="ink" d="M144.7 118 A2.3 2.3 0 1 0 149.3 118 A2.3 2.3 0 1 0 144.7 118Z" />
+    <path class="eye" d="M171 113 A11 11 0 1 0 193 113 A11 11 0 1 0 171 113Z" />
+    <path class="ink" d="M177.4 113 A5.6 5.6 0 1 0 188.6 113 A5.6 5.6 0 1 0 177.4 113Z" />
+    <path class="glint" d="M182.9 111 A1.7 1.7 0 1 0 186.3 111 A1.7 1.7 0 1 0 182.9 111Z" />
+    <path class="fine" d="M214 92 l7 6 M225 100 l7 7 M234 113 l6 7 M216 114 l6 6 M226 126 l6 7 M238 130 l5 8 M206 130 l5 7" />
+    <path class="fine" d="M252 124 C238 138 218 148 198 152" />
+  </g>
+  <circle class="mark__ring" cx="191" cy="139" r="75" />
 </svg>
 
 <style>
   .mark path {
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 6.5;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
-  .mark .thin {
-    stroke-width: 4;
+  .mark__bg {
+    fill: var(--mark-bg, var(--ink));
   }
-  .mark .head-g path {
-    stroke-width: 5;
+  .mark__ring {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 6;
   }
   .mark .fill {
-    fill: var(--mark-fill, transparent);
-  }
-  .mark .dot {
     fill: currentColor;
-    stroke: none;
+  }
+  .mark .fine {
+    fill: none;
+    stroke: var(--mark-bg, var(--ink));
+    stroke-width: 4;
+  }
+  .mark .eye {
+    fill: none;
+    stroke: var(--mark-bg, var(--ink));
+    stroke-width: 5;
+  }
+  .mark .ink {
+    fill: var(--mark-bg, var(--ink));
+  }
+  .mark .glint {
+    fill: currentColor;
   }
 </style>

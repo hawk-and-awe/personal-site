@@ -3,7 +3,7 @@
 Portfolio of Chris Hawk — motion designer & video producer.
 Built with [Astro](https://astro.build) as a fast static site: no framework, no tracking, just HTML, CSS and a little TypeScript.
 
-**Art direction — "Future Medieval × cinema":** ink-black pages, parchment type, one acid-chartreuse accent, film grain, blurred neon photography, a hand-inked heraldic hawk bearing a film reel, Jacquard 24 pixel-blackletter for display moments, Geist for everything you read, and manuscript details (☞ manicules, roman numerals, a boxed initial).
+**Art direction — "Future Medieval × cinema":** ink-black pages, parchment type, one acid-chartreuse accent, film grain, blurred neon photography, a woodcut-printed hawk perched on a film reel (with a falconer's jess and bell), Jacquard 24 pixel-blackletter for display moments, Geist for everything you read, and manuscript details (☞ manicules, roman numerals, a boxed initial).
 
 ## Run it
 
@@ -24,9 +24,9 @@ Node 22.12+ is required.
 | Name, email, socials, résumé link, "open to new roles" badge, the reel | `src/site.config.ts` |
 | Bio, experience, impact numbers, tools, fun facts | `src/data/resume.ts`                     |
 | Projects (case studies)                      | `src/content/work/<slug>/`                    |
-| Photographs                                  | `src/content/stills/<trip>/`                  |
+| Photographs (page currently hidden)          | `src/content/stills/<trip>/`                  |
 | Colors, type scale, grain                    | `src/styles/global.css` (tokens at the top)   |
-| The hawk emblem                              | `src/components/Hawk.astro` / `HawkMark.astro` |
+| The hawk (woodcut) and header roundel        | `src/components/Hawk.astro` / `HawkMark.astro` |
 
 ## Add a project
 
@@ -42,10 +42,12 @@ Video sources: `youtube`, `vimeo` (add `hash` for unlisted links), `wistia`, or 
 
 Projects marked `# TODO(chris)` in their frontmatter still need your role and contributions confirmed.
 
-## Add photographs
+## Photographs (hidden for now)
 
-Each trip is a folder in `src/content/stills/` with the photos and an `index.yaml` listing them in order
-(`src`, `alt`, optional `place`). Export JPEGs at about 2000 px on the long edge — the site makes the smaller sizes.
+The Stills page is switched off: its file is `src/pages/_stills.astro` (a leading `_` stops Astro from publishing
+it). To bring it back, rename it to `stills.astro` and uncomment the Stills line in `site.nav` in
+`src/site.config.ts`. Each trip is a folder in `src/content/stills/` with the photos and an `index.yaml`
+listing them in order (`src`, `alt`, optional `place`); export JPEGs at about 2000 px on the long edge.
 
 ## Swap in a new reel
 

@@ -39,8 +39,9 @@ export const site = {
 
   nav: [
     { label: 'Work', href: '/work' },
+    { label: 'Reel', href: '/reel' },
     { label: 'About', href: '/about' },
-    { label: 'Stills', href: '/stills' },
     { label: 'Contact', href: '/contact' },
+    // { label: 'Stills', href: '/stills' }, — hidden for now; see README to bring it back.
   ],
 } as const;

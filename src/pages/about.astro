@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { site } from '../site.config';
@@ -10,8 +9,6 @@ import portrait from '../assets/about/chris-shinjuku.jpg';
 import flipbookPoster from '../assets/about/tokyo-flipbook-poster.jpg';
 import neon from '../assets/backdrops/neon-yellow.jpg';
 
-const trips = (await getCollection('stills')).sort((a, b) => a.data.order - b.data.order);
-const teaser = trips.flatMap((t) => t.data.photos.slice(0, 3).map((p) => ({ ...p, trip: t.data.title }))).slice(0, 5);
 ---
 
 <Base
@@ -33,7 +30,7 @@ const teaser = trips.flatMap((t) => t.data.photos.slice(0, 3).map((p) => ({ ...p
     </figure>
     <div class="intro__copy">
       <p class="kicker kicker--acid">About</p>
-      <h1 class="display intro__title">Chris <span class="blackletter">Hawk</span></h1>
+      <h1 class="display intro__title">Chris <span class="bl">Hawk</span></h1>
       <p class="intro__role">{site.role} · {site.location}</p>
       <div class="intro__bio stack">
         {bio.map((p) => <p>{p}</p>)}
@@ -165,25 +162,6 @@ const teaser = trips.flatMap((t) => t.data.photos.slice(0, 3).map((p) => ({ ...p
     </div>
   </section>
 
-  <!-- ░░ Stills teaser ░░ -->
-  <section class="section container stills-teaser" aria-labelledby="stills-title">
-    <header class="block-head block-head--row">
-      <div>
-        <p class="kicker" data-reveal>Stills</p>
-        <h2 id="stills-title" class="h1" data-reveal style="--i:1">I never travel without a camera.</h2>
-      </div>
-      <a class="btn" href="/stills" data-reveal style="--i:2">See the photographs <Icon name="arrow" /></a>
-    </header>
-    <a class="strip" href="/stills" aria-label="See the photographs">
-      {
-        teaser.map((p, i) => (
-          <span class="strip__item" data-reveal style={`--i:${i}`}>
-            <Image src={p.src} alt={p.alt} widths={[360, 600]} sizes="(min-width: 900px) 18vw, 40vw" loading="lazy" />
-          </span>
-        ))
-      }
-    </a>
-  </section>
 </Base>
 
 <style>
@@ -211,9 +189,8 @@ const teaser = trips.flatMap((t) => t.data.photos.slice(0, 3).map((p) => ({ ...p
   .intro__title {
     animation: rise 1.1s var(--ease-out) 0.1s both;
   }
-  .intro__title .blackletter {
+  .intro__title .bl {
     color: var(--acid);
-    font-size: 1.08em;
   }
   .intro__role {
     font-family: var(--font-mono);
@@ -484,39 +461,6 @@ const teaser = trips.flatMap((t) => t.data.photos.slice(0, 3).map((p) => ({ ...p
     }
     .flipbook {
       max-width: 16rem;
-    }
-  }
-
-  .strip {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 0.75rem;
-  }
-  .strip__item {
-    display: block;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-    border-radius: var(--radius);
-    box-shadow: 0 0 0 1px var(--line);
-  }
-  .strip__item :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 1.2s var(--ease-out);
-  }
-  .strip:hover .strip__item :global(img) {
-    transform: scale(1.04);
-  }
-  @media (max-width: 760px) {
-    .strip {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-    .strip__item:nth-child(n + 4) {
-      display: none;
-    }
-    .block-head--row {
-      grid-template-columns: 1fr;
     }
   }
 </style>

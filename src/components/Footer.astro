@@ -73,14 +73,14 @@ const year = new Date().getFullYear();
   }
   .footer__cta {
     display: grid;
-    grid-template-columns: minmax(0, 15rem) 1fr;
+    grid-template-columns: auto 1fr;
     align-items: center;
     gap: clamp(1.5rem, 5vw, 5rem);
     padding-bottom: clamp(3rem, 7vw, 6rem);
   }
   .footer__hawk {
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: clamp(12rem, 20vw, 17rem);
   }
   .footer__ask {
     display: grid;
@@ -151,7 +151,7 @@ const year = new Date().getFullYear();
       grid-template-columns: 1fr;
     }
     .footer__hawk {
-      width: 9rem;
+      height: 12rem;
     }
     .footer__grid {
       grid-template-columns: 1fr 1fr;

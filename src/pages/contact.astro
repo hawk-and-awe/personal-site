@@ -17,7 +17,7 @@ import neon from '../assets/backdrops/neon-crossing.jpg';
       <div class="contact__intro">
         <Hawk class="contact__hawk" draw delay={0.1} />
         <p class="kicker kicker--acid">Correspondence</p>
-        <h1 class="display contact__title">Let's make it <span class="blackletter acid">soar.</span></h1>
+        <h1 class="display contact__title">Let's make it <span class="bl acid">soar.</span></h1>
         <p class="lede">
           Hiring for a motion or video role, commissioning a film, or just want to talk shop? I read every note.
         </p>
@@ -116,12 +116,8 @@ import neon from '../assets/backdrops/neon-crossing.jpg';
     gap: 1.5rem;
   }
   .contact__hawk {
-    width: clamp(7rem, 14vw, 10rem);
-    height: auto;
-    --hawk-fill: rgb(11 10 9 / 0.4);
-  }
-  .contact__title .blackletter {
-    font-size: 1.1em;
+    width: auto;
+    height: clamp(11rem, 22vw, 16rem);
   }
   .direct {
     display: grid;
