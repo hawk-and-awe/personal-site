@@ -3,7 +3,7 @@
 Portfolio of Chris Hawk — motion designer & video producer.
 Built with [Astro](https://astro.build) as a fast static site: no framework, no tracking, just HTML, CSS and a little TypeScript.
 
-**Art direction — "Future Medieval × cinema":** ink-black pages, parchment type, one acid-chartreuse accent, film grain, blurred neon photography, a woodcut-printed hawk perched on a film reel (with a falconer's jess and bell), Jacquard 24 pixel-blackletter for display moments, Geist for everything you read, and manuscript details (☞ manicules, roman numerals, a boxed initial).
+**Art direction — "Future Medieval × cinema":** ink-black pages, parchment type, one acid-chartreuse accent, film grain, blurred neon photography, a woodcut-printed hawk in flight (a perched pose on a film reel is one config switch away), Jacquard 24 pixel-blackletter for display moments, Geist for everything you read, and manuscript details (☞ manicules, roman numerals, a boxed initial).
 
 ## Run it
 
