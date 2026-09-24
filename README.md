@@ -49,6 +49,14 @@ it). To bring it back, rename it to `stills.astro` and uncomment the Stills line
 `src/site.config.ts`. Each trip is a folder in `src/content/stills/` with the photos and an `index.yaml`
 listing them in order (`src`, `alt`, optional `place`); export JPEGs at about 2000 px on the long edge.
 
+## The Lab
+
+R&D entries live in `src/content/lab/`, one markdown file each, grouped as Production & Pipeline, Look
+Development (Midjourney) and Methods. An entry is **published only when its `pending:` list is empty** — delete
+each item as you clear it. The `/lab` page and its nav link don't exist until at least one entry is published;
+`npm run dev` shows every entry with a red "Not published" note listing what's outstanding. Images go next to the
+file (`images:`), clips in `public/media/lab/` (`clips:`). Held-back ideas are noted in `src/content/lab/_held.md`.
+
 ## Swap in a new reel
 
 - **Hero loop** (`public/media/reel-loop.mp4`): a short, silent, looping cut. Aim for 10–20 s, H.264 MP4,

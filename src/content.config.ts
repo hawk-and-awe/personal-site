@@ -71,4 +71,36 @@ const stills = defineCollection({
     }),
 });
 
-export const collections = { work, stills };
+/**
+ * The Lab: R&D, pipelines and look development. One markdown file per entry in src/content/lab/.
+ * An entry stays unpublished while its `pending` list has anything in it — delete the items as you clear them.
+ */
+const lab = defineCollection({
+  loader: glob({ pattern: ['*.md', '!_*'], base: './src/content/lab' }),
+  schema: ({ image }) =>
+    z.object({
+      code: z.string(),
+      title: z.string(),
+      group: z.enum(['production', 'midjourney', 'methods']),
+      oneLiner: z.string().max(140),
+      status: z.enum(['in-use', 'shipped', 'experiment', 'ongoing']).optional(),
+      years: z.string().optional(),
+      role: z.string().optional(),
+      format: z.string().optional(),
+      tools: z.array(z.string()).default([]),
+      highlights: z.array(z.string()).default([]),
+      numbers: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
+      /** Shown as a monospace snippet; [bracketed] parts are highlighted as slots. */
+      promptFormula: z.string().optional(),
+      /** A left-to-right flow. A nested list is a group of inputs joined with "+". */
+      diagram: z.array(z.union([z.string(), z.array(z.string())])).optional(),
+      images: z.array(z.object({ src: image(), alt: z.string(), caption: z.string().optional() })).default([]),
+      /** Short clips in public/media/lab/, e.g. /media/lab/news-01.mp4 */
+      clips: z.array(z.object({ src: z.string(), alt: z.string(), caption: z.string().optional() })).default([]),
+      related: z.array(z.string()).default([]),
+      pending: z.array(z.string()).default([]),
+      order: z.number().default(100),
+    }),
+});
+
+export const collections = { work, stills, lab };

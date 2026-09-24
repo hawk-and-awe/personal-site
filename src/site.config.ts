@@ -43,6 +43,7 @@ export const site = {
   nav: [
     { label: 'Work', href: '/work' },
     { label: 'Reel', href: '/reel' },
+    { label: 'Lab', href: '/lab' }, // appears once at least one Lab entry is published
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },
     // { label: 'Stills', href: '/stills' }, — hidden for now; see README to bring it back.
