@@ -11,6 +11,9 @@ export const site = {
   location: 'Oklahoma City, OK',
   email: 'hawk@chrishawk.net',
 
+  /** The hawk illustration used across the site: 'perched' (on a film reel) or 'flight'. */
+  hawk: 'perched' as 'perched' | 'flight',
+
   /** Shown in the header and hero. Set `open: false` to hide the badge. */
   availability: { open: true, label: 'Open to new roles' },
 
