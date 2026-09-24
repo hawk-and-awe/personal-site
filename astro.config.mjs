@@ -1,7 +1,17 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
+import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  integrations: [tailwind()],
   site: 'https://www.chrishawk.net',
+  trailingSlash: 'ignore',
+  integrations: [sitemap()],
+  prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
+  image: {
+    layout: 'constrained',
+  },
+  // Keep the old Squarespace URLs working.
+  redirects: {
+    '/projects': '/work',
+    '/resume': '/about',
+  },
 });

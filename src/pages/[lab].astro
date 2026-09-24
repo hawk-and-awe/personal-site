@@ -1,0 +1,528 @@
+---
+/**
+ * The Lab. This route only exists once at least one entry is published (its `pending` list is empty),
+ * so the page never goes live half-empty. In `npm run dev` every entry shows, flagged with what's outstanding.
+ */
+import { render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { groups, getLabEntries, labAnchor, statusLabels } from '../lib/lab';
+import { roman } from '../lib/video';
+
+export async function getStaticPaths() {
+  const entries = await getLabEntries();
+  return entries.length ? [{ params: { lab: 'lab' } }] : [];
+}
+
+const entries = await getLabEntries();
+const byCode = new Map(entries.map((e) => [e.data.code, e]));
+const rendered = new Map(await Promise.all(entries.map(async (e) => [e.id, (await render(e)).Content] as const)));
+const sections = groups
+  .map((g) => ({ ...g, entries: entries.filter((e) => e.data.group === g.key) }))
+  .filter((g) => g.entries.length);
+const slots = (formula: string) => formula.split(/(\[[^\]]+\])/).filter(Boolean);
+---
+
+<Base
+  title="Lab"
+  description="R&D behind the work: production pipelines, look development and the systems Chris Hawk builds by directing AI alongside traditional motion and film craft."
+>
+  <header class="container page-head">
+    <p class="kicker" data-reveal>Research & development — {roman(entries.length)} entries</p>
+    <h1 class="display" data-reveal style="--i:1">The <span class="bl acid">Lab</span></h1>
+    <p class="lede" data-reveal style="--i:2">
+      The R&D and production systems behind the work. A lot of it comes from directing AI: I write the rules, lock the
+      style, and keep what holds up.
+    </p>
+    <p class="page-head__note mono" data-reveal style="--i:3">
+      <Icon name="manicule" />
+      <span>Every entry lists the tools used. Finished client films live in <a href="/work" class="link-line">Work</a>.</span>
+    </p>
+    {
+      sections.length > 1 && (
+        <nav class="toc" aria-label="Lab sections" data-reveal style="--i:4">
+          {sections.map((s, i) => (
+            <a href={`#${s.key}`} class="toc__link">
+              <span class="numeral bl acid">{roman(i + 1)}.</span> {s.title}
+            </a>
+          ))}
+        </nav>
+      )
+    }
+  </header>
+
+  {
+    sections.map((section, si) => (
+      <section id={section.key} class="container group" aria-labelledby={`${section.key}-title`}>
+        <header class="group__head" data-reveal>
+          <span class="numeral bl acid group__num">{roman(si + 1)}.</span>
+          <div>
+            <h2 id={`${section.key}-title`} class="h2">{section.title}</h2>
+            <p class="group__intro">{section.intro}</p>
+          </div>
+        </header>
+
+        {section.entries.map((entry) => {
+          const d = entry.data;
+          const Content = rendered.get(entry.id)!;
+          const related = d.related.map((c) => byCode.get(c)).filter((e) => e !== undefined);
+          return (
+            <article id={labAnchor(d.code)} class="entry" data-reveal>
+              <aside class="entry__margin" aria-label={`${d.code} details`}>
+                <p class="entry__code mono">{d.code}</p>
+                {d.status && (
+                  <p class={`status status--${d.status} mono`}>
+                    <span class="status__dot" aria-hidden="true" />
+                    {statusLabels[d.status]}
+                  </p>
+                )}
+                <dl class="notes">
+                  {d.years && (<div><dt>Years</dt><dd>{d.years}</dd></div>)}
+                  {d.role && (<div><dt>Role</dt><dd>{d.role}</dd></div>)}
+                  {d.format && (<div><dt>Format</dt><dd>{d.format}</dd></div>)}
+                  {d.tools.length > 0 && (
+                    <div>
+                      <dt>Tools</dt>
+                      <dd class="chips">{d.tools.map((t) => <span class="chip">{t}</span>)}</dd>
+                    </div>
+                  )}
+                </dl>
+              </aside>
+
+              <div class="entry__main">
+                {d.pending.length > 0 && (
+                  <div class="pending" role="note">
+                    <p class="kicker">Not published — waiting on</p>
+                    <ul>{d.pending.map((p) => <li>{p}</li>)}</ul>
+                  </div>
+                )}
+                <h3 class="entry__title">{d.title}</h3>
+                <p class="entry__one">{d.oneLiner}</p>
+
+                {d.numbers.length > 0 && (
+                  <div class="numbers">
+                    {d.numbers.map((n) => (
+                      <p><span class="numbers__v">{n.value}</span> <span class="numbers__l">{n.label}</span></p>
+                    ))}
+                  </div>
+                )}
+
+                <div class="prose entry__body"><Content /></div>
+
+                {d.promptFormula && (
+                  <figure class="formula">
+                    <figcaption class="kicker">Prompt formula</figcaption>
+                    <blockquote class="mono">
+                      “{slots(d.promptFormula).map((part) => (part.startsWith('[') ? <span class="slot">{part}</span> : part))}”
+                    </blockquote>
+                  </figure>
+                )}
+
+                {d.diagram && (
+                  <figure class="flow" aria-label="Pipeline">
+                    <ol class="flow__steps" role="list">
+                      {d.diagram.map((step, i) => (
+                        <li class:list={['flow__step', { 'flow__step--last': i === d.diagram!.length - 1 }]}>
+                          {Array.isArray(step) ? (
+                            <span class="flow__group">
+                              {step.map((s, j) => (
+                                <>
+                                  {j > 0 && <span class="flow__plus" aria-hidden="true">+</span>}
+                                  <span class="flow__node">{s}</span>
+                                </>
+                              ))}
+                            </span>
+                          ) : (
+                            <span class="flow__node">{step}</span>
+                          )}
+                        </li>
+                      ))}
+                    </ol>
+                  </figure>
+                )}
+
+                {d.highlights.length > 0 && (
+                  <ul class="highlights" role="list">
+                    {d.highlights.map((h) => (
+                      <li><Icon name="manicule" /><span>{h}</span></li>
+                    ))}
+                  </ul>
+                )}
+
+                {(d.images.length > 0 || d.clips.length > 0) && (
+                  <div class="media">
+                    {d.clips.map((c) => (
+                      <figure>
+                        <video src={c.src} muted loop playsinline autoplay preload="metadata" aria-label={c.alt} />
+                        {c.caption && <figcaption class="mono">{c.caption}</figcaption>}
+                      </figure>
+                    ))}
+                    {d.images.map((img) => (
+                      <figure>
+                        <Image src={img.src} alt={img.alt} widths={[480, 800, 1200]} sizes="(min-width: 900px) 30vw, 90vw" loading="lazy" />
+                        {img.caption && <figcaption class="mono">{img.caption}</figcaption>}
+                      </figure>
+                    ))}
+                  </div>
+                )}
+
+                {d.placeholders.length > 0 && (
+                  <div class="media media--ph">
+                    {d.placeholders.map((ph) => (
+                      <figure class="placeholder" style={`--ar:${ph.aspect}`} aria-label={`${ph.label} — graphic coming soon`}>
+                        <span class="placeholder__label mono">{ph.label}</span>
+                        <span class="placeholder__note mono">Graphic coming soon</span>
+                      </figure>
+                    ))}
+                  </div>
+                )}
+
+                {related.length > 0 && (
+                  <p class="related mono">
+                    See also:{' '}
+                    {related.map((r, i) => (
+                      <>
+                        {i > 0 && ' · '}
+                        <a href={`#${labAnchor(r.data.code)}`} class="link-line related__link">{r.data.code} {r.data.title}</a>
+                      </>
+                    ))}
+                  </p>
+                )}
+              </div>
+            </article>
+          );
+        })}
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .page-head {
+    display: grid;
+    gap: 1.5rem;
+    padding-top: calc(var(--header-h) + clamp(3rem, 9vw, 7rem));
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+  .page-head__note {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.06em;
+    color: var(--bone-3);
+  }
+  .page-head__note :global(.icon--manicule) {
+    color: var(--acid);
+  }
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+  }
+  .toc__link {
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .toc__link:hover {
+    color: var(--acid);
+  }
+
+  .group {
+    padding-bottom: clamp(3rem, 7vw, 6rem);
+  }
+  .group__head {
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    padding-block: 2rem 1.5rem;
+    border-top: 1px solid var(--line-2);
+  }
+  .group__num {
+    font-size: 3rem;
+  }
+  .group__intro {
+    margin-top: 0.6rem;
+    max-width: 60ch;
+    color: var(--bone-2);
+  }
+
+  /* An entry is a manuscript page: notes in the margin, the text in the main column. */
+  .entry {
+    display: grid;
+    grid-template-columns: minmax(11rem, 0.32fr) minmax(0, 1fr);
+    gap: 1.5rem clamp(2rem, 5vw, 5rem);
+    padding-block: clamp(2rem, 4vw, 3.25rem);
+    border-top: 1px solid var(--line);
+    scroll-margin-top: calc(var(--header-h) + 1rem);
+  }
+  .entry__margin {
+    align-self: start;
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
+    display: grid;
+    gap: 0.9rem;
+    padding-right: 1.25rem;
+    border-right: 1px solid var(--line);
+  }
+  .entry__code {
+    font-size: var(--fs-xl);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--acid);
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bone-2);
+  }
+  .status__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--bone-3);
+  }
+  .status--in-use .status__dot,
+  .status--shipped .status__dot {
+    background: var(--acid);
+  }
+  .notes {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .notes dt {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bone-3);
+  }
+  .notes dd {
+    margin: 0.15rem 0 0;
+    font-size: var(--fs-sm);
+    color: var(--bone);
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .entry__main {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+    min-width: 0;
+  }
+  .pending {
+    padding: 0.9rem 1.1rem;
+    border: 1px dashed var(--ember);
+    border-radius: var(--radius);
+    font-size: var(--fs-sm);
+    color: var(--bone-2);
+  }
+  .pending .kicker {
+    color: var(--ember);
+  }
+  .pending ul {
+    margin-top: 0.4rem;
+    padding-left: 1.1rem;
+  }
+  .entry__title {
+    font-size: var(--fs-xl);
+  }
+  .entry__one {
+    font-size: var(--fs-lg);
+    line-height: 1.4;
+    color: var(--bone);
+    max-width: 52ch;
+  }
+  .entry__body {
+    font-size: var(--fs-md);
+  }
+  .entry__body :global(ul) {
+    padding-left: 1.2rem;
+  }
+  .entry__body :global(li + li) {
+    margin-top: 0.35rem;
+  }
+
+  .numbers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2.5rem;
+  }
+  .numbers__v {
+    display: block;
+    font-size: var(--fs-2xl);
+    font-weight: 620;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: var(--acid);
+  }
+  .numbers__l {
+    font-size: var(--fs-sm);
+    color: var(--bone-2);
+  }
+
+  .formula blockquote {
+    margin-top: 0.5rem;
+    padding: 1rem 1.2rem;
+    border-left: 2px solid var(--acid);
+    background: var(--ink-2);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+    color: var(--bone);
+    overflow-wrap: anywhere;
+  }
+  .slot {
+    color: var(--acid);
+  }
+
+  .flow__steps {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .flow__step {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .flow__step:not(.flow__step--last)::after {
+    content: '→';
+    color: var(--acid);
+  }
+  .flow__group {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem;
+    border: 1px dashed var(--line-2);
+    border-radius: var(--radius);
+  }
+  .flow__node {
+    display: inline-block;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius);
+    background: var(--ink-2);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .flow__step--last .flow__node {
+    border-color: var(--acid);
+    color: var(--acid);
+  }
+  .flow__plus {
+    font-family: var(--font-mono);
+    color: var(--bone-3);
+  }
+
+  .highlights {
+    display: grid;
+    gap: 0.55rem;
+  }
+  .highlights li {
+    display: flex;
+    gap: 0.85rem;
+    color: var(--bone-2);
+  }
+  .highlights :global(.icon--manicule) {
+    flex: none;
+    margin-top: 0.35em;
+    font-size: 0.85rem;
+    color: var(--acid);
+  }
+
+  .media {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    gap: 0.75rem;
+  }
+  .media video,
+  .media :global(img) {
+    width: 100%;
+    border-radius: var(--radius);
+    box-shadow: 0 0 0 1px var(--line);
+  }
+  .media figcaption {
+    margin-top: 0.4rem;
+    font-size: var(--fs-xs);
+    color: var(--bone-3);
+  }
+  .media--ph {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
+  }
+  .placeholder {
+    min-width: 0;
+    width: 100%;
+    display: grid;
+    place-content: center;
+    gap: 0.35rem;
+    aspect-ratio: var(--ar);
+    padding: 1rem;
+    border: 1px dashed var(--line-2);
+    border-radius: var(--radius);
+    text-align: center;
+    background: repeating-linear-gradient(135deg, transparent 0 14px, rgb(236 229 213 / 0.03) 14px 15px), var(--ink-2);
+  }
+  .placeholder[style*='32/9'] {
+    grid-column: 1 / -1;
+  }
+  .placeholder__label {
+    font-size: var(--fs-sm);
+    color: var(--bone-2);
+  }
+  .placeholder__note {
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bone-3);
+  }
+  .related {
+    font-size: var(--fs-xs);
+    letter-spacing: 0.04em;
+    color: var(--bone-3);
+  }
+  .related a {
+    color: var(--bone-2);
+  }
+  .related__link {
+    white-space: nowrap;
+  }
+
+  @media (max-width: 800px) {
+    .entry {
+      grid-template-columns: 1fr;
+    }
+    .entry__margin {
+      position: static;
+      padding-right: 0;
+      padding-bottom: 1rem;
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+      grid-template-columns: auto 1fr;
+      align-items: baseline;
+    }
+    .notes {
+      grid-column: 1 / -1;
+      grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+    }
+    .flow__node {
+      white-space: normal;
+    }
+  }
+</style>

@@ -1,0 +1,127 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Theater from '../components/Theater.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { site } from '../site.config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Absolute or root-relative URL of the social preview image. */
+  image?: string;
+  type?: 'website' | 'profile' | 'video.other';
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** Show the footer's email call-to-action. */
+  footerCta?: boolean;
+}
+
+const { title, description = site.description, image = '/og.jpg', type = 'website', jsonLd, footerCta = true } = Astro.props;
+const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  jobTitle: site.role,
+  url: site.url,
+  email: `mailto:${site.email}`,
+  address: { '@type': 'PostalAddress', addressLocality: 'Oklahoma City', addressRegion: 'OK', addressCountry: 'US' },
+  sameAs: site.socials.map((s) => s.href),
+};
+const graphs = [person, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [])];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#0b0a09" />
+    <meta name="color-scheme" content="dark" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    {graphs.map((g) => <script type="application/ld+json" set:html={JSON.stringify(g)} />)}
+
+    <ClientRouter fallback="swap" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Shared SVG defs: the woodcut print texture used by the hawk (a wobbly edge + ink-starved specks). -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <filter id="woodcut" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="4" result="warp" />
+        <feDisplacementMap in="SourceGraphic" in2="warp" scale="3.2" result="rough" />
+        <feTurbulence type="fractalNoise" baseFrequency="0.42" numOctaves="2" seed="11" result="grain" />
+        <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -34 0 0 0 25.2" result="speck" />
+        <feComposite in="rough" in2="speck" operator="in" />
+      </filter>
+    </svg>
+
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer cta={footerCta} />
+    <Theater />
+    <Lightbox />
+    <div class="grain" aria-hidden="true" transition:persist="grain"></div>
+
+    <script>
+      // Scroll-triggered reveals: anything marked data-reveal eases in once it enters view.
+      let io: IntersectionObserver | undefined;
+      document.addEventListener('astro:page-load', () => {
+        io?.disconnect();
+        io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-in');
+                io?.unobserve(e.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+        );
+        document.querySelectorAll('[data-reveal]:not(.is-in)').forEach((el) => io!.observe(el));
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Page transitions: a quick crossfade, with shared elements (cards → players) morphing. */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.35s;
+  }
+  ::view-transition-group(*) {
+    animation-duration: 0.6s;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+</style>

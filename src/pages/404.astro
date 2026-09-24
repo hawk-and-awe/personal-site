@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import Hawk from '../components/Hawk.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<Base title="Page not found" description="This page has taken flight.">
+  <section class="container lost">
+    <Hawk class="lost__hawk" draw />
+    <p class="kicker kicker--acid">Error CDIV</p>
+    <h1 class="display">This page has <span class="bl acid">flown.</span></h1>
+    <p class="lede">The link may be old, or the hawk got restless. The work is still right where you left it.</p>
+    <div class="lost__ctas">
+      <a class="btn btn--acid" href="/work">See the work <Icon name="arrow" /></a>
+      <a class="btn" href="/">Home</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lost {
+    display: grid;
+    justify-items: center;
+    gap: 1.5rem;
+    min-height: 90svh;
+    align-content: center;
+    padding-top: var(--header-h);
+    text-align: center;
+  }
+  .lost__hawk {
+    width: auto;
+    height: min(22rem, 48svh);
+  }
+  .lost .lede {
+    margin-inline: auto;
+  }
+  .lost__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+</style>

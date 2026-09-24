@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro';
+import VideoPlayer from '../components/VideoPlayer.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../site.config';
+import { isoDuration, roman, timecode, embedUrl } from '../lib/video';
+import { getProjects } from '../lib/work';
+import poster from '../assets/reel/poster.jpg';
+
+const reel = site.reel;
+const projects = await getProjects();
+const next = projects.filter((p) => p.data.featured).slice(0, 3);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: `${site.name} — ${reel.title} ${reel.year}`,
+  description: `${site.role} demo reel.`,
+  thumbnailUrl: new URL(poster.src, Astro.site).href,
+  embedUrl: embedUrl(reel.video).split('?')[0],
+  duration: isoDuration(reel.video.duration),
+  creator: { '@type': 'Person', name: site.name, url: site.url },
+};
+---
+
+<Base title="Reel" description={`${site.name}'s demo reel — motion design, animation and live action in ${timecode(reel.video.duration)}.`} type="video.other" jsonLd={jsonLd}>
+  <section class="container screening">
+    <header class="screening__head">
+      <p class="kicker kicker--acid">Now screening · {timecode(reel.video.duration)}</p>
+      <h1 class="h1">The <span class="bl acid">Reel</span> <span class="numeral bl screening__year">{roman(reel.year)}</span></h1>
+    </header>
+    <VideoPlayer video={reel.video} poster={poster} posterAlt={`Opening frame of the ${reel.title}`} title={`${reel.title} ${reel.year}`} eager />
+    <p class="screening__note lede">
+      The highlights, cut short. Every shot has a longer story behind it — the case studies below cover the brief, what I did, and the finished film.
+    </p>
+  </section>
+
+  <section class="container after" aria-labelledby="after-title">
+    <header class="after__head">
+      <h2 id="after-title" class="h2">Now the full films</h2>
+      <a class="btn" href="/work">All {projects.length} projects <Icon name="arrow" /></a>
+    </header>
+    <div class="after__grid">
+      {next.map((p, i) => <ProjectCard project={p} index={i} />)}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .screening {
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    padding-top: calc(var(--header-h) + clamp(2rem, 6vw, 4.5rem));
+    padding-bottom: clamp(4rem, 8vw, 7rem);
+  }
+  .screening__head {
+    display: grid;
+    gap: 1rem;
+    justify-items: center;
+    text-align: center;
+  }
+  /* Fit the whole frame (and its play button) on screen. */
+  .screening :global(.player) {
+    width: min(100%, calc((100svh - var(--header-h) - 15rem) * 16 / 9));
+    margin-inline: auto;
+  }
+  .screening__year {
+    color: var(--bone-3);
+    font-size: 0.9em;
+  }
+  .screening__note {
+    max-width: 52ch;
+    margin-inline: auto;
+    text-align: center;
+  }
+  .after {
+    padding-bottom: clamp(4rem, 9vw, 8rem);
+    border-top: 1px solid var(--line);
+  }
+  .after__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-block: clamp(2rem, 4vw, 3rem);
+  }
+  .after__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(2rem, 4vw, 3rem) clamp(1rem, 2.5vw, 2rem);
+  }
+  @media (max-width: 900px) {
+    .after__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

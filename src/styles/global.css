@@ -1,231 +1,425 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
+@import '@fontsource/jacquard-24';
 
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+/* ── Tokens ─────────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: dark;
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
+  --ink: #0b0a09;
+  --ink-2: #131210;
+  --ink-3: #1d1b17;
+  --bone: #ece5d5;
+  --bone-2: #bdb5a5;
+  --bone-3: #8f887a;
+  --line: rgb(236 229 213 / 0.12);
+  --line-2: rgb(236 229 213 / 0.24);
+  --acid: #e4f04a;
+  --acid-dim: rgb(228 240 74 / 0.14);
+  --ember: #d9502f;
+
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-black: 'Jacquard 24', 'Geist Variable', serif;
+
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1.0625rem;
+  --fs-lg: clamp(1.1875rem, 1.05rem + 0.5vw, 1.4375rem);
+  --fs-xl: clamp(1.625rem, 1.2rem + 1.8vw, 2.5rem);
+  --fs-2xl: clamp(2.25rem, 1.4rem + 3.8vw, 4.75rem);
+  --fs-display: clamp(3rem, 1.2rem + 7.6vw, 9.75rem);
+
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --max: 1440px;
+  --header-h: 4.5rem;
+  --radius: 3px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+}
+body {
+  min-height: 100svh;
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  font-feature-settings: 'ss01', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+img,
+video,
+svg,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+img,
+video {
+  height: auto;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+p,
+h1,
+h2,
+h3,
+h4 {
+  overflow-wrap: break-word;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  padding: 0;
+}
+::selection {
+  background: var(--acid);
+  color: var(--ink);
+}
+:focus-visible {
+  outline: 2px solid var(--acid);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Layout ─────────────────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.section {
+  padding-block: clamp(5rem, 11vw, 10rem);
+}
+.stack > * + * {
+  margin-top: var(--stack, 1.25rem);
+}
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background: var(--acid);
+  color: var(--ink);
+  font-weight: 600;
+  transform: translateY(-200%);
+  transition: transform 0.2s var(--ease-out);
+}
+.skip-link:focus {
+  transform: none;
+}
+
+/* ── Type ───────────────────────────────────────────────────────────────── */
+.display {
+  font-size: var(--fs-display);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  font-weight: 620;
+}
+.h1 {
+  font-size: var(--fs-2xl);
+}
+.h2 {
+  font-size: var(--fs-xl);
+  letter-spacing: -0.03em;
+}
+.lede {
+  font-size: var(--fs-lg);
+  line-height: 1.45;
+  color: var(--bone-2);
+  max-width: 38ch;
+}
+.blackletter {
+  font-family: var(--font-black);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.9;
+}
+/* Blackletter set inline with the sans. Jacquard's x-height is ~26% smaller than Geist's,
+   so it's scaled up to match optically; the tight line-height keeps the line box steady. */
+.bl {
+  font-family: var(--font-black);
+  font-weight: 400;
+  font-size: 1.34em;
+  letter-spacing: 0;
+  line-height: 0.6;
+}
+/* Roman numerals set in blackletter read best lowercase, as scribes wrote them (i, ii, iii…). */
+.numeral {
+  text-transform: lowercase;
+}
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-3);
+}
+.kicker--acid {
+  color: var(--acid);
+}
+.mono {
+  font-family: var(--font-mono);
+  font-feature-settings: 'zero', 'tnum';
+}
+.muted {
+  color: var(--bone-2);
+}
+.acid {
+  color: var(--acid);
+}
+
+/* Prose for case-study bodies */
+.prose {
+  font-size: var(--fs-lg);
+  line-height: 1.55;
+  color: var(--bone-2);
+  max-width: 62ch;
+}
+.prose > * + * {
+  margin-top: 1.1em;
+}
+.prose strong {
+  color: var(--bone);
+  font-weight: 600;
+}
+.prose a {
+  color: var(--bone);
+  text-decoration: underline;
+  text-decoration-color: var(--acid);
+  text-underline-offset: 0.2em;
+}
+/* Illuminated initial: a boxed serif capital, as in a manuscript (and unambiguous, unlike blackletter I/J). */
+.prose--initial > p:first-child::first-letter {
+  float: left;
+  margin: 0.14em 0.45em 0 0;
+  padding: 0.06em 0.2em 0.02em;
+  font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  font-size: 3.4em;
+  font-weight: 700;
+  line-height: 0.92;
+  color: var(--ink);
+  background: var(--acid);
+  border-radius: 2px;
+  box-shadow: 4px 4px 0 var(--bone-3);
+}
+
+/* ── Controls ───────────────────────────────────────────────────────────── */
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: var(--bone);
+  --btn-bd: var(--line-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  min-height: 3.25rem;
+  padding: 0 1.4rem;
+  border: 1px solid var(--btn-bd);
+  border-radius: 999px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-size: var(--fs-sm);
+  font-weight: 560;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  transition:
+    background-color 0.3s var(--ease-out),
+    color 0.3s var(--ease-out),
+    border-color 0.3s var(--ease-out),
+    transform 0.3s var(--ease-out);
+}
+.btn:hover {
+  --btn-bd: var(--bone);
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn--acid {
+  --btn-bg: var(--acid);
+  --btn-fg: var(--ink);
+  --btn-bd: var(--acid);
+}
+.btn--acid:hover {
+  --btn-bg: var(--bone);
+  --btn-bd: var(--bone);
+}
+.btn svg {
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
+}
+.link-line {
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1px;
+  transition: background-size 0.45s var(--ease-out);
+  padding-bottom: 0.1em;
+}
+.link-line:hover,
+a:hover > .link-line {
+  background-size: 100% 1px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bone-2);
+  white-space: nowrap;
+}
+
+/* ── Texture ────────────────────────────────────────────────────────────── */
+/* Animated film grain across the whole page. */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.09;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.9s steps(6) infinite;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  17% { transform: translate(-6%, 4%); }
+  33% { transform: translate(5%, -7%); }
+  50% { transform: translate(-3%, 8%); }
+  67% { transform: translate(8%, 2%); }
+  83% { transform: translate(-7%, -5%); }
+  100% { transform: translate(0, 0); }
+}
+/* Blurred photographic backdrop (pair with an <img class="backdrop__img">). */
+.backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+.backdrop__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.08);
+  opacity: 0.55;
+}
+.backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--ink) 0%, rgb(11 10 9 / 0.35) 30%, rgb(11 10 9 / 0.35) 70%, var(--ink) 100%);
+}
+
+/* Ruled divider with a centred ornament, like a manuscript line break. */
+.rule {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--bone-3);
+}
+.rule::before,
+.rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+/* ── Motion ─────────────────────────────────────────────────────────────── */
+@media (scripting: enabled) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 1s var(--ease-out),
+      transform 1.1s var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 80ms);
   }
-
-  body {
-    @apply font-sans antialiased;
-    @apply bg-dark-950 text-dark-100;
-    @apply transition-colors duration-300;
-  }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-dark-900;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-hawk-600 rounded-full;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-hawk-500;
-  }
-
-  /* Selection color */
-  ::selection {
-    @apply bg-hawk-600/40 text-white;
+  [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
   }
 }
 
-@layer components {
-  .container-custom {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-
-  .section-padding {
-    @apply py-20 md:py-32;
+  .grain {
+    animation: none;
   }
-
-  .heading-xl {
-    @apply font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight;
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
   }
-
-  .heading-lg {
-    @apply font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight;
-  }
-
-  .heading-md {
-    @apply font-display text-2xl sm:text-3xl font-semibold tracking-tight;
-  }
-
-  .heading-sm {
-    @apply font-display text-xl sm:text-2xl font-semibold;
-  }
-
-  .text-gradient {
-    @apply bg-gradient-to-r from-hawk-400 via-hawk-500 to-hawk-600 bg-clip-text text-transparent;
-  }
-
-  .text-gradient-reverse {
-    @apply bg-gradient-to-r from-hawk-600 via-hawk-500 to-hawk-400 bg-clip-text text-transparent;
-  }
-
-  .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-all duration-300;
-    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-950;
-  }
-
-  .btn-primary {
-    @apply btn bg-hawk-600 text-white hover:bg-hawk-500 focus:ring-hawk-500;
-    @apply shadow-lg shadow-hawk-600/25 hover:shadow-hawk-500/30;
-  }
-
-  .btn-secondary {
-    @apply btn bg-dark-800 text-dark-100 hover:bg-dark-700 focus:ring-dark-600;
-    @apply border border-dark-700 hover:border-dark-600;
-  }
-
-  .btn-outline {
-    @apply btn bg-transparent text-hawk-400 border-2 border-hawk-500 hover:bg-hawk-500 hover:text-white;
-    @apply focus:ring-hawk-500;
-  }
-
-  .card {
-    @apply bg-dark-900/50 backdrop-blur-sm rounded-2xl border border-dark-800;
-    @apply transition-all duration-300;
-  }
-
-  .card-hover {
-    @apply card hover:border-hawk-600/50 hover:shadow-xl hover:shadow-hawk-600/10;
-    @apply hover:-translate-y-1;
-  }
-
-  .nav-link {
-    @apply relative text-dark-300 hover:text-white transition-colors duration-300;
-  }
-
-  .nav-link::after {
-    @apply content-[''] absolute left-0 bottom-0 w-0 h-0.5 bg-hawk-500 transition-all duration-300;
-  }
-
-  .nav-link:hover::after,
-  .nav-link.active::after {
-    @apply w-full;
-  }
-
-  .nav-link.active {
-    @apply text-white;
-  }
-
-  /* Lottie container styles */
-  .lottie-container {
-    @apply w-full h-full;
-  }
-
-  /* Video container with aspect ratio */
-  .video-container {
-    @apply relative w-full overflow-hidden rounded-xl;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
-  }
-
-  .video-container iframe,
-  .video-container video {
-    @apply absolute top-0 left-0 w-full h-full;
-  }
-
-  /* Skill badge */
-  .skill-badge {
-    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg;
-    @apply bg-dark-800/80 border border-dark-700;
-    @apply text-sm font-medium text-dark-200;
-    @apply transition-all duration-300;
-    @apply hover:border-hawk-600/50 hover:bg-dark-800;
-  }
-}
-
-@layer utilities {
-  .animate-delay-100 {
-    animation-delay: 100ms;
-  }
-  .animate-delay-200 {
-    animation-delay: 200ms;
-  }
-  .animate-delay-300 {
-    animation-delay: 300ms;
-  }
-  .animate-delay-400 {
-    animation-delay: 400ms;
-  }
-  .animate-delay-500 {
-    animation-delay: 500ms;
-  }
-  .animate-delay-600 {
-    animation-delay: 600ms;
-  }
-
-  /* Gradient backgrounds */
-  .bg-gradient-radial {
-    background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
-  }
-
-  .bg-noise {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    background-size: 200px 200px;
-  }
-
-  /* Glow effects */
-  .glow-hawk {
-    box-shadow: 0 0 40px rgba(22, 163, 74, 0.3);
-  }
-
-  .text-shadow-glow {
-    text-shadow: 0 0 40px rgba(22, 163, 74, 0.5);
-  }
-}
-
-/* Intersection Observer animations */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-50px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.reveal-left.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.reveal-right {
-  opacity: 0;
-  transform: translateX(50px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.reveal-right.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.reveal-scale {
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.reveal-scale.visible {
-  opacity: 1;
-  transform: scale(1);
 }

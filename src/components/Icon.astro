@@ -1,0 +1,64 @@
+---
+/** Small line icons. The manicule (☞) is the manuscript-margin pointing hand. */
+interface Props {
+  name: 'play' | 'pause' | 'arrow' | 'arrow-up-right' | 'arrow-down' | 'close' | 'volume' | 'mute' | 'fullscreen' | 'manicule' | 'copy' | 'check' | 'grid' | 'list' | 'menu' | 'download';
+  class?: string;
+  [attr: string]: unknown;
+}
+const { name, class: className, ...rest } = Astro.props;
+---
+
+<svg
+  class:list={['icon', `icon--${name}`, className]}
+  viewBox={name === 'manicule' ? '0 0 48 24' : '0 0 24 24'}
+  aria-hidden="true"
+  focusable="false"
+  {...rest}
+>
+  {name === 'play' && <path class="solid" d="M7 4.5v15a.8.8 0 0 0 1.2.7l12.2-7.5a.8.8 0 0 0 0-1.4L8.2 3.8A.8.8 0 0 0 7 4.5Z" />}
+  {name === 'pause' && <path class="solid" d="M6.5 4h3.6v16H6.5zM13.9 4h3.6v16h-3.6z" />}
+  {name === 'arrow' && <path d="M4 12h15m-6-6.5L19.5 12 13 18.5" />}
+  {name === 'arrow-up-right' && <path d="M7 17 17 7M8.5 7H17v8.5" />}
+  {name === 'arrow-down' && <path d="M12 4v15m-6.5-6L12 19.5 18.5 13" />}
+  {name === 'close' && <path d="m6 6 12 12M18 6 6 18" />}
+  {name === 'volume' && <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4zM15.5 9a4 4 0 0 1 0 6m2.5-8.5a7.5 7.5 0 0 1 0 11" />}
+  {name === 'mute' && <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4zM16 9.5l5 5m0-5-5 5" />}
+  {name === 'fullscreen' && <path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" />}
+  {name === 'copy' && <path d="M9 9h10v11H9zM5 15V4h10" />}
+  {name === 'check' && <path d="m5 12.5 4.5 4.5L19 7.5" />}
+  {name === 'grid' && <path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z" />}
+  {name === 'list' && <path d="M4 6h16M4 12h16M4 18h16" />}
+  {name === 'menu' && <path d="M3 8h18M3 16h18" />}
+  {name === 'download' && <path d="M12 4v11m-5-5 5 5 5-5M5 20h14" />}
+  {
+    name === 'manicule' && (
+      <>
+        <path d="M2.5 6.5h5v12h-5z" />
+        <path d="M7.5 7.5c3.5-2 7.5-2.4 11-1.5l24.4.2c2.3.1 2.3 4.1 0 4.2l-20.4.6" />
+        <path d="M22.5 11c2.8 0 2.8 4-.3 4H18m4.3 0c2.7.2 2.6 3.8-.4 3.8h-3.6m2.6.1c1.6.4 1.2 3-.8 3H11c-1.8 0-3.5-1.2-3.5-3" />
+        <path d="M14 6.6c1.6 1.6 1.4 4 0 4.9" />
+      </>
+    )
+  }
+</svg>
+
+<style>
+  .icon {
+    width: 1em;
+    height: 1em;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .icon--manicule {
+    width: 2em;
+    stroke-width: 1.6;
+  }
+  .solid {
+    fill: currentColor;
+    stroke: none;
+  }
+</style>

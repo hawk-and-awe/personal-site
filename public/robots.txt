@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.chrishawk.net/sitemap.xml
+Sitemap: https://www.chrishawk.net/sitemap-index.xml

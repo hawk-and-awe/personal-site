@@ -1,0 +1,352 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { roman, timecode } from '../../lib/video';
+import { getProjects, projectUrl, typeLabels } from '../../lib/work';
+import { site } from '../../site.config';
+
+const projects = await getProjects();
+const filters = [
+  { key: 'all', label: 'All', count: projects.length },
+  ...Object.entries(typeLabels).map(([key, label]) => ({
+    key,
+    label,
+    count: projects.filter((p) => p.data.types.includes(key as keyof typeof typeLabels)).length,
+  })),
+];
+---
+
+<Base
+  title="Work"
+  description="The full library: motion design, animation, live-action production and post by Chris Hawk. Press play on any film without leaving the page."
+>
+  <header class="container page-head">
+    <p class="kicker" data-reveal>The library — {roman(projects.length)} films</p>
+    <h1 class="display page-head__title" data-reveal style="--i:1">
+      The <span class="bl acid">Work</span>
+    </h1>
+    <p class="lede" data-reveal style="--i:2">
+      Motion design, live action and everything between. Press <span class="acid">Watch</span> on any film to see it
+      right here, or open the case study for the story behind it.
+    </p>
+  </header>
+
+  <div class="container toolbar" data-reveal style="--i:3">
+    <div class="toolbar__group" role="group" aria-label="Filter by discipline">
+      {
+        filters.map((f, i) => (
+          <button class="pill" type="button" data-filter={f.key} aria-pressed={i === 0 ? 'true' : 'false'}>
+            {f.label} <span class="pill__count mono">{f.count}</span>
+          </button>
+        ))
+      }
+    </div>
+    <div class="toolbar__group" role="group" aria-label="Layout">
+      <button class="pill pill--icon" type="button" data-view="grid" aria-pressed="true" aria-label="Gallery view">
+        <Icon name="grid" />
+      </button>
+      <button class="pill pill--icon" type="button" data-view="index" aria-pressed="false" aria-label="Index view">
+        <Icon name="list" />
+      </button>
+    </div>
+  </div>
+
+  <section class="container library" data-library data-layout="grid" aria-label="Projects">
+    <div class="library__grid">
+      {projects.map((p, i) => <ProjectCard project={p} index={i} eager={i < 2} />)}
+    </div>
+
+    <ol class="index" role="list">
+      {
+        projects.map((p, i) => (
+          <li class="index__row" data-card data-types={p.data.types.join(' ')} data-preview={i}>
+            <a href={projectUrl(p)} class="index__link">
+              <span class="index__num blackletter numeral">{roman(i + 1)}</span>
+              <span class="index__title">{p.data.title}</span>
+              <span class="index__cell">{p.data.client}</span>
+              <span class="index__cell mono">{p.data.types.map((t) => typeLabels[t]).join(' + ')}</span>
+              <span class="index__cell mono">{p.data.year ?? '—'}</span>
+              <span class="index__cell mono">{p.data.video.duration ? timecode(p.data.video.duration) : ''}</span>
+              <Icon name="arrow" class="index__arrow" />
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="index__preview" aria-hidden="true" data-preview-box>
+      {
+        projects.map((p, i) => (
+          <Image src={p.data.cover} alt="" widths={[480, 720]} sizes="22rem" loading="lazy" data-preview-img={i} />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="container more">
+    <div class="rule mono" aria-hidden="true">✦</div>
+    <p class="more__text">More films are in the edit. Want to see something specific?</p>
+    <a class="btn btn--acid" href="/contact">Ask me for a private link <Icon name="arrow" /></a>
+    <a class="btn" href={site.resumeUrl} target="_blank" rel="noopener">Résumé <Icon name="arrow-up-right" /></a>
+  </section>
+</Base>
+
+<style>
+  .page-head {
+    display: grid;
+    gap: 1.5rem;
+    padding-top: calc(var(--header-h) + clamp(3rem, 9vw, 7rem));
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .toolbar__group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.5rem;
+    padding: 0 1rem;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    font-size: var(--fs-sm);
+    color: var(--bone-2);
+    transition: all 0.25s var(--ease-out);
+  }
+  .pill:hover {
+    color: var(--bone);
+    border-color: var(--bone-3);
+  }
+  .pill[aria-pressed='true'] {
+    background: var(--bone);
+    border-color: var(--bone);
+    color: var(--ink);
+  }
+  .pill__count {
+    font-size: 0.6875rem;
+    opacity: 0.6;
+  }
+  .pill--icon {
+    width: 2.5rem;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .library {
+    position: relative;
+    padding-top: 1.5rem;
+    padding-bottom: clamp(4rem, 8vw, 7rem);
+  }
+  .library__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(2.5rem, 4vw, 3.5rem) clamp(1rem, 2.5vw, 2rem);
+  }
+  .library[data-layout='index'] .library__grid,
+  .library[data-layout='grid'] .index,
+  .library[data-layout='grid'] .index__preview {
+    display: none;
+  }
+  @media (max-width: 1000px) {
+    .library__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 640px) {
+    .library__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Index view */
+  .index {
+    border-top: 1px solid var(--line);
+  }
+  .index__row[hidden] {
+    display: none;
+  }
+  .index__link {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 2.4fr) minmax(0, 1.2fr) minmax(0, 1fr) 4rem 4rem 1.5rem;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.35rem 0;
+    border-bottom: 1px solid var(--line);
+    transition: padding 0.4s var(--ease-out), color 0.3s;
+  }
+  .index__num {
+    font-size: 1.75rem;
+    color: var(--bone-3);
+    transition: color 0.3s;
+  }
+  .index__title {
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .index__cell {
+    font-size: var(--fs-sm);
+    color: var(--bone-2);
+  }
+  .index__cell.mono {
+    font-size: var(--fs-xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .index__arrow {
+    color: var(--bone-3);
+    transition: transform 0.4s var(--ease-out), color 0.3s;
+  }
+  .index__link:hover {
+    padding-left: 0.75rem;
+  }
+  .index__link:hover .index__num,
+  .index__link:hover .index__arrow {
+    color: var(--acid);
+  }
+  .index__link:hover .index__arrow {
+    transform: translateX(4px);
+  }
+  .index__preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 30;
+    width: 22rem;
+    aspect-ratio: 16 / 10;
+    pointer-events: none;
+    opacity: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.9);
+    transition: opacity 0.3s var(--ease-out);
+    will-change: transform;
+  }
+  .index__preview.is-on {
+    opacity: 1;
+  }
+  .index__preview :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+  }
+  .index__preview :global(img.is-on) {
+    opacity: 1;
+  }
+  @media (max-width: 860px) {
+    .index__link {
+      grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+    }
+    .index__cell {
+      display: none;
+    }
+    .index__preview {
+      display: none;
+    }
+  }
+
+  .more {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding-bottom: clamp(4rem, 9vw, 8rem);
+    text-align: center;
+  }
+  .more .rule {
+    flex-basis: 100%;
+    margin-bottom: 2rem;
+  }
+  .more__text {
+    flex-basis: 100%;
+    font-size: var(--fs-xl);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const lib = document.querySelector<HTMLElement>('[data-library]');
+    if (!lib) return;
+    const ac = new AbortController();
+    const { signal } = ac;
+    document.addEventListener('astro:before-swap', () => ac.abort(), { once: true });
+
+    // Filters (kept in the URL so a filtered view can be shared).
+    const filterBtns = [...document.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+    const applyFilter = (key: string) => {
+      filterBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === key)));
+      lib.querySelectorAll<HTMLElement>('[data-card]').forEach((el) => {
+        el.hidden = key !== 'all' && !(el.dataset.types ?? '').split(' ').includes(key);
+        if (!el.hidden) el.classList.add('is-in');
+      });
+      const url = new URL(location.href);
+      if (key === 'all') url.searchParams.delete('type');
+      else url.searchParams.set('type', key);
+      history.replaceState(history.state, '', url);
+    };
+    filterBtns.forEach((b) => b.addEventListener('click', () => applyFilter(b.dataset.filter!), { signal }));
+    const initial = new URL(location.href).searchParams.get('type');
+    if (initial && filterBtns.some((b) => b.dataset.filter === initial)) applyFilter(initial);
+
+    // Gallery / index layout, remembered per visitor.
+    const viewBtns = [...document.querySelectorAll<HTMLButtonElement>('[data-view]')];
+    const setView = (view: string) => {
+      lib.dataset.layout = view;
+      viewBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
+      try {
+        localStorage.setItem('work-view', view);
+      } catch {}
+    };
+    viewBtns.forEach((b) => b.addEventListener('click', () => setView(b.dataset.view!), { signal }));
+    try {
+      const saved = localStorage.getItem('work-view');
+      if (saved === 'index') setView(saved);
+    } catch {}
+
+    // Index view: a cover preview that trails the cursor.
+    const box = lib.querySelector<HTMLElement>('[data-preview-box]');
+    const imgs = [...lib.querySelectorAll<HTMLElement>('[data-preview-img]')];
+    if (!box || !matchMedia('(hover: hover)').matches) return;
+    let x = 0, y = 0, cx = 0, cy = 0, raf = 0;
+    const loop = () => {
+      cx += (x - cx) * 0.18;
+      cy += (y - cy) * 0.18;
+      box.style.transform = `translate(${cx + 28}px, ${cy - box.offsetHeight / 2}px)`;
+      raf = requestAnimationFrame(loop);
+    };
+    lib.querySelectorAll<HTMLElement>('.index__row').forEach((row) => {
+      row.addEventListener('pointerenter', (e) => {
+        imgs.forEach((img) => img.classList.toggle('is-on', img.dataset.previewImg === row.dataset.preview));
+        if (!box.classList.contains('is-on')) {
+          cx = x = e.clientX;
+          cy = y = e.clientY;
+        }
+        box.classList.add('is-on');
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(loop);
+      }, { signal });
+      row.addEventListener('pointerleave', () => box.classList.remove('is-on'), { signal });
+    });
+    lib.addEventListener('pointermove', (e) => ((x = e.clientX), (y = e.clientY)), { signal });
+    lib.querySelector('.index')?.addEventListener('pointerleave', () => cancelAnimationFrame(raf), { signal });
+  });
+</script>
