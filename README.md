@@ -72,10 +72,14 @@ To receive submissions directly, create a free form at [Formspree](https://forms
 
 ## Deploy
 
-Any static host works — Vercel, Netlify or Cloudflare Pages:
+The site is hosted on **Vercel**, connected to this GitHub repo:
 
-- Build command: `npm run build`
-- Output directory: `dist`
+| Vercel project      | Serves                                                | Builds from            |
+| ------------------- | ----------------------------------------------------- | ---------------------- |
+| `personal-site`     | **www.chrishawk.net** (`chrishawk.net` redirects here) | repo root (Astro)      |
+| `chrishawk-archive` | **old.chrishawk.net** — the archived Squarespace site  | `archive/` (plain HTML) |
 
-Then point `chrishawk.net` at the new host in your domain's DNS settings (and cancel the Squarespace site once
-it's live). The old Squarespace URLs `/projects` and `/resume` redirect to `/work` and `/about`.
+- **Anything merged into `main` goes live.** Every other branch gets its own preview URL.
+- DNS lives at Squarespace Domains: `A @ 76.76.21.21`, `CNAME www` and `CNAME old` → `cname.vercel-dns-0.com`.
+  The Google Workspace MX and SPF records handle email — leave them alone.
+- The old Squarespace URLs `/projects` and `/resume` redirect to `/work` and `/about`.
