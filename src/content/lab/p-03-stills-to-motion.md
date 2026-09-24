@@ -17,6 +17,6 @@ pending:
 order: 3
 ---
 
-My team brought generative video into regular production. We turned still photos of an event destination into moving b-roll for a convention promo, and used generated VFX elements in a themed sales-kickoff film.
+My team at American Fidelity brought generative video into regular production. We turned still photos of an event destination into moving b-roll for a convention promo, and used generated VFX elements in a themed sales-kickoff film.
 
 I also evaluated new production platforms for the team, and wrote the explainer that introduced generative video to leadership.

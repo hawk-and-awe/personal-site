@@ -6,7 +6,7 @@ export const groups = [
   {
     key: 'production',
     title: 'Production & Pipeline',
-    intro: 'Systems built for a real in-house team: boards, concepts, generative footage and the archive underneath it all.',
+    intro: "Systems I've built for American Fidelity's in-house video team: boards, concepts, generative footage and the archive underneath it all.",
   },
   {
     key: 'midjourney',

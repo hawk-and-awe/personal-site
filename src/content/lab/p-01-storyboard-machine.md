@@ -18,12 +18,13 @@ diagram:
   - Frame
   - Board strip
 related: [P-02, M-01]
-pending:
-  - "[ASSET] Node-graph screenshot and a board strip from a dummy concept — or clear it to publish as text + diagram."
+placeholders:
+  - { label: Node graph, aspect: 16/9 }
+  - { label: Board strip from a dummy concept, aspect: 32/9 }
 order: 1
 ---
 
-Built in-house at a national benefits company, where we needed to board several competing concepts for a broadcast spot quickly. The flow combines a style reference (a sample of the pencil-sketch treatment) with pools of reference characters — two leads plus supporting cast — so any shot prompt comes out in the same drawing style with the same faces.
+Built in-house at American Fidelity, where we needed to board several competing concepts for a broadcast spot quickly. The flow combines a style reference (a sample of the pencil-sketch treatment) with pools of reference characters — two leads plus supporting cast — so any shot prompt comes out in the same drawing style with the same faces.
 
 The output only reads as real boards because of the shot-writing rules:
 

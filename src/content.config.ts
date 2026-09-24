@@ -97,6 +97,8 @@ const lab = defineCollection({
       images: z.array(z.object({ src: image(), alt: z.string(), caption: z.string().optional() })).default([]),
       /** Short clips in public/media/lab/, e.g. /media/lab/news-01.mp4 */
       clips: z.array(z.object({ src: z.string(), alt: z.string(), caption: z.string().optional() })).default([]),
+      /** Frames reserved for graphics that aren't ready yet; they render as labelled placeholders. */
+      placeholders: z.array(z.object({ label: z.string(), aspect: z.string().default('16/9') })).default([]),
       related: z.array(z.string()).default([]),
       pending: z.array(z.string()).default([]),
       order: z.number().default(100),

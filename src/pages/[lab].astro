@@ -32,8 +32,8 @@ const slots = (formula: string) => formula.split(/(\[[^\]]+\])/).filter(Boolean)
     <p class="kicker" data-reveal>Research & development — {roman(entries.length)} entries</p>
     <h1 class="display" data-reveal style="--i:1">The <span class="bl acid">Lab</span></h1>
     <p class="lede" data-reveal style="--i:2">
-      Look development, motion tests and the production systems behind the work. A lot of it comes from directing AI: I
-      write the rules, lock the style, and keep what holds up.
+      The R&D and production systems behind the work. A lot of it comes from directing AI: I write the rules, lock the
+      style, and keep what holds up.
     </p>
     <p class="page-head__note mono" data-reveal style="--i:3">
       <Icon name="manicule" />
@@ -162,6 +162,17 @@ const slots = (formula: string) => formula.split(/(\[[^\]]+\])/).filter(Boolean)
                       <figure>
                         <Image src={img.src} alt={img.alt} widths={[480, 800, 1200]} sizes="(min-width: 900px) 30vw, 90vw" loading="lazy" />
                         {img.caption && <figcaption class="mono">{img.caption}</figcaption>}
+                      </figure>
+                    ))}
+                  </div>
+                )}
+
+                {d.placeholders.length > 0 && (
+                  <div class="media media--ph">
+                    {d.placeholders.map((ph) => (
+                      <figure class="placeholder" style={`--ar:${ph.aspect}`} aria-label={`${ph.label} — graphic coming soon`}>
+                        <span class="placeholder__label mono">{ph.label}</span>
+                        <span class="placeholder__note mono">Graphic coming soon</span>
                       </figure>
                     ))}
                   </div>
@@ -450,6 +461,35 @@ const slots = (formula: string) => formula.split(/(\[[^\]]+\])/).filter(Boolean)
   .media figcaption {
     margin-top: 0.4rem;
     font-size: var(--fs-xs);
+    color: var(--bone-3);
+  }
+  .media--ph {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
+  }
+  .placeholder {
+    min-width: 0;
+    width: 100%;
+    display: grid;
+    place-content: center;
+    gap: 0.35rem;
+    aspect-ratio: var(--ar);
+    padding: 1rem;
+    border: 1px dashed var(--line-2);
+    border-radius: var(--radius);
+    text-align: center;
+    background: repeating-linear-gradient(135deg, transparent 0 14px, rgb(236 229 213 / 0.03) 14px 15px), var(--ink-2);
+  }
+  .placeholder[style*='32/9'] {
+    grid-column: 1 / -1;
+  }
+  .placeholder__label {
+    font-size: var(--fs-sm);
+    color: var(--bone-2);
+  }
+  .placeholder__note {
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: var(--bone-3);
   }
   .related {

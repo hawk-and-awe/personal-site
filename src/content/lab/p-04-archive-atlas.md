@@ -17,9 +17,9 @@ diagram:
   - CSV inventory
   - Documentation board
 related: [M-02]
-pending:
-  - "[CONFIRM] OK to include (diagram only, no inventory sample)?"
+placeholders:
+  - { label: Redacted inventory sample, aspect: 16/9 }
 order: 4
 ---
 
-The team's video archive was a NAS full of year folders, temp holds and project-file dumps, and people only knew where things were by memory. I mapped it into a structured CSV inventory, then brought that into the team's documentation board so anyone can find a project, its year and its source files without digging.
+American Fidelity's video archive was a NAS full of year folders, temp holds and project-file dumps, and people only knew where things were by memory. I mapped it into a structured CSV inventory, then brought that into the team's documentation board so anyone can find a project, its year and its source files without digging.
