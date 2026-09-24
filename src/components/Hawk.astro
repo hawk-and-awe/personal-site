@@ -20,7 +20,6 @@ interface Props {
 }
 // `rest` carries the parent's scoped-style attribute, so parents can size and position the bird.
 const { class: className, pose = site.hawk, draw = false, delay = 0, texture = true, title, ...rest } = Astro.props;
-const clip = `hawk-farwing-${Math.random().toString(36).slice(2, 8)}`;
 ---
 
 <svg
@@ -36,60 +35,44 @@ const clip = `hawk-farwing-${Math.random().toString(36).slice(2, 8)}`;
     {
       pose === 'flight' ? (
         <>
-          <clipPath id={clip}><path d="M330 262 C328 220 336 186 356 140 L404 70.1 Q415 65.2 415.4 77.3 L402.2 98.3 L416.9 83.4 Q428.7 80.9 426.6 92.8 L409.3 110 L424.5 99.7 Q436.6 99.7 432.1 110.9 L412.9 122.7 L428.1 116 Q439.9 118.5 433.1 128.5 L454 156 Q455.1 169.2 443.7 176 Q444.7 189.2 433.3 196 Q434.4 209.2 423 216 Q424.1 229.2 412.7 236 Q413.7 249.2 402.3 256 Q403.4 269.2 392 276 Z" /></clipPath>
           <g class="print">
-        <path class="fill" pathLength="1" style="--d:0.00s" d="M330 262 C328 220 336 186 356 140 L404 70.1 Q415 65.2 415.4 77.3 L402.2 98.3 L416.9 83.4 Q428.7 80.9 426.6 92.8 L409.3 110 L424.5 99.7 Q436.6 99.7 432.1 110.9 L412.9 122.7 L428.1 116 Q439.9 118.5 433.1 128.5 L454 156 Q455.1 169.2 443.7 176 Q444.7 189.2 433.3 196 Q434.4 209.2 423 216 Q424.1 229.2 412.7 236 Q413.7 249.2 402.3 256 Q403.4 269.2 392 276 Z" />
+        <path class="fill" pathLength="1" style="--d:0.00s" d="M396 276 C332 263 268 250 268 250 C252 176 360 60 446 44 Q437.3 61.2 450.5 75.2 Q440.2 91 451.9 105.8 Q440.1 120.1 450.2 135.7 Q437 148.6 445.5 165 Q431 176.5 437.7 193.7 Q422 203.8 426.9 221.8 Q410.1 230.5 413 249.2 Q395.2 256.7 396 276 Z" />
         <path class="fill" pathLength="1" style="--d:0.00s" d="M378 276 L494 266 C506 266 516 276 518 290 L508 302 L520 314 C520 330 512 342 498 344 L382 312 Z" />
         <path class="fill" pathLength="1" style="--d:0.00s" d="M118 268 C112 260 116 248 128 243 C134 239 140 237 146 236 C152 227 166 220 186 220 C204 220 216 226 228 236 C262 252 330 264 382 276 L384 312 C356 320 322 324 292 322 C252 320 218 310 194 298 C180 290 168 284 158 280 C150 276 142 273 134 274 C127 275 121 273 118 268 Z" />
-        <path class="fill" pathLength="1" style="--d:0.00s" d="M226 254 C220 206 240 160 280 120 L319.3 15.1 Q329.7 8 333.9 19.8 L322.9 49.2 L334.2 24.3 Q345.6 18.9 347.8 31.2 L332.3 57.9 L345.8 37 Q357.8 33.4 358.1 46 L339.5 68.2 L354.5 50.7 Q367 49 365.3 61.5 L344.4 79 L360.3 64.9 Q372.9 65.2 369.3 77.3 L396 104 Q401.4 115.7 391.3 123.8 Q396.7 135.5 386.5 143.5 Q391.9 155.2 381.8 163.3 Q387.2 175 377 183 Q382.4 194.7 372.3 202.8 Q377.7 214.5 367.5 222.5 Q372.9 234.2 362.8 242.3 Q368.2 254 358 262 C322 264 264 262 226 254 Z" />
+        <path class="fill" pathLength="1" style="--d:0.00s" d="M352 264 C287 259 222 254 222 254 C206 174 290 44 376 22 Q370 41.9 385.3 56 Q377.3 74.3 391 88.9 Q381.2 105.6 393.3 120.7 Q381.6 135.7 392 151.5 Q378.8 164.6 387.3 181.2 Q372.6 192.5 379 209.9 Q363 219.4 367.3 237.5 Q350.1 245.3 352 264 Z" />
         <path class="fill" pathLength="1" style="--d:0.00s" d="M284 312 C292 306 318 308 326 318 C328 330 322 342 312 348 L306 342 L300 350 L295 340 L288 346 C282 336 280 322 284 312 Z" />
         <path class="fill" pathLength="1" style="--d:0.00s" d="M298 352 L310 356 L282 392 L272 386 Z" />
           </g>
           <g class="carve">
-            <path class="hatch" clip-path={`url(#${clip})`} pathLength="1" style="--d:0.95s" d="M250 40 L100 330 M257 40 L107 330 M264 40 L114 330 M271 40 L121 330 M278 40 L128 330 M285 40 L135 330 M292 40 L142 330 M299 40 L149 330 M306 40 L156 330 M313 40 L163 330 M320 40 L170 330 M327 40 L177 330 M334 40 L184 330 M341 40 L191 330 M348 40 L198 330 M355 40 L205 330 M362 40 L212 330 M369 40 L219 330 M376 40 L226 330 M383 40 L233 330 M390 40 L240 330 M397 40 L247 330 M404 40 L254 330 M411 40 L261 330 M418 40 L268 330 M425 40 L275 330 M432 40 L282 330 M439 40 L289 330 M446 40 L296 330 M453 40 L303 330 M460 40 L310 330 M467 40 L317 330 M474 40 L324 330 M481 40 L331 330 M488 40 L338 330 M495 40 L345 330 M502 40 L352 330 M509 40 L359 330 M516 40 L366 330 M523 40 L373 330 M530 40 L380 330 M537 40 L387 330 M544 40 L394 330 M551 40 L401 330 M558 40 L408 330" />
+        <path class="quill" pathLength="1" style="--d:0.95s" d="M441.9 78.5 L449.3 75.7" />
+        <path class="quill" pathLength="1" style="--d:0.97s" d="M436.9 111.3 L449.7 106.5" />
+        <path class="quill" pathLength="1" style="--d:1.00s" d="M430.8 142.5 L447.4 136.7" />
+        <path class="quill" pathLength="1" style="--d:1.02s" d="M423.7 172 L442.4 166" />
+        <path class="quill" pathLength="1" style="--d:1.05s" d="M415.6 199.9 L434.6 194.6" />
+        <path class="quill" pathLength="1" style="--d:1.07s" d="M406.5 226.2 L424 222.4" />
+        <path class="quill" pathLength="1" style="--d:1.10s" d="M396.4 250.8 L410.6 249.4" />
         <path class="band" pathLength="1" style="--d:1.15s" d="M420.1 277.6 L421.4 318.5" />
         <path class="band" pathLength="1" style="--d:1.17s" d="M443.7 275.6 L444.6 324.7" />
         <path class="band" pathLength="1" style="--d:1.20s" d="M467.3 273.6 L467.8 330.9" />
         <path class="band" pathLength="1" style="--d:1.22s" d="M488.6 271.8 L488.7 336.5" />
         <path class="fine" pathLength="1" style="--d:1.25s" d="M386 294 L514 304 M386 286 L506 280 M386 302 L506 328" />
-        <path class="edge" pathLength="1" style="--d:0.95s" d="M226 254 C264 262 322 266 358 262" />
-        <path class="fine" pathLength="1" style="--d:0.97s" d="M234 244 C228 206 244 168 272 136" />
-        <path class="shaft" pathLength="1" style="--d:1.00s" d="M302.9 90.3 L325.9 19.6" />
-        <path class="bar" pathLength="1" style="--d:1.02s" d="M308.2 54.8 L319.6 58.5" />
-        <path class="bar" pathLength="1" style="--d:1.05s" d="M314.7 34.6 L326.1 38.3" />
-        <path class="shaft" pathLength="1" style="--d:1.07s" d="M307.5 93.5 L340.1 29.5" />
-        <path class="bar" pathLength="1" style="--d:1.10s" d="M317.7 60.3 L328.4 65.8" />
-        <path class="bar" pathLength="1" style="--d:1.13s" d="M327 42 L337.7 47.5" />
-        <path class="shaft" pathLength="1" style="--d:1.15s" d="M311 97.8 L351 42.7" />
-        <path class="bar" pathLength="1" style="--d:1.18s" d="M325.2 68 L334.9 75.1" />
-        <path class="bar" pathLength="1" style="--d:1.20s" d="M336.7 52.3 L346.4 59.4" />
-        <path class="shaft" pathLength="1" style="--d:1.23s" d="M313.6 102.4 L359.1 56.9" />
-        <path class="bar" pathLength="1" style="--d:1.25s" d="M331 76.5 L339.5 85" />
-        <path class="bar" pathLength="1" style="--d:1.27s" d="M344 63.5 L352.5 72" />
-        <path class="shaft" pathLength="1" style="--d:1.30s" d="M315.3 107.1 L364.2 71.5" />
-        <path class="bar" pathLength="1" style="--d:1.32s" d="M335.1 85.3 L342.1 95" />
-        <path class="bar" pathLength="1" style="--d:1.35s" d="M349.1 75.1 L356.1 84.8" />
-        <path class="edge" pathLength="1" style="--d:1.38s" d="M288 132 Q296.7 137 304 130 Q312.7 135 320 128 Q328.7 133 336 126" />
-        <path class="edge" pathLength="1" style="--d:1.40s" d="M300 150 Q295 160.3 303.7 167.7 Q298.6 177.9 307.3 185.3 Q302.3 195.6 311 203 Q306 213.3 314.7 220.7 Q309.6 230.9 318.3 238.3 Q313.3 248.6 322 256" />
-        <path class="quill" pathLength="1" style="--d:1.43s" d="M308.6 162.5 L384.3 121.8" />
-        <path class="quill" pathLength="1" style="--d:1.45s" d="M311.2 174.9 L379.5 141.5" />
-        <path class="quill" pathLength="1" style="--d:1.48s" d="M313.8 187.4 L374.8 161.3" />
-        <path class="quill" pathLength="1" style="--d:1.50s" d="M316.4 199.9 L370 181" />
-        <path class="quill" pathLength="1" style="--d:1.52s" d="M318.9 212.4 L365.3 200.8" />
-        <path class="quill" pathLength="1" style="--d:1.55s" d="M321.5 224.8 L360.5 220.5" />
-        <path class="quill" pathLength="1" style="--d:1.57s" d="M324.1 237.3 L355.8 240.3" />
-        <path class="scale" pathLength="1" style="--d:1.60s" d="M276 132 q5.5 9.35 11 0 M281.5 136.6 l0 -3.7" />
-        <path class="scale" pathLength="1" style="--d:1.63s" d="M274 146 q5.5 9.35 11 0 M279.5 150.6 l0 -3.7 M286.5 146 q5.5 9.35 11 0 M292 150.6 l0 -3.7" />
-        <path class="scale" pathLength="1" style="--d:1.65s" d="M258 160 q5.5 9.35 11 0 M263.5 164.6 l0 -3.7 M270.5 160 q5.5 9.35 11 0 M276 164.6 l0 -3.7 M283 160 q5.5 9.35 11 0 M288.5 164.6 l0 -3.7" />
-        <path class="scale" pathLength="1" style="--d:1.68s" d="M256 176 q5.5 9.35 11 0 M261.5 180.6 l0 -3.7 M268.5 176 q5.5 9.35 11 0 M274 180.6 l0 -3.7 M281 176 q5.5 9.35 11 0 M286.5 180.6 l0 -3.7" />
-        <path class="scale" pathLength="1" style="--d:1.70s" d="M244 192 q5.5 9.35 11 0 M249.5 196.6 l0 -3.7 M256.5 192 q5.5 9.35 11 0 M262 196.6 l0 -3.7 M269 192 q5.5 9.35 11 0 M274.5 196.6 l0 -3.7 M281.5 192 q5.5 9.35 11 0 M287 196.6 l0 -3.7" />
-        <path class="scale" pathLength="1" style="--d:1.73s" d="M246 208 q5.5 9.35 11 0 M251.5 212.6 l0 -3.7 M258.5 208 q5.5 9.35 11 0 M264 212.6 l0 -3.7 M271 208 q5.5 9.35 11 0 M276.5 212.6 l0 -3.7 M283.5 208 q5.5 9.35 11 0 M289 212.6 l0 -3.7" />
-        <path class="scale" pathLength="1" style="--d:1.75s" d="M238 224 q5.5 9.35 11 0 M243.5 228.6 l0 -3.7 M250.5 224 q5.5 9.35 11 0 M256 228.6 l0 -3.7 M263 224 q5.5 9.35 11 0 M268.5 228.6 l0 -3.7 M275.5 224 q5.5 9.35 11 0 M281 228.6 l0 -3.7" />
-        <path class="scale" pathLength="1" style="--d:1.77s" d="M248 240 q5.5 9.35 11 0 M253.5 244.6 l0 -3.7 M260.5 240 q5.5 9.35 11 0 M266 244.6 l0 -3.7 M273 240 q5.5 9.35 11 0 M278.5 244.6 l0 -3.7" />
-        <path class="shaft" pathLength="1" style="--d:1.80s" d="M379.8 121.5 L407.8 76.7" />
-        <path class="shaft" pathLength="1" style="--d:1.82s" d="M384.4 126.8 L419.5 90.4" />
-        <path class="shaft" pathLength="1" style="--d:1.85s" d="M387 133.2 L426.2 106.7" />
-        <path class="shaft" pathLength="1" style="--d:1.88s" d="M388 139.5 L428.8 123" />
+        <path class="edge" pathLength="1" style="--d:1.13s" d="M376 22 Q362.9 29 361.3 43.8 Q347.6 53.3 346 70 Q332.1 81.4 330.6 99.4 Q316.9 112.3 315.9 131.1 Q302.7 144.8 302.4 163.8 Q290.1 177.9 291 196.7 Q279.8 210.7 282.1 228.5 Q272.5 242.1 276.6 258.2" />
+        <path class="quill" pathLength="1" style="--d:1.15s" d="M361.3 43.8 L383.6 55.1" />
+        <path class="quill" pathLength="1" style="--d:1.18s" d="M346 70 L387.8 87.6" />
+        <path class="quill" pathLength="1" style="--d:1.20s" d="M330.6 99.4 L388.9 119.2" />
+        <path class="quill" pathLength="1" style="--d:1.23s" d="M315.9 131.1 L386.7 150.1" />
+        <path class="quill" pathLength="1" style="--d:1.25s" d="M302.4 163.8 L381.3 180" />
+        <path class="quill" pathLength="1" style="--d:1.27s" d="M291 196.7 L372.8 209" />
+        <path class="quill" pathLength="1" style="--d:1.30s" d="M282.1 228.5 L361.3 236.8" />
+        <path class="scale" pathLength="1" style="--d:1.32s" d="M346.8 36 q5 8.5 10 0" />
+        <path class="scale" pathLength="1" style="--d:1.35s" d="M323.1 59.4 q5 8.5 10 0" />
+        <path class="scale" pathLength="1" style="--d:1.38s" d="M300.7 87.9 q5 8.5 10 0" />
+        <path class="scale" pathLength="1" style="--d:1.40s" d="M280.6 119.9 q5 8.5 10 0" />
+        <path class="scale" pathLength="1" style="--d:1.43s" d="M263.7 153.9 q5 8.5 10 0" />
+        <path class="scale" pathLength="1" style="--d:1.45s" d="M250.9 188.4 q5 8.5 10 0" />
+        <path class="scale" pathLength="1" style="--d:1.48s" d="M243.2 221.9 q5 8.5 10 0" />
+        <path class="edge" pathLength="1" style="--d:1.50s" d="M376 22 Q420 160 352 264" />
+        <path class="edge" pathLength="1" style="--d:1.52s" d="M222 254 C262 262 318 266 352 264" />
         <path class="ink" pathLength="1" style="--d:0.75s" d="M186 274.5 C187.6 278 189.8 281.5 189 284 C188.2 286.4 183.8 286.4 183 284 C182.2 281.5 184.4 278 186 274.5Z M203 274.5 C204.6 278 206.8 281.5 206 284 C205.2 286.4 200.8 286.4 200 284 C199.2 281.5 201.4 278 203 274.5Z" />
         <path class="ink" pathLength="1" style="--d:0.78s" d="M210 288.5 C211.6 292 213.8 295.5 213 298 C212.2 300.4 207.8 300.4 207 298 C206.2 295.5 208.4 292 210 288.5Z M227 288.5 C228.6 292 230.8 295.5 230 298 C229.2 300.4 224.8 300.4 224 298 C223.2 295.5 225.4 292 227 288.5Z" />
         <path class="ink" pathLength="1" style="--d:0.80s" d="M240 270.5 C241.6 274 243.8 277.5 243 280 C242.2 282.4 237.8 282.4 237 280 C236.2 277.5 238.4 274 240 270.5Z" />
@@ -228,7 +211,6 @@ const clip = `hawk-farwing-${Math.random().toString(36).slice(2, 8)}`;
   .carve :global(.jess) { stroke: var(--hawk-print); stroke-width: 3; }
   .carve :global(.shaft) { stroke-width: 2.4; }
   .carve :global(.bar) { stroke-width: 5; stroke-linecap: butt; }
-  .carve :global(.hatch) { stroke-width: 2.4; }
 
   /* Print: the block is pressed onto the page… */
   .hawk--draw .print {
