@@ -1,0 +1,250 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Icon from './Icon.astro';
+import { embedUrl, roman, timecode } from '../lib/video';
+import { mediaName, projectUrl, typesText, type Project } from '../lib/work';
+
+interface Props {
+  project: Project;
+  index: number;
+  /** "feature" spans wider and uses a larger image. */
+  size?: 'feature' | 'default';
+  eager?: boolean;
+}
+
+const { project, index, size = 'default', eager = false } = Astro.props;
+const { data } = project;
+const href = projectUrl(project);
+const frames = data.stills.slice(0, 3);
+const sizes = size === 'feature' ? '(min-width: 900px) 66vw, 94vw' : '(min-width: 900px) 33vw, 94vw';
+// Flipbook frames are rendered without a src so they only download on first hover.
+const frameImgs = await Promise.all(frames.map((f) => getImage({ src: f.src, widths: [640, 960], format: 'webp' })));
+---
+
+<article
+  class:list={['card', `card--${size}`]}
+  data-card
+  data-types={data.types.join(' ')}
+  data-reveal
+  style={`--i:${index % 3}`}
+>
+  <a class="card__link" href={href}>
+    <div class="card__media" transition:name={mediaName(project)}>
+      <Image
+        class="card__cover"
+        src={data.cover}
+        alt={data.coverAlt}
+        widths={size === 'feature' ? [640, 960, 1280, 1600, 2000] : [480, 720, 960, 1280]}
+        sizes={sizes}
+        loading={eager ? 'eager' : 'lazy'}
+      />
+      {
+        frames.length > 1 && (
+          <div class="card__frames" aria-hidden="true" data-frames>
+            {frameImgs.map((img, i) => (
+              <img
+                class="card__frame"
+                data-src={img.src}
+                data-srcset={img.srcSet.attribute}
+                sizes={sizes}
+                alt=""
+                decoding="async"
+                style={`--n:${i}`}
+              />
+            ))}
+          </div>
+        )
+      }
+    </div>
+    <div class="card__body">
+      <span class="card__num blackletter numeral" aria-hidden="true">{roman(index + 1)}</span>
+      <div class="card__text">
+        <h3 class="card__title"><span class="link-line">{data.title}</span></h3>
+        <p class="card__meta mono">
+          {data.client}{data.year && <> · {data.year}</>} · {typesText(project)}
+        </p>
+      </div>
+      <Icon name="arrow" class="card__arrow" />
+    </div>
+  </a>
+  <button
+    class="card__play"
+    type="button"
+    data-theater
+    data-src={embedUrl(data.video)}
+    data-provider={data.video.provider}
+    data-title={data.title}
+    data-href={href}
+    data-aspect={data.video.aspect}
+    aria-label={`Watch ${data.title}`}
+  >
+    <Icon name="play" />
+    <span>Watch</span>
+    {data.video.duration && <span class="mono card__tc">{timecode(data.video.duration)}</span>}
+  </button>
+</article>
+
+<style>
+  .card {
+    position: relative;
+  }
+  .card[hidden] {
+    display: none;
+  }
+  .card__link {
+    display: block;
+  }
+  .card__media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--ink-2);
+    box-shadow: 0 0 0 1px var(--line);
+  }
+  .card--feature .card__media {
+    aspect-ratio: 16 / 9;
+  }
+  .card__media :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .card__cover {
+    transition:
+      transform 1.4s var(--ease-out),
+      filter 0.8s var(--ease-out);
+  }
+  .card__frames :global(img) {
+    opacity: 0;
+  }
+  @media (hover: hover) {
+    .card:hover .card__cover {
+      transform: scale(1.04);
+    }
+    /* Flipbook through a few stills while hovered. */
+    .card:hover .card__frames :global(img[src]) {
+      animation: flipbook 2.1s steps(1, end) infinite;
+      animation-delay: calc(var(--n) * 0.7s + 0.35s);
+    }
+  }
+  @keyframes flipbook {
+    0% { opacity: 1; }
+    33.34%, 100% { opacity: 0; }
+  }
+  .card__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 0 0 var(--acid);
+    transition: box-shadow 0.4s var(--ease-out);
+    pointer-events: none;
+  }
+  .card:hover .card__media::after,
+  .card__link:focus-visible .card__media::after {
+    box-shadow: inset 0 0 0 2px var(--acid);
+  }
+  .card__link:focus-visible {
+    outline: none;
+  }
+
+  .card__body {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding-top: 1.1rem;
+  }
+  .card__num {
+    min-width: 2.2ch;
+    font-size: 1.9rem;
+    color: var(--acid);
+    translate: 0 -0.1em;
+  }
+  .card__text {
+    flex: 1;
+    min-width: 0;
+  }
+  .card__title {
+    font-size: var(--fs-lg);
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+  }
+  .card--feature .card__title {
+    font-size: var(--fs-xl);
+  }
+  .card__meta {
+    margin-top: 0.4rem;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--bone-3);
+  }
+  .card__arrow {
+    margin-top: 0.3rem;
+    font-size: 1.25rem;
+    color: var(--bone-3);
+    transition: transform 0.4s var(--ease-out), color 0.3s;
+  }
+  .card:hover .card__arrow {
+    transform: translateX(4px);
+    color: var(--acid);
+  }
+
+  .card__play {
+    position: absolute;
+    top: 0.85rem;
+    left: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.25rem;
+    padding: 0 0.9rem 0 0.75rem;
+    border-radius: 999px;
+    background: rgb(11 10 9 / 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--line-2);
+    font-size: var(--fs-xs);
+    font-weight: 560;
+    letter-spacing: 0.02em;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+  .card__play :global(svg) {
+    font-size: 0.75rem;
+    color: var(--acid);
+  }
+  .card__play:hover,
+  .card__play:focus-visible {
+    background: var(--acid);
+    border-color: var(--acid);
+    color: var(--ink);
+  }
+  .card__play:hover :global(svg),
+  .card__play:focus-visible :global(svg) {
+    color: var(--ink);
+  }
+  .card__tc {
+    font-size: 0.6875rem;
+    opacity: 0.75;
+  }
+</style>
+
+<script>
+  // Load the flipbook stills the first time a card is hovered.
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLElement>('[data-card]').forEach((card) => {
+      card.addEventListener(
+        'pointerenter',
+        () => {
+          card.querySelectorAll<HTMLImageElement>('img[data-src]').forEach((img) => {
+            img.srcset = img.dataset.srcset ?? '';
+            img.src = img.dataset.src!;
+            img.removeAttribute('data-src');
+          });
+        },
+        { once: true },
+      );
+    });
+  });
+</script>

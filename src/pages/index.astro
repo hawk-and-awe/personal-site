@@ -1,369 +1,539 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Hawk from '../components/Hawk.astro';
+import Icon from '../components/Icon.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { site } from '../site.config';
+import { crafts, impact } from '../data/resume';
+import { embedUrl, roman, timecode } from '../lib/video';
+import { getProjects } from '../lib/work';
+import loopPoster from '../assets/reel/loop-poster.jpg';
+import portrait from '../assets/about/chris-shinjuku.jpg';
+import neon from '../assets/backdrops/neon-red.jpg';
+
+const projects = await getProjects();
+// One wide feature plus a row of three.
+const featured = projects.filter((p) => p.data.featured).slice(0, 4);
+const reel = site.reel;
 ---
 
-<Layout title="Chris Hawk | Motion Designer & Video Producer">
-  <!-- Hero Section -->
-  <section class="relative min-h-[90vh] flex items-center overflow-hidden">
-    <!-- Background Effects -->
-    <div class="absolute inset-0 bg-gradient-to-br from-dark-950 via-dark-900 to-dark-950"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-hawk-900/20 via-transparent to-transparent"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-hawk-800/10 via-transparent to-transparent"></div>
-
-    <!-- Floating Elements -->
-    <div class="absolute top-1/4 right-1/4 w-64 h-64 bg-hawk-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
-    <div class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-hawk-600/5 rounded-full blur-3xl animate-pulse-slow animate-delay-500"></div>
-
-    <div class="container-custom relative z-10">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-        <!-- Text Content -->
-        <div class="order-2 lg:order-1">
-          <div class="space-y-6">
-            <div class="inline-flex items-center gap-2 px-4 py-2 bg-hawk-600/10 border border-hawk-600/20 rounded-full animate-fade-in">
-              <span class="w-2 h-2 bg-hawk-500 rounded-full animate-pulse"></span>
-              <span class="text-hawk-400 text-sm font-medium">Available for work</span>
-            </div>
-
-            <h1 class="heading-xl animate-fade-in-up animate-delay-100">
-              I help ideas<br />
-              <span class="text-gradient">take flight.</span>
-            </h1>
-
-            <p class="text-xl text-dark-300 max-w-xl animate-fade-in-up animate-delay-200">
-              Motion designer and video producer with 10+ years of experience
-              crafting compelling visual stories through animation, video production,
-              and creative strategy.
-            </p>
-
-            <div class="flex flex-wrap gap-4 pt-4 animate-fade-in-up animate-delay-300">
-              <a href="/work" class="btn-primary">
-                <span>View My Work</span>
-                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                </svg>
-              </a>
-              <a href="/contact" class="btn-secondary">
-                Get in Touch
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Lottie Animation Container -->
-        <div class="order-1 lg:order-2 flex justify-center lg:justify-end">
-          <div class="relative">
-            <!-- Glow Effect Behind Avatar -->
-            <div class="absolute inset-0 bg-gradient-to-br from-hawk-500/30 to-hawk-700/30 rounded-full blur-3xl scale-75"></div>
-
-            <!-- Lottie Animation Placeholder -->
-            <div
-              id="lottie-avatar"
-              class="relative w-72 h-72 md:w-96 md:h-96 rounded-full bg-gradient-to-br from-hawk-600 to-hawk-800 flex items-center justify-center animate-float"
-            >
-              <!-- Placeholder content - Replace with your Lottie animation -->
-              <div class="text-center">
-                <div class="w-48 h-48 md:w-64 md:h-64 rounded-full bg-hawk-700/50 flex items-center justify-center">
-                  <span class="text-6xl md:text-8xl">🦅</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Decorative Elements -->
-            <div class="absolute -top-4 -right-4 w-8 h-8 bg-hawk-500 rounded-full animate-pulse"></div>
-            <div class="absolute -bottom-2 -left-2 w-6 h-6 bg-hawk-400 rounded-full animate-pulse animate-delay-300"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Scroll Indicator -->
-      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <svg class="w-6 h-6 text-dark-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-        </svg>
-      </div>
+<Base>
+  <!-- ░░ Hero: the reel is the headline ░░ -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__media" aria-hidden="true">
+      <video
+        class="hero__video"
+        src={reel.loop}
+        poster={loopPoster.src}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        data-hero-video
+      >
+      </video>
+      <div class="hero__shade"></div>
     </div>
-  </section>
 
-  <!-- Demo Reel Section -->
-  <section class="section-padding bg-dark-900/30">
-    <div class="container-custom">
-      <div class="text-center mb-12">
-        <h2 class="heading-lg mb-4 reveal">
-          <span class="text-gradient">Demo Reel</span>
-        </h2>
-        <p class="text-dark-400 max-w-2xl mx-auto reveal animate-delay-100">
-          A curated showcase of my best motion design and video production work.
+    <div class="container hero__inner">
+      <Hawk class="hero__hawk" draw delay={0.2} />
+
+      <div class="hero__copy">
+        <p class="kicker kicker--acid hero__kicker">{site.role} — {site.location}</p>
+        <h1 id="hero-title" class="display hero__title">
+          I help ideas <span class="hero__flight blackletter">take flight.</span>
+        </h1>
+        <p class="lede hero__lede">
+          Animation, live-action production and post — fifteen-plus years of turning briefs into films people
+          actually watch.
         </p>
+        <div class="hero__ctas">
+          <a class="btn btn--acid" href="#work">See the work <Icon name="arrow-down" /></a>
+          <button
+            class="btn hero__reel"
+            type="button"
+            data-theater
+            data-src={embedUrl(reel.video)}
+            data-provider={reel.video.provider}
+            data-title={`${reel.title} ${reel.year}`}
+          >
+            <Icon name="play" /> Play reel with sound
+            <span class="mono muted">{timecode(reel.video.duration)}</span>
+          </button>
+        </div>
       </div>
 
-      <!-- Video Embed -->
-      <div class="max-w-4xl mx-auto reveal-scale">
-        <div class="video-container bg-dark-800 rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
-          <!-- Replace with your actual Vimeo/YouTube embed -->
-          <div class="absolute inset-0 flex items-center justify-center bg-dark-800">
-            <div class="text-center p-8">
-              <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-hawk-600/20 flex items-center justify-center">
-                <svg class="w-10 h-10 text-hawk-500" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z"/>
-                </svg>
-              </div>
-              <p class="text-dark-400">Demo Reel Video</p>
-              <p class="text-dark-500 text-sm mt-2">Replace with your Vimeo/YouTube embed</p>
-            </div>
-          </div>
-        </div>
+      <div class="hero__foot mono" aria-hidden="true">
+        <span>Reel {roman(reel.year)}</span>
+        <span class="hero__tc" data-hero-tc>TC 00:00:00:00</span>
+        <span class="hero__scroll">Scroll <Icon name="arrow-down" /></span>
       </div>
     </div>
   </section>
 
-  <!-- About Preview Section -->
-  <section class="section-padding">
-    <div class="container-custom">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <!-- Image/Animation Side -->
-        <div class="reveal-left">
-          <div class="relative">
-            <div class="aspect-square rounded-2xl bg-gradient-to-br from-dark-800 to-dark-900 border border-dark-700 overflow-hidden">
-              <!-- Lottie animation or image placeholder -->
-              <div id="lottie-about" class="w-full h-full flex items-center justify-center">
-                <div class="text-center p-8">
-                  <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-hawk-600/20 flex items-center justify-center">
-                    <svg class="w-16 h-16 text-hawk-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                    </svg>
-                  </div>
-                  <p class="text-dark-400 text-sm">Lottie Animation Placeholder</p>
-                </div>
-              </div>
-            </div>
-            <!-- Decorative accent -->
-            <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-hawk-600/20 rounded-2xl -z-10"></div>
-          </div>
-        </div>
-
-        <!-- Text Content -->
-        <div class="reveal-right">
-          <span class="text-hawk-500 font-medium text-sm uppercase tracking-wider">About Me</span>
-          <h2 class="heading-lg mt-2 mb-6">
-            Passionate about<br />
-            <span class="text-gradient">visual storytelling</span>
-          </h2>
-          <div class="space-y-4 text-dark-300">
-            <p>
-              Hey there! I'm Chris Hawk. I have more than ten years of experience in
-              multimedia animation and video production, with a strong foundation in
-              script writing and content marketing strategy.
-            </p>
-            <p>
-              Whether it's animated videos or professionally shot video testimonials,
-              I'm passionate about telling stories that excite people through video
-              and motion design.
-            </p>
-            <p>
-              I have years of results-proven practice managing high-pressure,
-              deadline-driven production pipelines and collaborating with internal
-              and external stakeholders to produce excellent digital video content.
-            </p>
-          </div>
-          <div class="mt-8">
-            <a href="/resume" class="btn-outline">
-              View My Resume
-              <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Featured Work Section -->
-  <section class="section-padding bg-dark-900/30">
-    <div class="container-custom">
-      <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
-        <div>
-          <span class="text-hawk-500 font-medium text-sm uppercase tracking-wider reveal">Featured Work</span>
-          <h2 class="heading-lg mt-2 reveal animate-delay-100">
-            Selected <span class="text-gradient">Projects</span>
-          </h2>
-        </div>
-        <a href="/work" class="mt-4 md:mt-0 text-hawk-400 hover:text-hawk-300 font-medium flex items-center gap-2 transition-colors reveal animate-delay-200">
-          View All Projects
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </a>
-      </div>
-
-      <!-- Projects Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Project Card 1 -->
-        <a href="/work#sales-conference" class="card-hover group reveal">
-          <div class="aspect-video bg-dark-800 rounded-t-2xl overflow-hidden">
-            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-hawk-900/30 to-dark-800 group-hover:scale-105 transition-transform duration-500">
-              <svg class="w-12 h-12 text-hawk-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-              </svg>
-            </div>
-          </div>
-          <div class="p-6">
-            <span class="text-hawk-500 text-xs font-medium uppercase tracking-wider">Motion Graphics</span>
-            <h3 class="heading-sm mt-2 text-white group-hover:text-hawk-400 transition-colors">Sales Conference Infographic</h3>
-            <p class="text-dark-400 text-sm mt-2 line-clamp-2">
-              Data-driven infographic video displayed on a massive 100' wide video display.
-            </p>
-          </div>
-        </a>
-
-        <!-- Project Card 2 -->
-        <a href="/work#enrollment-platform" class="card-hover group reveal animate-delay-100">
-          <div class="aspect-video bg-dark-800 rounded-t-2xl overflow-hidden">
-            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-hawk-900/30 to-dark-800 group-hover:scale-105 transition-transform duration-500">
-              <svg class="w-12 h-12 text-hawk-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-              </svg>
-            </div>
-          </div>
-          <div class="p-6">
-            <span class="text-hawk-500 text-xs font-medium uppercase tracking-wider">Product Video</span>
-            <h3 class="heading-sm mt-2 text-white group-hover:text-hawk-400 transition-colors">Enrollment Platform Promo</h3>
-            <p class="text-dark-400 text-sm mt-2 line-clamp-2">
-              Showcasing the comprehensive interactive enrollment platform features.
-            </p>
-          </div>
-        </a>
-
-        <!-- Project Card 3 -->
-        <a href="/work#customer-testimonials" class="card-hover group reveal animate-delay-200">
-          <div class="aspect-video bg-dark-800 rounded-t-2xl overflow-hidden">
-            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-hawk-900/30 to-dark-800 group-hover:scale-105 transition-transform duration-500">
-              <svg class="w-12 h-12 text-hawk-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-              </svg>
-            </div>
-          </div>
-          <div class="p-6">
-            <span class="text-hawk-500 text-xs font-medium uppercase tracking-wider">Documentary</span>
-            <h3 class="heading-sm mt-2 text-white group-hover:text-hawk-400 transition-colors">Customer Testimonials</h3>
-            <p class="text-dark-400 text-sm mt-2 line-clamp-2">
-              On-location testimonial shoots across multiple states with full production.
-            </p>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Skills Section -->
-  <section class="section-padding">
-    <div class="container-custom">
-      <div class="text-center mb-12">
-        <span class="text-hawk-500 font-medium text-sm uppercase tracking-wider reveal">Expertise</span>
-        <h2 class="heading-lg mt-2 reveal animate-delay-100">
-          Tools of the <span class="text-gradient">Trade</span>
+  <!-- ░░ Selected work — straight after the reel ░░ -->
+  <section id="work" class="section work" aria-labelledby="work-title">
+    <div class="container">
+      <header class="section-head">
+        <p class="kicker" data-reveal>Selected work · {roman(featured.length)} of {roman(projects.length)}</p>
+        <h2 id="work-title" class="h1" data-reveal style="--i:1">
+          Films, animation <br />& everything between.
         </h2>
+        <a class="btn section-head__cta" href="/work" data-reveal style="--i:2">
+          All {projects.length} projects <Icon name="arrow" />
+        </a>
+      </header>
+
+      <div class="work__grid">
+        {featured.map((p, i) => <ProjectCard project={p} index={i} size={i === 0 ? 'feature' : 'default'} eager={i === 0} />)}
       </div>
 
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-        <!-- After Effects -->
-        <div class="card p-6 text-center reveal group hover:border-[#9999FF]/50">
-          <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-[#9999FF]/10 flex items-center justify-center group-hover:bg-[#9999FF]/20 transition-colors">
-            <span class="text-2xl font-bold text-[#9999FF]">Ae</span>
-          </div>
-          <p class="text-dark-300 text-sm font-medium">After Effects</p>
-        </div>
-
-        <!-- Premiere Pro -->
-        <div class="card p-6 text-center reveal animate-delay-100 group hover:border-[#9999FF]/50">
-          <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-[#9999FF]/10 flex items-center justify-center group-hover:bg-[#9999FF]/20 transition-colors">
-            <span class="text-2xl font-bold text-[#9999FF]">Pr</span>
-          </div>
-          <p class="text-dark-300 text-sm font-medium">Premiere Pro</p>
-        </div>
-
-        <!-- Audition -->
-        <div class="card p-6 text-center reveal animate-delay-200 group hover:border-[#9999FF]/50">
-          <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-[#9999FF]/10 flex items-center justify-center group-hover:bg-[#9999FF]/20 transition-colors">
-            <span class="text-2xl font-bold text-[#9999FF]">Au</span>
-          </div>
-          <p class="text-dark-300 text-sm font-medium">Audition</p>
-        </div>
-
-        <!-- DaVinci Resolve -->
-        <div class="card p-6 text-center reveal animate-delay-300 group hover:border-[#FF6B4A]/50">
-          <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-[#FF6B4A]/10 flex items-center justify-center group-hover:bg-[#FF6B4A]/20 transition-colors">
-            <span class="text-xl font-bold text-[#FF6B4A]">DV</span>
-          </div>
-          <p class="text-dark-300 text-sm font-medium">DaVinci Resolve</p>
-        </div>
-
-        <!-- Photoshop -->
-        <div class="card p-6 text-center reveal animate-delay-400 group hover:border-[#31A8FF]/50">
-          <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-[#31A8FF]/10 flex items-center justify-center group-hover:bg-[#31A8FF]/20 transition-colors">
-            <span class="text-2xl font-bold text-[#31A8FF]">Ps</span>
-          </div>
-          <p class="text-dark-300 text-sm font-medium">Photoshop</p>
-        </div>
-
-        <!-- Illustrator -->
-        <div class="card p-6 text-center reveal animate-delay-500 group hover:border-[#FF9A00]/50">
-          <div class="w-14 h-14 mx-auto mb-3 rounded-xl bg-[#FF9A00]/10 flex items-center justify-center group-hover:bg-[#FF9A00]/20 transition-colors">
-            <span class="text-2xl font-bold text-[#FF9A00]">Ai</span>
-          </div>
-          <p class="text-dark-300 text-sm font-medium">Illustrator</p>
-        </div>
-      </div>
+      <p class="work__more" data-reveal>
+        <a href="/work" class="work__more-link">
+          <Icon name="manicule" />
+          <span class="link-line">Browse the full library</span>
+        </a>
+      </p>
     </div>
   </section>
 
-  <!-- CTA Section -->
-  <section class="section-padding bg-gradient-to-br from-hawk-900/30 via-dark-900 to-dark-950">
-    <div class="container-custom">
-      <div class="max-w-3xl mx-auto text-center">
-        <h2 class="heading-lg mb-6 reveal">
-          Ready to bring your<br />
-          <span class="text-gradient">ideas to life?</span>
-        </h2>
-        <p class="text-xl text-dark-300 mb-8 reveal animate-delay-100">
-          Let's collaborate on your next project. I'm excited to hear about
-          your vision and help make it a reality.
+  <!-- ░░ Crafts ░░ -->
+  <section class="section crafts" aria-labelledby="crafts-title">
+    <div class="container">
+      <header class="section-head section-head--split">
+        <p class="kicker" data-reveal>What I bring</p>
+        <h2 id="crafts-title" class="h1" data-reveal style="--i:1">One person, the whole pipeline.</h2>
+      </header>
+      <ol class="crafts__list" role="list">
+        {
+          crafts.map((c, i) => (
+            <li class="craft" data-reveal style={`--i:${i}`}>
+              <span class="craft__num blackletter numeral">{roman(i + 1)}</span>
+              <h3 class="craft__title">{c.title}</h3>
+              <p class="craft__body">{c.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ░░ Impact ░░ -->
+  <section class="impact" aria-label="Impact">
+    <div class="container impact__grid">
+      {
+        impact.map((m, i) => (
+          <div class="metric" data-reveal style={`--i:${i}`}>
+            <p class="metric__value">{m.value}</p>
+            <p class="metric__label">{m.label}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ░░ About teaser ░░ -->
+  <section class="section meet" aria-labelledby="meet-title">
+    <div class="backdrop" aria-hidden="true">
+      <Image class="backdrop__img" src={neon} alt="" widths={[800, 1400]} sizes="100vw" loading="lazy" />
+    </div>
+    <div class="container meet__grid">
+      <figure class="meet__photo" data-reveal>
+        <Image
+          src={portrait}
+          alt="Chris Hawk in a red beanie and denim jacket, arms crossed and smiling under neon signs in Shinjuku, Tokyo."
+          widths={[480, 720, 960, 1200]}
+          sizes="(min-width: 900px) 40vw, 90vw"
+          loading="lazy"
+        />
+        <figcaption class="mono">Shinjuku, Tokyo</figcaption>
+      </figure>
+      <div class="meet__copy">
+        <p class="kicker kicker--acid" data-reveal>Hello</p>
+        <h2 id="meet-title" class="h1" data-reveal style="--i:1">I'm Chris — a motion designer who also runs the set.</h2>
+        <p class="lede" data-reveal style="--i:2">
+          For fifteen-plus years I've planned shoots, rigged characters, cut, graded and shipped — for an insurer's
+          100-foot conference screens, an agency's clients and 200,000 newsletter readers. I care about the
+          story first and the pixels right after.
         </p>
-        <div class="flex flex-wrap justify-center gap-4 reveal animate-delay-200">
-          <a href="/contact" class="btn-primary">
-            Start a Conversation
-            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-            </svg>
-          </a>
-          <a href="mailto:hawk@chrishawk.net" class="btn-secondary">
-            hawk@chrishawk.net
-          </a>
+        <div class="meet__ctas" data-reveal style="--i:3">
+          <a class="btn btn--acid" href="/about">More about me <Icon name="arrow" /></a>
+          <a class="btn" href={site.resumeUrl} target="_blank" rel="noopener">Résumé <Icon name="arrow-up-right" /></a>
         </div>
       </div>
     </div>
   </section>
+</Base>
 
-  <!-- Lottie Integration Script -->
-  <script>
-    // Lottie animation integration
-    // To use your own Lottie animations:
-    // 1. Add your .json animation files to the public/animations/ folder
-    // 2. Update the paths below
+<style>
+  /* ── Hero ──────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+  .hero__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.55) contrast(1.08) brightness(0.62);
+  }
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top, var(--ink) 0%, rgb(11 10 9 / 0.35) 45%, rgb(11 10 9 / 0.55) 100%),
+      linear-gradient(to right, rgb(11 10 9 / 0.75) 0%, transparent 70%);
+  }
+  .hero__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+    grid-template-rows: 1fr auto;
+    align-items: end;
+    gap: 2rem clamp(1rem, 4vw, 4rem);
+    padding-top: calc(var(--header-h) + 2rem);
+    padding-bottom: 1.5rem;
+  }
+  .hero__copy {
+    grid-column: 1;
+    grid-row: 1;
+    display: grid;
+    gap: 1.5rem;
+    padding-bottom: clamp(1rem, 4vh, 3rem);
+  }
+  .hero__hawk {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    justify-self: end;
+    width: min(100%, 36rem);
+    height: auto;
+    --hawk-fill: rgb(11 10 9 / 0.5);
+    filter: drop-shadow(0 0 28px rgb(228 240 74 / 0.18));
+  }
+  .hero__title {
+    max-width: 10ch;
+    animation: rise 1.1s var(--ease-out) 0.15s both;
+  }
+  .hero__flight {
+    display: inline-block;
+    color: var(--acid);
+    font-size: 1.08em;
+    letter-spacing: -0.01em;
+  }
+  .hero__kicker {
+    animation: rise 1s var(--ease-out) both;
+  }
+  .hero__lede {
+    animation: rise 1.1s var(--ease-out) 0.3s both;
+  }
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    animation: rise 1.1s var(--ease-out) 0.45s both;
+  }
+  .hero__reel {
+    background: rgb(11 10 9 / 0.45);
+    backdrop-filter: blur(8px);
+  }
+  .hero__reel :global(.icon--play) {
+    color: var(--acid);
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(24px); }
+  }
+  .hero__foot {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bone-3);
+  }
+  .hero__tc {
+    color: var(--bone-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .hero__scroll {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .hero__scroll :global(svg) {
+    animation: nudge 1.8s var(--ease-in-out) infinite;
+  }
+  @keyframes nudge {
+    50% { transform: translateY(4px); }
+  }
+  @media (max-width: 900px) {
+    .hero__inner {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr auto;
+    }
+    .hero__hawk {
+      grid-column: 1;
+      grid-row: 1;
+      justify-self: start;
+      width: min(62vw, 20rem);
+      margin-top: 1rem;
+    }
+    .hero__copy {
+      grid-row: 2;
+      align-self: end;
+    }
+    .hero__tc {
+      display: none;
+    }
+  }
 
-    // Example of how to load a Lottie animation:
-    /*
-    import lottie from 'lottie-web';
+  /* ── Section heads ─────────────────────────────────── */
+  .section-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 1rem 2rem;
+    margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  }
+  .section-head .kicker {
+    grid-column: 1 / -1;
+  }
+  .section-head--split {
+    grid-template-columns: 1fr;
+  }
+  .section-head h2 {
+    max-width: 16ch;
+  }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      lottie.loadAnimation({
-        container: document.getElementById('lottie-avatar'),
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        path: '/animations/avatar.json' // Path to your animation JSON
-      });
-    });
-    */
-  </script>
-</Layout>
+  /* ── Work ──────────────────────────────────────────── */
+  .work {
+    padding-top: clamp(4rem, 8vw, 7rem);
+  }
+  .work__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(2.5rem, 5vw, 4.5rem) clamp(1rem, 3vw, 2.5rem);
+  }
+  .work__grid > :global(.card--feature) {
+    grid-column: 1 / -1;
+  }
+  .work__more {
+    margin-top: clamp(3rem, 6vw, 5rem);
+    display: flex;
+    justify-content: center;
+  }
+  .work__more-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-size: var(--fs-xl);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+  .work__more-link :global(.icon--manicule) {
+    color: var(--acid);
+    font-size: 1.2em;
+    transition: transform 0.5s var(--ease-out);
+  }
+  .work__more-link:hover :global(.icon--manicule) {
+    transform: translateX(6px);
+  }
+  @media (max-width: 900px) {
+    .work__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 700px) {
+    .section-head {
+      grid-template-columns: 1fr;
+    }
+    .section-head__cta {
+      justify-self: start;
+    }
+  }
+
+  /* ── Crafts ────────────────────────────────────────── */
+  .crafts {
+    border-top: 1px solid var(--line);
+  }
+  .crafts__list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+  }
+  .craft {
+    display: grid;
+    align-content: start;
+    gap: 0.9rem;
+    padding: 1.75rem 1.5rem 2rem 0;
+  }
+  .craft + .craft {
+    padding-left: 1.5rem;
+    border-left: 1px solid var(--line);
+  }
+  .craft__num {
+    font-size: 3rem;
+    color: var(--acid);
+  }
+  .craft__title {
+    font-size: var(--fs-lg);
+    letter-spacing: -0.02em;
+  }
+  .craft__body {
+    color: var(--bone-2);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+  }
+  @media (max-width: 1000px) {
+    .crafts__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .craft:nth-child(3) {
+      padding-left: 0;
+      border-left: 0;
+    }
+    .craft:nth-child(n + 3) {
+      border-top: 1px solid var(--line);
+    }
+  }
+  @media (max-width: 560px) {
+    .crafts__list {
+      grid-template-columns: 1fr;
+    }
+    .craft + .craft {
+      padding-left: 0;
+      border-left: 0;
+      border-top: 1px solid var(--line);
+    }
+  }
+
+  /* ── Impact ────────────────────────────────────────── */
+  .impact {
+    border-block: 1px solid var(--line);
+    background: var(--ink-2);
+  }
+  .impact__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .metric {
+    padding: clamp(2rem, 4vw, 3.25rem) 1.5rem;
+  }
+  .metric + .metric {
+    border-left: 1px solid var(--line);
+  }
+  .metric__value {
+    font-size: clamp(2.5rem, 1.5rem + 3.5vw, 4.75rem);
+    font-weight: 620;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: var(--acid);
+  }
+  .metric__label {
+    margin-top: 0.75rem;
+    max-width: 24ch;
+    font-size: var(--fs-sm);
+    color: var(--bone-2);
+  }
+  @media (max-width: 900px) {
+    .impact__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .metric:nth-child(3) {
+      border-left: 0;
+    }
+    .metric:nth-child(n + 3) {
+      border-top: 1px solid var(--line);
+    }
+  }
+  @media (max-width: 480px) {
+    .metric {
+      padding-inline: 1rem;
+    }
+    .metric:first-child,
+    .metric:nth-child(3) {
+      padding-left: 0;
+    }
+  }
+
+  /* ── Meet ──────────────────────────────────────────── */
+  .meet {
+    position: relative;
+    isolation: isolate;
+  }
+  .meet__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(2rem, 6vw, 6rem);
+  }
+  .meet__photo {
+    position: relative;
+  }
+  .meet__photo :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: var(--radius);
+    box-shadow: 0 0 0 1px var(--line), 0 40px 100px -30px rgb(0 0 0 / 0.8);
+  }
+  .meet__photo figcaption {
+    margin-top: 0.75rem;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bone-3);
+  }
+  .meet__copy {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .meet__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  @media (max-width: 800px) {
+    .meet__grid {
+      grid-template-columns: 1fr;
+    }
+    .meet__photo {
+      max-width: 26rem;
+    }
+  }
+</style>
+
+<script>
+  // Running timecode (HH:MM:SS:FF at 24fps) synced to the hero loop.
+  document.addEventListener('astro:page-load', () => {
+    const video = document.querySelector<HTMLVideoElement>('[data-hero-video]');
+    const tc = document.querySelector<HTMLElement>('[data-hero-tc]');
+    if (!video || !tc) return;
+    const pad = (n: number) => String(Math.floor(n)).padStart(2, '0');
+    let raf = 0;
+    const draw = () => {
+      const t = video.currentTime;
+      tc.textContent = `TC 00:${pad(t / 60)}:${pad(t % 60)}:${pad((t % 1) * 24)}`;
+      raf = requestAnimationFrame(draw);
+    };
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    if (reduce.matches) video.pause();
+    else raf = requestAnimationFrame(draw);
+    document.addEventListener('astro:before-swap', () => cancelAnimationFrame(raf), { once: true });
+  });
+</script>

@@ -1,136 +1,71 @@
-# Chris Hawk - Motion Designer Portfolio
+# chrishawk.net
 
-A modern, animated portfolio website built with Astro and Tailwind CSS.
+Portfolio of Chris Hawk — motion designer & video producer.
+Built with [Astro](https://astro.build) as a fast static site: no framework, no tracking, just HTML, CSS and a little TypeScript.
 
-## Features
+**Art direction — "Future Medieval × cinema":** ink-black pages, parchment type, one acid-chartreuse accent, film grain, blurred neon photography, a hand-inked heraldic hawk bearing a film reel, Jacquard 24 pixel-blackletter for display moments, Geist for everything you read, and manuscript details (☞ manicules, roman numerals, a boxed initial).
 
-- Modern, dark-themed design optimized for showcasing motion design work
-- Smooth scroll animations and micro-interactions
-- Lottie animation support for showcasing animation skills
-- Responsive design that works on all devices
-- Fast loading with Astro's static site generation
-- SEO optimized
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+ installed
-- npm or yarn
-
-### Installation
+## Run it
 
 ```bash
-# Install dependencies
 npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
+npm run dev      # http://localhost:4321 — drafts are visible here
+npm run build    # static site in dist/
+npm run preview  # serve the build
+npm run check    # type-check everything
 ```
 
-## Customization
+Node 22.12+ is required.
 
-### Adding Your Lottie Animations
+## Where things live
 
-1. Export your animations from After Effects using the Bodymovin/LottieFiles plugin
-2. Place the `.json` animation files in `/public/animations/`
-3. Update the Lottie containers in the pages:
+| To change…                                   | Edit                                          |
+| -------------------------------------------- | --------------------------------------------- |
+| Name, email, socials, résumé link, "open to new roles" badge, the reel | `src/site.config.ts` |
+| Bio, experience, impact numbers, tools, fun facts | `src/data/resume.ts`                     |
+| Projects (case studies)                      | `src/content/work/<slug>/`                    |
+| Photographs                                  | `src/content/stills/<trip>/`                  |
+| Colors, type scale, grain                    | `src/styles/global.css` (tokens at the top)   |
+| The hawk emblem                              | `src/components/Hawk.astro` / `HawkMark.astro` |
 
-```javascript
-import lottie from 'lottie-web';
+## Add a project
 
-lottie.loadAnimation({
-  container: document.getElementById('lottie-avatar'),
-  renderer: 'svg',
-  loop: true,
-  autoplay: true,
-  path: '/animations/your-animation.json'
-});
-```
+1. Copy `src/content/work/_template/` and rename the folder — that becomes the URL (`/work/<folder>`).
+2. Replace `cover.jpg` (16:9 or wider, ≥ 1920 px, letterbox bars cropped off) and put 3–6 frames in `stills/`.
+3. Fill in `index.md`. Every field is explained in the template. The most important for hiring managers is
+   `contributions` — what *you* did.
+4. Set `draft: false`, and `featured: true` if it should appear on the home page (the home page shows the first
+   four featured projects: one wide, three below). `order` controls sorting.
 
-### Adding Video Embeds
+Video sources: `youtube`, `vimeo` (add `hash` for unlisted links), `wistia`, or `file` for a self-hosted MP4 in
+`public/media/` — self-hosted files get the site's own custom player controls.
 
-In `/src/pages/work.astro`, update the `videoUrl` for each project:
+Projects marked `# TODO(chris)` in their frontmatter still need your role and contributions confirmed.
 
-```javascript
-{
-  id: 'project-name',
-  videoUrl: 'https://player.vimeo.com/video/YOUR_VIDEO_ID',
-  // ... other fields
-}
-```
+## Add photographs
 
-### Updating the Contact Form
+Each trip is a folder in `src/content/stills/` with the photos and an `index.yaml` listing them in order
+(`src`, `alt`, optional `place`). Export JPEGs at about 2000 px on the long edge — the site makes the smaller sizes.
 
-The contact form uses Formspree. To set it up:
+## Swap in a new reel
 
-1. Create a free account at [Formspree](https://formspree.io)
-2. Create a new form and copy the form ID
-3. Update the form action in `/src/pages/contact.astro`:
+- **Hero loop** (`public/media/reel-loop.mp4`): a short, silent, looping cut. Aim for 10–20 s, H.264 MP4,
+  ~1600 px wide, under ~3 MB, no audio track. Update `src/assets/reel/loop-poster.jpg` with its first frame.
+- **Full reel with sound**: set `reel.video` in `src/site.config.ts` (Vimeo/YouTube/Wistia ID, or `provider: 'file'`
+  with a path under `public/media/`).
 
-```html
-<form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-```
+## Contact form
 
-### Adding Your Resume PDF
+With `contactFormEndpoint` empty (the default) the form opens the visitor's email app with the message filled in.
+To receive submissions directly, create a free form at [Formspree](https://formspree.io) and paste its endpoint
+(`https://formspree.io/f/…`) into `src/site.config.ts`.
 
-Place your resume PDF in the `/public/` folder as `chris-hawk-resume.pdf`.
+## Deploy
 
-## Project Structure
+Any static host works — Vercel, Netlify or Cloudflare Pages:
 
-```
-/
-├── public/
-│   ├── animations/     # Lottie animation JSON files
-│   ├── favicon.svg
-│   └── robots.txt
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro    # Main layout with nav & footer
-│   ├── pages/
-│   │   ├── index.astro     # Home page
-│   │   ├── work.astro      # Portfolio/projects page
-│   │   ├── resume.astro    # Resume/experience page
-│   │   └── contact.astro   # Contact form page
-│   └── styles/
-│       └── global.css      # Global styles & Tailwind
-├── astro.config.mjs
-├── tailwind.config.mjs
-└── package.json
-```
+- Build command: `npm run build`
+- Output directory: `dist`
 
-## Deployment
-
-This site can be deployed to any static hosting platform:
-
-- **Vercel**: Connect your GitHub repo for automatic deployments
-- **Netlify**: Drag and drop the `dist/` folder or connect GitHub
-- **Cloudflare Pages**: Connect your GitHub repo
-
-### Build Command
-
-```bash
-npm run build
-```
-
-### Output Directory
-
-```
-dist/
-```
-
-## Tech Stack
-
-- [Astro](https://astro.build) - Static site generator
-- [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS
-- [Lottie](https://lottiefiles.com) - Animation library
-
-## License
-
-Personal portfolio - All rights reserved.
+Then point `chrishawk.net` at the new host in your domain's DNS settings (and cancel the Squarespace site once
+it's live). The old Squarespace URLs `/projects` and `/resume` redirect to `/work` and `/about`.

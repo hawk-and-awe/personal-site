@@ -1,0 +1,347 @@
+---
+/**
+ * The film player. Shows a custom poster frame and loads the provider's player only on play,
+ * so pages stay fast. Self-hosted files (provider: "file") get fully custom controls.
+ */
+import type { ImageMetadata } from 'astro';
+import { Image, getImage } from 'astro:assets';
+import Icon from './Icon.astro';
+import { embedUrl, timecode, type Video } from '../lib/video';
+
+interface Props {
+  video: Video;
+  poster: ImageMetadata;
+  posterAlt: string;
+  title: string;
+  /** Shared-element transition name, so a card's image can morph into the player. */
+  transitionName?: string;
+  /** Soft glow of the poster's colours behind the frame. */
+  ambient?: boolean;
+  eager?: boolean;
+  class?: string;
+}
+
+const { video, poster, posterAlt, title, transitionName, ambient = true, eager = false, class: className } = Astro.props;
+const aspect = video.aspect ?? '16/9';
+const isFile = video.provider === 'file';
+const glow = ambient ? await getImage({ src: poster, width: 64, format: 'webp' }) : undefined;
+---
+
+<figure
+  class:list={['player', className]}
+  data-player
+  data-provider={video.provider}
+  data-src={isFile ? video.id : embedUrl(video)}
+  data-title={title}
+  style={`--aspect:${aspect}`}
+>
+  {glow && <img class="player__ambient" src={glow.src} alt="" aria-hidden="true" loading="lazy" decoding="async" />}
+  <div class="player__stage" transition:name={transitionName}>
+    {
+      isFile && (
+        <video class="player__video" src={video.id} preload="none" playsinline tabindex="-1" aria-label={title} />
+      )
+    }
+    <Image
+      class="player__poster"
+      src={poster}
+      alt={posterAlt}
+      widths={[640, 960, 1280, 1920, 2400]}
+      sizes="(min-width: 1440px) 1392px, 94vw"
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : undefined}
+    />
+    <button class="player__start" type="button" data-player-start aria-label={`Play ${title}`}>
+      <span class="player__disc"><Icon name="play" /></span>
+      <span class="player__meta">
+        <span class="player__label">Play film</span>
+        {video.duration && <span class="player__tc mono">{timecode(video.duration)}</span>}
+      </span>
+    </button>
+    <span class="player__corners" aria-hidden="true"></span>
+  </div>
+
+  {
+    isFile && (
+      <div class="player__controls" data-controls hidden>
+        <button type="button" class="ctl" data-ctl="toggle" aria-label="Pause">
+          <Icon name="pause" class="i-pause" />
+          <Icon name="play" class="i-play" />
+        </button>
+        <span class="ctl-time mono" data-time>
+          00:00
+        </span>
+        <div class="scrub" data-scrub>
+          <div class="scrub__buffer" data-buffer />
+          <div class="scrub__fill" data-fill />
+          <input type="range" min="0" max="1000" value="0" step="1" aria-label="Seek" data-seek />
+        </div>
+        <span class="ctl-time mono muted" data-total>
+          {timecode(video.duration)}
+        </span>
+        <button type="button" class="ctl" data-ctl="mute" aria-label="Mute">
+          <Icon name="volume" class="i-vol" />
+          <Icon name="mute" class="i-mute" />
+        </button>
+        <button type="button" class="ctl" data-ctl="fullscreen" aria-label="Fullscreen">
+          <Icon name="fullscreen" />
+        </button>
+      </div>
+    )
+  }
+</figure>
+
+<style>
+  .player {
+    position: relative;
+    isolation: isolate;
+  }
+  .player__ambient {
+    position: absolute;
+    inset: 4% 2%;
+    z-index: -1;
+    width: 96%;
+    height: 92%;
+    object-fit: cover;
+    filter: blur(60px) saturate(1.5);
+    opacity: 0.45;
+    transform: scale(1.04);
+    pointer-events: none;
+  }
+  .player__stage {
+    position: relative;
+    aspect-ratio: var(--aspect);
+    overflow: hidden;
+    background: #000;
+    border-radius: var(--radius);
+    box-shadow:
+      0 0 0 1px var(--line),
+      0 40px 120px -40px rgb(0 0 0 / 0.9);
+  }
+  .player__poster,
+  .player__video,
+  .player__stage :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .player__poster {
+    object-fit: cover;
+    transition:
+      transform 1.2s var(--ease-out),
+      opacity 0.5s var(--ease-out),
+      filter 0.6s var(--ease-out);
+  }
+  .player__video {
+    object-fit: contain;
+    background: #000;
+  }
+
+  /* Poster overlay */
+  .player__start {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    padding: clamp(1rem, 3vw, 2rem);
+    text-align: left;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.72) 0%, rgb(0 0 0 / 0.1) 42%, transparent 60%);
+  }
+  .player__disc {
+    display: grid;
+    place-items: center;
+    width: clamp(3.5rem, 7vw, 5.5rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--acid);
+    color: var(--ink);
+    font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+    transition: transform 0.5s var(--ease-out), background-color 0.3s;
+  }
+  .player__disc :global(svg) {
+    translate: 6% 0;
+  }
+  .player__meta {
+    display: grid;
+    gap: 0.2rem;
+  }
+  .player__label {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bone);
+  }
+  .player__tc {
+    font-size: var(--fs-sm);
+    color: var(--bone-2);
+  }
+  .player__start:hover .player__disc,
+  .player__start:focus-visible .player__disc {
+    transform: scale(1.08);
+    background: var(--bone);
+  }
+  .player__start:hover ~ .player__corners,
+  .player__start:focus-visible ~ .player__corners {
+    opacity: 1;
+    inset: 0.9rem;
+  }
+  .player__start:focus-visible {
+    outline-offset: -4px;
+  }
+  .player:has(.player__start:hover) .player__poster {
+    transform: scale(1.025);
+  }
+
+  /* Viewfinder corner marks */
+  .player__corners {
+    position: absolute;
+    inset: 1.4rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.5s var(--ease-out);
+    --c: var(--acid);
+    --l: 18px;
+    background:
+      linear-gradient(var(--c), var(--c)) top left / var(--l) 2px,
+      linear-gradient(var(--c), var(--c)) top left / 2px var(--l),
+      linear-gradient(var(--c), var(--c)) top right / var(--l) 2px,
+      linear-gradient(var(--c), var(--c)) top right / 2px var(--l),
+      linear-gradient(var(--c), var(--c)) bottom left / var(--l) 2px,
+      linear-gradient(var(--c), var(--c)) bottom left / 2px var(--l),
+      linear-gradient(var(--c), var(--c)) bottom right / var(--l) 2px,
+      linear-gradient(var(--c), var(--c)) bottom right / 2px var(--l);
+    background-repeat: no-repeat;
+  }
+
+  /* Playing */
+  .player.is-playing .player__start,
+  .player.is-playing .player__corners {
+    display: none;
+  }
+  .player.is-playing .player__poster {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .player.is-loading .player__disc {
+    animation: pulse 1s var(--ease-in-out) infinite alternate;
+  }
+  @keyframes pulse {
+    to { transform: scale(0.9); opacity: 0.7; }
+  }
+
+  /* Custom controls (self-hosted files) */
+  .player__controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgb(19 18 16 / 0.8);
+    backdrop-filter: blur(12px);
+  }
+  .player__controls[hidden] {
+    display: none;
+  }
+  .ctl {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    color: var(--bone);
+    transition: background-color 0.2s;
+  }
+  .ctl:hover {
+    background: var(--line);
+  }
+  .ctl :global(.i-play),
+  .player.is-paused .ctl :global(.i-pause),
+  .ctl :global(.i-mute),
+  .player.is-muted .ctl :global(.i-vol) {
+    display: none;
+  }
+  .player.is-paused .ctl :global(.i-play),
+  .player.is-muted .ctl :global(.i-mute) {
+    display: block;
+  }
+  .ctl-time {
+    font-size: var(--fs-xs);
+    min-width: 5ch;
+    text-align: center;
+  }
+  .scrub {
+    position: relative;
+    flex: 1;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+  }
+  .scrub::before,
+  .scrub__buffer,
+  .scrub__fill {
+    content: '';
+    position: absolute;
+    left: 0;
+    height: 3px;
+    border-radius: 3px;
+  }
+  .scrub::before {
+    right: 0;
+    background: var(--line-2);
+  }
+  .scrub__buffer {
+    width: 0;
+    background: var(--bone-3);
+  }
+  .scrub__fill {
+    width: 0;
+    background: var(--acid);
+  }
+  .scrub input {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    background: transparent;
+    appearance: none;
+    cursor: pointer;
+  }
+  .scrub input::-webkit-slider-runnable-track {
+    height: 2.25rem;
+    background: transparent;
+  }
+  .scrub input::-moz-range-track {
+    height: 2.25rem;
+    background: transparent;
+  }
+  .scrub input::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    margin-top: calc(1.125rem - 7px);
+    border-radius: 50%;
+    background: var(--acid);
+    border: 0;
+  }
+  .scrub input::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--acid);
+    border: 0;
+  }
+
+  @media (max-width: 600px) {
+    .player__label {
+      font-size: 0.6875rem;
+    }
+    .player__ambient {
+      display: none;
+    }
+  }
+</style>

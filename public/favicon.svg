@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#22c55e"/>
-      <stop offset="100%" style="stop-color:#15803d"/>
-    </linearGradient>
-  </defs>
-  <circle cx="50" cy="50" r="48" fill="url(#grad)"/>
-  <text x="50" y="68" font-family="system-ui, sans-serif" font-size="45" font-weight="bold" fill="white" text-anchor="middle">CH</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136 136" width="136" height="136"><rect width="136" height="136" rx="26" fill="#0b0a09"/><g transform="translate(-123 -16)"><g fill="none" stroke="#e4f04a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><path d="M147 84 A47 47 0 1 0 241 84 A47 47 0 1 0 147 84"/><g stroke-width="5.4" transform="translate(194 90) scale(1.3) translate(-194 -90)">
+  <path fill="#0b0a09" d="M214 112 C224 96 222 70 204 60 C190 53 176 58 170 70 C160 70 150 78 148 92 C147 100 149 106 153 108 C154 101 158 97 164 97 L171 97 C168 101 170 105 176 106 C180 110 183 114 186 117"/>
+  <path  d="M170 70 C166 77 166 88 171 97"/>
+  <path  d="M164 97 C168 98 171 100 171 103"/>
+  <path  d="M172 70 C180 66 190 66 198 70"/>
+  <path  d="M178.8 78 A5.2 5.2 0 1 0 189.2 78 A5.2 5.2 0 1 0 178.8 78"/>
+  <path fill="#e4f04a" stroke="none" d="M183.2 78 A1.8 1.8 0 1 0 186.8 78 A1.8 1.8 0 1 0 183.2 78"/>
+  <path  d="M183 86 C181 92 181 98 184 104"/>
+  <path  d="M198 86 C204 92 208 100 208 108"/>
+</g></g></g></svg>

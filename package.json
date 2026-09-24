@@ -1,23 +1,27 @@
 {
-  "name": "chris-hawk-portfolio",
+  "name": "chrishawk-portfolio",
   "type": "module",
-  "version": "1.0.0",
-  "description": "Chris Hawk - Motion Designer Portfolio",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Portfolio of Chris Hawk — motion designer & video producer.",
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "check": "astro check",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.5.0",
-    "@astrojs/tailwind": "^5.1.0",
-    "tailwindcss": "^3.4.1",
-    "lottie-web": "^5.12.2"
+    "@astrojs/markdown-remark": "^7.3.1",
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/geist-mono": "^5.3.0",
+    "@fontsource/jacquard-24": "^5.3.0",
+    "astro": "^7.3.5",
+    "sharp": "^0.35.4"
   },
   "devDependencies": {
-    "@types/node": "^20.11.0",
-    "typescript": "^5.3.0"
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
   }
 }

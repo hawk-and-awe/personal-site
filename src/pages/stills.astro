@@ -1,0 +1,99 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Gallery from '../components/Gallery.astro';
+import Icon from '../components/Icon.astro';
+import { roman } from '../lib/video';
+
+const trips = (await getCollection('stills')).sort((a, b) => a.data.order - b.data.order);
+const count = trips.reduce((n, t) => n + t.data.photos.length, 0);
+---
+
+<Base
+  title="Stills"
+  description="Street and travel photography by Chris Hawk — Italy, Prague, Vienna and Budapest."
+>
+  <header class="container page-head">
+    <p class="kicker" data-reveal>Photographs — {roman(count)} frames</p>
+    <h1 class="display" data-reveal style="--i:1">
+      <span class="blackletter acid">Stills</span>
+    </h1>
+    <p class="lede" data-reveal style="--i:2">
+      The same eye, without the edit. Street and travel photographs made between projects.
+    </p>
+  </header>
+
+  {
+    trips.map((trip) => (
+      <section class="container trip" aria-labelledby={`trip-${trip.id}`}>
+        <header class="trip__head" data-reveal>
+          <h2 id={`trip-${trip.id}`} class="h2">
+            {trip.data.title} <span class="blackletter acid trip__year numeral">{roman(trip.data.year)}</span>
+          </h2>
+          {trip.data.places && <p class="mono trip__places">{trip.data.places}</p>}
+        </header>
+        <Gallery
+          group={trip.id}
+          row={20}
+          items={trip.data.photos.map((p) => ({ src: p.src, alt: p.alt, caption: p.place }))}
+        />
+      </section>
+    ))
+  }
+
+  <section class="container back">
+    <div class="rule mono" aria-hidden="true">✦</div>
+    <p class="back__text">Pictures are nice. Films are better.</p>
+    <a class="btn btn--acid" href="/work">Back to the work <Icon name="arrow" /></a>
+  </section>
+</Base>
+
+<style>
+  .page-head {
+    display: grid;
+    gap: 1.5rem;
+    padding-top: calc(var(--header-h) + clamp(3rem, 9vw, 7rem));
+    padding-bottom: clamp(2rem, 5vw, 4rem);
+  }
+  .page-head .blackletter {
+    font-size: 1.15em;
+  }
+  .trip {
+    padding-bottom: clamp(4rem, 8vw, 7rem);
+  }
+  .trip__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem 2rem;
+    padding-block: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+  .trip__year {
+    font-size: 1.1em;
+    margin-left: 0.2em;
+  }
+  .trip__places {
+    font-size: var(--fs-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bone-3);
+  }
+  .back {
+    display: grid;
+    justify-items: center;
+    gap: 1.5rem;
+    padding-bottom: clamp(4rem, 9vw, 8rem);
+    text-align: center;
+  }
+  .back .rule {
+    width: 100%;
+  }
+  .back__text {
+    font-size: var(--fs-xl);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+</style>

@@ -1,0 +1,104 @@
+---
+/**
+ * A justified gallery: rows fill the width and every image keeps its own shape,
+ * so portrait photos, 16:9 frames and ultra-wide screens all sit together. Click to enlarge.
+ */
+import type { ImageMetadata } from 'astro';
+import { Image, getImage } from 'astro:assets';
+
+interface Item {
+  src: ImageMetadata;
+  alt: string;
+  caption?: string;
+}
+interface Props {
+  items: Item[];
+  /** Lightbox group name; items with the same group page through together. */
+  group: string;
+  /** Target row height in rem. */
+  row?: number;
+}
+
+const { items, group, row = 18 } = Astro.props;
+const full = await Promise.all(items.map((i) => getImage({ src: i.src, width: Math.min(i.src.width, 2000), format: 'webp' })));
+---
+
+<ul class="gallery" role="list" style={`--row:${row}rem`}>
+  {
+    items.map((item, i) => {
+      const ratio = item.src.width / item.src.height;
+      return (
+        <li class="gallery__item" style={`--r:${ratio.toFixed(4)}`} data-reveal>
+          <button
+            class="gallery__btn"
+            type="button"
+            data-lightbox={group}
+            data-full={full[i].src}
+            data-alt={item.alt}
+            data-caption={item.caption ?? ''}
+            aria-label={`Enlarge: ${item.alt}`}
+          >
+            <Image
+              src={item.src}
+              alt={item.alt}
+              widths={[480, 800, 1200, 1600]}
+              sizes={`(min-width: 900px) ${Math.round(ratio * row * 16 * 1.2)}px, 94vw`}
+              loading="lazy"
+            />
+          </button>
+          {item.caption && <p class="gallery__caption mono">{item.caption}</p>}
+        </li>
+      );
+    })
+  }
+</ul>
+
+<style>
+  .gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(0.5rem, 1.2vw, 1rem);
+    list-style: none;
+    padding: 0;
+  }
+  /* Stop a lonely last image from stretching across the whole row. */
+  .gallery::after {
+    content: '';
+    flex-grow: 999;
+  }
+  .gallery__item {
+    flex-grow: calc(var(--r) * 100);
+    flex-basis: calc(var(--r) * var(--row));
+    min-width: 0;
+  }
+  .gallery__btn {
+    display: block;
+    width: 100%;
+    aspect-ratio: var(--r);
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--ink-2);
+    cursor: zoom-in;
+    box-shadow: 0 0 0 1px var(--line);
+  }
+  .gallery__btn :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease-out), filter 0.6s;
+  }
+  .gallery__btn:hover :global(img) {
+    transform: scale(1.03);
+  }
+  .gallery__caption {
+    margin-top: 0.55rem;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.04em;
+    color: var(--bone-3);
+  }
+  @media (max-width: 640px) {
+    .gallery {
+      --row: 11rem !important;
+    }
+  }
+</style>

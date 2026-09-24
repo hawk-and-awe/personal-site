@@ -1,0 +1,54 @@
+---
+/** Compact brand mark: the hawk's head in its halo. */
+interface Props {
+  class?: string;
+  title?: string;
+  [attr: string]: unknown;
+}
+const { class: className, title, ...rest } = Astro.props;
+---
+
+<svg
+  class:list={['mark', className]}
+  viewBox="129 22 124 124"
+  role={title ? 'img' : undefined}
+  aria-hidden={title ? undefined : 'true'}
+  aria-label={title}
+  {...rest}
+>
+  <path class="fill" d="M147 84 A47 47 0 1 0 241 84 A47 47 0 1 0 147 84" />
+  <path class="thin" d="M140 84 A54 54 0 1 0 248 84 A54 54 0 1 0 140 84" />
+  <g class="head-g" transform="translate(194 90) scale(1.3) translate(-194 -90)">
+  <path class="fill" d="M214 112 C224 96 222 70 204 60 C190 53 176 58 170 70 C160 70 150 78 148 92 C147 100 149 106 153 108 C154 101 158 97 164 97 L171 97 C168 101 170 105 176 106 C180 110 183 114 186 117"/>
+  <path  d="M170 70 C166 77 166 88 171 97"/>
+  <path  d="M164 97 C168 98 171 100 171 103"/>
+  <path  d="M172 70 C180 66 190 66 198 70"/>
+  <path  d="M178.8 78 A5.2 5.2 0 1 0 189.2 78 A5.2 5.2 0 1 0 178.8 78"/>
+  <path class="dot" d="M183.2 78 A1.8 1.8 0 1 0 186.8 78 A1.8 1.8 0 1 0 183.2 78"/>
+  <path  d="M183 86 C181 92 181 98 184 104"/>
+  <path  d="M198 86 C204 92 208 100 208 108"/>
+</g>
+</svg>
+
+<style>
+  .mark path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 6.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .mark .thin {
+    stroke-width: 4;
+  }
+  .mark .head-g path {
+    stroke-width: 5;
+  }
+  .mark .fill {
+    fill: var(--mark-fill, transparent);
+  }
+  .mark .dot {
+    fill: currentColor;
+    stroke: none;
+  }
+</style>

@@ -1,0 +1,463 @@
+---
+import { render } from 'astro:content';
+import { Image, getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import VideoPlayer from '../../components/VideoPlayer.astro';
+import Gallery from '../../components/Gallery.astro';
+import Icon from '../../components/Icon.astro';
+import { embedUrl, isoDuration, roman, timecode, watchUrl } from '../../lib/video';
+import { getProjects, mediaName, projectUrl, typesText, type Project } from '../../lib/work';
+import { site } from '../../site.config';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project, index) => ({
+    params: { slug: project.id },
+    props: {
+      project,
+      index,
+      total: projects.length,
+      next: projects[(index + 1) % projects.length],
+    },
+  }));
+}
+
+interface Props {
+  project: Project;
+  index: number;
+  total: number;
+  next: Project;
+}
+
+const { project, index, total, next } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+const og = await getImage({ src: data.cover, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const url = new URL(projectUrl(project), Astro.site).href;
+const providerName = { youtube: 'YouTube', vimeo: 'Vimeo', wistia: 'Wistia', file: 'its own page' } as const;
+
+const facts: [string, string][] = [
+  ['Client', data.client],
+  ...(data.year ? ([['Year', String(data.year)]] as [string, string][]) : []),
+  ['Role', data.role],
+  ['Discipline', typesText(project)],
+  ...(data.video.duration ? ([['Runtime', timecode(data.video.duration)]] as [string, string][]) : []),
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: data.title,
+  description: data.summary,
+  thumbnailUrl: new URL(og.src, Astro.site).href,
+  embedUrl: embedUrl(data.video).split('?')[0],
+  contentUrl: data.video.provider === 'file' ? new URL(data.video.id, Astro.site).href : undefined,
+  url,
+  duration: isoDuration(data.video.duration),
+  dateCreated: data.year ? String(data.year) : undefined,
+  creator: { '@type': 'Person', name: site.name, url: site.url },
+};
+---
+
+<Base title={data.title} description={data.summary} image={og.src} type="video.other" jsonLd={jsonLd}>
+  <article class="cs">
+    <header class="container cs__head">
+      <nav class="crumbs mono" aria-label="Breadcrumb">
+        <a href="/work" class="link-line">Work</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{roman(index + 1)} of {roman(total)}</span>
+      </nav>
+      <p class="kicker kicker--acid">{typesText(project)} · {data.client}{data.year && ` · ${data.year}`}</p>
+      <h1 class="h1 cs__title">{data.title}</h1>
+      <p class="lede cs__summary">{data.summary}</p>
+    </header>
+
+    <div class="container cs__film">
+      <VideoPlayer
+        video={data.video}
+        poster={data.cover}
+        posterAlt={data.coverAlt}
+        title={data.title}
+        transitionName={mediaName(project)}
+        eager
+      />
+    </div>
+
+    <div class="container cs__body">
+      <aside class="cs__facts" aria-label="Project details">
+        <dl>
+          {
+            facts.map(([k, v]) => (
+              <div class="fact">
+                <dt class="kicker">{k}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))
+          }
+          {
+            data.tools.length > 0 && (
+              <div class="fact">
+                <dt class="kicker">Tools</dt>
+                <dd class="chips">
+                  {data.tools.map((t) => (
+                    <span class="chip">{t}</span>
+                  ))}
+                </dd>
+              </div>
+            )
+          }
+          {
+            data.deliverables.length > 0 && (
+              <div class="fact">
+                <dt class="kicker">Deliverables</dt>
+                <dd>
+                  <ul role="list">
+                    {data.deliverables.map((d) => (
+                      <li>{d}</li>
+                    ))}
+                  </ul>
+                </dd>
+              </div>
+            )
+          }
+          {
+            data.credits.length > 0 && (
+              <div class="fact">
+                <dt class="kicker">Credits</dt>
+                <dd>
+                  <ul role="list" class="credits">
+                    {data.credits.map((c) => (
+                      <li>
+                        <span class="muted">{c.role}</span> {c.name}
+                      </li>
+                    ))}
+                  </ul>
+                </dd>
+              </div>
+            )
+          }
+        </dl>
+        <a class="cs__watch mono link-line" href={watchUrl(data.video)} target="_blank" rel="noopener">
+          Open on {providerName[data.video.provider]} ↗
+        </a>
+      </aside>
+
+      <div class="cs__main">
+        <section class="contrib" aria-labelledby="contrib-title">
+          <h2 id="contrib-title" class="kicker">My contribution</h2>
+          <p class="contrib__role">{data.role}</p>
+          {
+            data.contributions.length > 0 && (
+              <ul class="contrib__list" role="list">
+                {data.contributions.map((c, i) => (
+                  <li data-reveal style={`--i:${i}`}>
+                    <Icon name="manicule" />
+                    <span>{c}</span>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+        </section>
+
+        <section class="cs__story prose prose--initial" aria-label="The story">
+          <Content />
+        </section>
+
+        {
+          data.results.length > 0 && (
+            <section class="results" aria-label="Results">
+              {data.results.map((r) => (
+                <div class="result">
+                  <p class="result__value">{r.value}</p>
+                  <p class="result__label">{r.label}</p>
+                </div>
+              ))}
+            </section>
+          )
+        }
+      </div>
+    </div>
+
+    {
+      data.extras.length > 0 && (
+        <section class="container cs__extras" aria-labelledby="extras-title">
+          <h2 id="extras-title" class="kicker">Alternate cuts</h2>
+          <div class="extras__grid">
+            {data.extras.map((x) => (
+              <div class="extra">
+                <VideoPlayer video={x} poster={data.cover} posterAlt={data.coverAlt} title={`${data.title} — ${x.label}`} ambient={false} />
+                <p class="mono extra__label">{x.label}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      data.stills.length > 0 && (
+        <section class="container cs__frames" aria-labelledby="frames-title">
+          <div class="rule mono" aria-hidden="true">✦</div>
+          <h2 id="frames-title" class="kicker frames__title">Frames — {roman(data.stills.length)}</h2>
+          <Gallery
+            group={`frames-${project.id}`}
+            row={data.stills.some((s) => s.src.width / s.src.height > 3) ? 9 : 16}
+            items={data.stills.map((s) => ({ src: s.src, alt: s.alt, caption: s.caption }))}
+          />
+        </section>
+      )
+    }
+
+    <nav class="next" aria-label="Next project">
+      <a class="next__link container" href={projectUrl(next)}>
+        <div class="next__text">
+          <p class="kicker">Next film</p>
+          <p class="next__title">
+            <span class="blackletter acid next__num numeral">{roman(((index + 1) % total) + 1)}.</span>
+            <span class="link-line">{next.data.title}</span>
+          </p>
+          <p class="mono next__meta">{next.data.client} · {typesText(next)}</p>
+        </div>
+        <div class="next__media">
+          <Image src={next.data.cover} alt="" widths={[480, 800, 1200]} sizes="(min-width: 900px) 40vw, 90vw" loading="lazy" />
+        </div>
+        <Icon name="arrow" class="next__arrow" />
+      </a>
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .cs__head {
+    display: grid;
+    gap: 1.25rem;
+    padding-top: calc(var(--header-h) + clamp(2.5rem, 7vw, 5.5rem));
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+  }
+  .crumbs {
+    display: flex;
+    gap: 0.6rem;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bone-3);
+  }
+  .crumbs a {
+    color: var(--bone-2);
+  }
+  .cs__title {
+    max-width: 18ch;
+  }
+  .cs__summary {
+    max-width: 52ch;
+  }
+  .cs__film {
+    padding-bottom: clamp(3rem, 7vw, 6rem);
+  }
+
+  .cs__body {
+    display: grid;
+    grid-template-columns: minmax(14rem, 0.9fr) minmax(0, 2.2fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    padding-bottom: clamp(4rem, 8vw, 7rem);
+  }
+  .cs__facts {
+    align-self: start;
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
+  }
+  .cs__facts dl {
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+  .fact {
+    display: grid;
+    gap: 0.35rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .fact dd {
+    font-size: var(--fs-md);
+    color: var(--bone);
+    margin: 0;
+  }
+  .fact ul {
+    display: grid;
+    gap: 0.25rem;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .credits .muted {
+    display: inline-block;
+    min-width: 6ch;
+    font-size: var(--fs-sm);
+  }
+  .cs__watch {
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bone-3);
+  }
+  .cs__watch:hover {
+    color: var(--acid);
+  }
+
+  .cs__main {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-content: start;
+  }
+  .contrib {
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background:
+      radial-gradient(120% 140% at 100% 0%, var(--acid-dim), transparent 55%),
+      var(--ink-2);
+  }
+  .contrib__role {
+    margin-top: 0.75rem;
+    font-size: var(--fs-xl);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+  .contrib__list {
+    display: grid;
+    gap: 0.65rem;
+    margin-top: 1.5rem;
+  }
+  .contrib__list li {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-size: var(--fs-lg);
+    color: var(--bone);
+  }
+  .contrib__list :global(.icon--manicule) {
+    color: var(--acid);
+    font-size: 1rem;
+  }
+
+  .results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    border-top: 1px solid var(--line);
+  }
+  .result {
+    padding: 1.5rem 1.5rem 1.5rem 0;
+  }
+  .result__value {
+    font-size: var(--fs-2xl);
+    font-weight: 620;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: var(--acid);
+  }
+  .result__label {
+    margin-top: 0.5rem;
+    color: var(--bone-2);
+    font-size: var(--fs-sm);
+  }
+
+  .cs__extras {
+    padding-bottom: clamp(4rem, 8vw, 7rem);
+  }
+  .extras__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .extra__label {
+    margin-top: 0.6rem;
+    font-size: var(--fs-xs);
+    color: var(--bone-3);
+  }
+
+  .cs__frames {
+    padding-bottom: clamp(4rem, 9vw, 8rem);
+  }
+  .frames__title {
+    margin: 2.5rem 0 1.5rem;
+  }
+
+  .next {
+    border-top: 1px solid var(--line);
+  }
+  .next__link {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr) auto;
+    align-items: center;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    padding-block: clamp(3rem, 7vw, 6rem);
+  }
+  .next__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4em;
+    margin-top: 0.75rem;
+    font-size: var(--fs-2xl);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+  .next__num {
+    font-size: 0.85em;
+  }
+  .next__meta {
+    margin-top: 1rem;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bone-3);
+  }
+  .next__media {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: var(--radius);
+    box-shadow: 0 0 0 1px var(--line);
+  }
+  .next__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease-out);
+  }
+  .next__link:hover .next__media :global(img) {
+    transform: scale(1.05);
+  }
+  .next__arrow {
+    font-size: 2rem;
+    color: var(--bone-3);
+    transition: transform 0.5s var(--ease-out), color 0.3s;
+  }
+  .next__link:hover .next__arrow {
+    color: var(--acid);
+    transform: translateX(6px);
+  }
+
+  @media (max-width: 900px) {
+    .cs__body {
+      grid-template-columns: 1fr;
+    }
+    .cs__facts {
+      position: static;
+      order: 2;
+    }
+    .next__link {
+      grid-template-columns: 1fr;
+    }
+    .next__arrow {
+      display: none;
+    }
+  }
+</style>

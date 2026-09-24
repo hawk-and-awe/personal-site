@@ -1,0 +1,155 @@
+---
+/**
+ * The hawk emblem — a heraldic raptor bearing a film reel, drawn as woodcut line art.
+ * `draw` animates the strokes on as if inked by hand.
+ */
+interface Props {
+  class?: string;
+  draw?: boolean;
+  /** Seconds to wait before drawing starts. */
+  delay?: number;
+  title?: string;
+  [attr: string]: unknown;
+}
+// `rest` carries the parent's scoped-style attribute, so parents can size and position the emblem.
+const { class: className, draw = false, delay = 0, title, ...rest } = Astro.props;
+---
+
+<svg
+  class:list={['hawk', { 'hawk--draw': draw }, className]}
+  viewBox="0 0 400 400"
+  style={`--hawk-delay:${delay}s`}
+  role={title ? 'img' : undefined}
+  aria-hidden={title ? undefined : 'true'}
+  aria-label={title}
+  {...rest}
+>
+  <g filter="url(#rough)">
+    <path class="wing" style="--d:0.700s" pathLength="1" d="M180 138 Q122 116 72 44"/>
+      <path class="wing" style="--d:0.735s" pathLength="1" d="M77.4 42.7 Q56.9 25.2 36 16 Q45.5 39.2 70.6 51.1"/>
+      <path class="wing" style="--d:0.770s" pathLength="1" d="M82.1 51.5 Q51 38.3 22 44 Q47.4 55.1 80 61.6"/>
+      <path class="wing" style="--d:0.805s" pathLength="1" d="M87.5 60.9 Q47.8 66.2 16 76 Q50.1 82.5 88.9 70.6"/>
+      <path class="wing" style="--d:0.840s" pathLength="1" d="M93.5 70.2 Q49.6 83 20 108 Q55.9 97.3 97.3 78.8"/>
+      <path class="wing" style="--d:0.875s" pathLength="1" d="M100 79.2 Q61.1 109.6 32 138 Q70.2 121.3 105.5 86.2"/>
+      <path class="wing" style="--d:0.910s" pathLength="1" d="M106.7 88.5 Q76.1 130.8 58 170 Q91 140.8 115.6 94.5"/>
+      <path class="wing" style="--d:0.945s" pathLength="1" d="M119.1 101.2 Q92.1 145.3 84 188 Q108.3 153 128.9 105.8"/>
+      <path class="wing" style="--d:0.980s" pathLength="1" d="M131.9 112.5 Q116.6 157.1 112 196 Q133.8 162.3 142.2 115.6"/>
+      <path class="wing" style="--d:1.015s" pathLength="1" d="M145 122.4 Q133.8 160.5 140 194 Q151.6 163.1 155.7 124"/>
+      <path class="wing" style="--d:1.050s" pathLength="1" d="M158.5 130.7 Q155.9 158.7 162 182 Q173.9 159.4 169.3 131.1"/>
+      <path class="wing" style="--d:1.085s" pathLength="1" d="M161.9 145.9 Q155.5 151.9 145 136 M145 136 Q138.8 141 128.5 124 M128.5 124 Q122.4 127.8 112.3 109.6 M112.3 109.6 Q106.4 112.3 96.5 93.1 M96.5 93.1 Q90.8 94.6 81.1 74.2"/>
+      <path class="wing" style="--d:1.120s" pathLength="1" d="M161.9 160.9 Q155.5 166.9 145 151 M145 151 Q138.8 156 128.5 139 M128.5 139 Q122.4 142.8 112.3 124.6 M112.3 124.6 Q106.4 127.3 96.5 108.1 M96.5 108.1 Q90.8 109.6 81.1 89.2"/>
+      <path class="wing" style="--d:1.155s" pathLength="1" d="M90 108 A8 8 0 1 0 106 108 A8 8 0 1 0 90 108 M96 108 A2 2 0 1 0 100 108 A2 2 0 1 0 96 108"/>
+    <g transform="matrix(-1 0 0 1 400 0)">
+      <path class="wing" style="--d:0.700s" pathLength="1" d="M180 138 Q122 116 72 44"/>
+      <path class="wing" style="--d:0.735s" pathLength="1" d="M77.4 42.7 Q56.9 25.2 36 16 Q45.5 39.2 70.6 51.1"/>
+      <path class="wing" style="--d:0.770s" pathLength="1" d="M82.1 51.5 Q51 38.3 22 44 Q47.4 55.1 80 61.6"/>
+      <path class="wing" style="--d:0.805s" pathLength="1" d="M87.5 60.9 Q47.8 66.2 16 76 Q50.1 82.5 88.9 70.6"/>
+      <path class="wing" style="--d:0.840s" pathLength="1" d="M93.5 70.2 Q49.6 83 20 108 Q55.9 97.3 97.3 78.8"/>
+      <path class="wing" style="--d:0.875s" pathLength="1" d="M100 79.2 Q61.1 109.6 32 138 Q70.2 121.3 105.5 86.2"/>
+      <path class="wing" style="--d:0.910s" pathLength="1" d="M106.7 88.5 Q76.1 130.8 58 170 Q91 140.8 115.6 94.5"/>
+      <path class="wing" style="--d:0.945s" pathLength="1" d="M119.1 101.2 Q92.1 145.3 84 188 Q108.3 153 128.9 105.8"/>
+      <path class="wing" style="--d:0.980s" pathLength="1" d="M131.9 112.5 Q116.6 157.1 112 196 Q133.8 162.3 142.2 115.6"/>
+      <path class="wing" style="--d:1.015s" pathLength="1" d="M145 122.4 Q133.8 160.5 140 194 Q151.6 163.1 155.7 124"/>
+      <path class="wing" style="--d:1.050s" pathLength="1" d="M158.5 130.7 Q155.9 158.7 162 182 Q173.9 159.4 169.3 131.1"/>
+      <path class="wing" style="--d:1.085s" pathLength="1" d="M161.9 145.9 Q155.5 151.9 145 136 M145 136 Q138.8 141 128.5 124 M128.5 124 Q122.4 127.8 112.3 109.6 M112.3 109.6 Q106.4 112.3 96.5 93.1 M96.5 93.1 Q90.8 94.6 81.1 74.2"/>
+      <path class="wing" style="--d:1.120s" pathLength="1" d="M161.9 160.9 Q155.5 166.9 145 151 M145 151 Q138.8 156 128.5 139 M128.5 139 Q122.4 142.8 112.3 124.6 M112.3 124.6 Q106.4 127.3 96.5 108.1 M96.5 108.1 Q90.8 109.6 81.1 89.2"/>
+      <path class="wing" style="--d:1.155s" pathLength="1" d="M90 108 A8 8 0 1 0 106 108 A8 8 0 1 0 90 108 M96 108 A2 2 0 1 0 100 108 A2 2 0 1 0 96 108"/>
+    </g>
+      <path class="tail" style="--d:1.100s" pathLength="1" d="M185.7 241.9 Q158.5 308.7 150 368 Q179.3 315.7 198.3 246.1"/>
+      <path class="tail" style="--d:1.135s" pathLength="1" d="M189.5 242.8 Q172 315.8 172 378 Q193.6 319.6 202.5 245.2"/>
+      <path class="tail" style="--d:1.170s" pathLength="1" d="M193.4 244 Q189 320.5 200 383 Q211 320.5 206.6 244"/>
+      <path class="tail" style="--d:1.205s" pathLength="1" d="M197.5 245.2 Q206.4 319.6 228 378 Q228 315.8 210.5 242.8"/>
+      <path class="tail" style="--d:1.240s" pathLength="1" d="M201.7 246.1 Q220.7 315.7 250 368 Q241.5 308.7 214.3 241.9"/>
+      <path class="body" style="--d:0.450s" pathLength="1" d="M186 116 C166 132 164 170 172 198 C178 220 190 236 200 242 C210 236 222 220 228 198 C236 170 232 132 214 112"/>
+      <path class="body" style="--d:0.485s" pathLength="1" d="M172.5 150 Q178 158 183.5 150 M183.5 150 Q189 158 194.5 150 M194.5 150 Q200 158 205.5 150 M205.5 150 Q211 158 216.5 150 M216.5 150 Q222 158 227.5 150"/>
+      <path class="body" style="--d:0.520s" pathLength="1" d="M172.5 170 Q178 178 183.5 170 M183.5 170 Q189 178 194.5 170 M194.5 170 Q200 178 205.5 170 M205.5 170 Q211 178 216.5 170 M216.5 170 Q222 178 227.5 170"/>
+      <path class="body" style="--d:0.555s" pathLength="1" d="M178 190 Q183.5 198 189 190 M189 190 Q194.5 198 200 190 M200 190 Q205.5 198 211 190 M211 190 Q216.5 198 222 190"/>
+      <path class="body" style="--d:0.590s" pathLength="1" d="M183.5 210 Q189 218 194.5 210 M194.5 210 Q200 218 205.5 210 M205.5 210 Q211 218 216.5 210"/>
+      <path class="reel fill" style="--d:1.550s" pathLength="1" d="M170 306 A30 30 0 1 0 230 306 A30 30 0 1 0 170 306"/>
+      <path class="reel" style="--d:1.585s" pathLength="1" d="M195 290 A5 5 0 1 0 205 290 A5 5 0 1 0 195 290"/>
+      <path class="reel" style="--d:1.620s" pathLength="1" d="M210.2 301.1 A5 5 0 1 0 220.2 301.1 A5 5 0 1 0 210.2 301.1"/>
+      <path class="reel" style="--d:1.655s" pathLength="1" d="M204.4 318.9 A5 5 0 1 0 214.4 318.9 A5 5 0 1 0 204.4 318.9"/>
+      <path class="reel" style="--d:1.690s" pathLength="1" d="M185.6 318.9 A5 5 0 1 0 195.6 318.9 A5 5 0 1 0 185.6 318.9"/>
+      <path class="reel" style="--d:1.725s" pathLength="1" d="M179.8 301.1 A5 5 0 1 0 189.8 301.1 A5 5 0 1 0 179.8 301.1"/>
+      <path class="reel" style="--d:1.760s" pathLength="1" d="M197.6 306 A2.4 2.4 0 1 0 202.4 306 A2.4 2.4 0 1 0 197.6 306"/>
+      <path class="leg" style="--d:1.300s" pathLength="1" d="M188 226 C178 238 170 250 168 264 C167 274 169 282 174 288"/>
+      <path class="leg" style="--d:1.335s" pathLength="1" d="M183 236 L171 240 M179 246 L167 251 M175 256 L165 262"/>
+      <path class="talon" style="--d:1.450s" pathLength="1" d="M174 288 C167 290 163 296 165 304 L169 305"/>
+      <path class="talon" style="--d:1.485s" pathLength="1" d="M174 288 C174 296 175 302 179 307 L183 305"/>
+      <path class="talon" style="--d:1.520s" pathLength="1" d="M174 288 C181 287 186 290 187 296 L183 299"/>
+    <g transform="matrix(-1 0 0 1 400 0)">
+      <path class="leg" style="--d:1.300s" pathLength="1" d="M188 226 C178 238 170 250 168 264 C167 274 169 282 174 288"/>
+      <path class="leg" style="--d:1.335s" pathLength="1" d="M183 236 L171 240 M179 246 L167 251 M175 256 L165 262"/>
+      <path class="talon" style="--d:1.450s" pathLength="1" d="M174 288 C167 290 163 296 165 304 L169 305"/>
+      <path class="talon" style="--d:1.485s" pathLength="1" d="M174 288 C174 296 175 302 179 307 L183 305"/>
+      <path class="talon" style="--d:1.520s" pathLength="1" d="M174 288 C181 287 186 290 187 296 L183 299"/>
+    </g>
+      <path class="halo fill" style="--d:0.000s" pathLength="1" d="M147 84 A47 47 0 1 0 241 84 A47 47 0 1 0 147 84"/>
+      <path class="halo thin" style="--d:0.035s" pathLength="1" d="M140 84 A54 54 0 1 0 248 84 A54 54 0 1 0 140 84"/>
+    <g class="head-g" transform="translate(194 90) scale(1.3) translate(-194 -90)">
+      <path class="head fill" style="--d:0.150s" pathLength="1" d="M214 112 C224 96 222 70 204 60 C190 53 176 58 170 70 C160 70 150 78 148 92 C147 100 149 106 153 108 C154 101 158 97 164 97 L171 97 C168 101 170 105 176 106 C180 110 183 114 186 117"/>
+      <path class="head" style="--d:0.185s" pathLength="1" d="M170 70 C166 77 166 88 171 97"/>
+      <path class="head" style="--d:0.220s" pathLength="1" d="M164 97 C168 98 171 100 171 103"/>
+      <path class="head" style="--d:0.255s" pathLength="1" d="M172 70 C180 66 190 66 198 70"/>
+      <path class="head" style="--d:0.290s" pathLength="1" d="M178.8 78 A5.2 5.2 0 1 0 189.2 78 A5.2 5.2 0 1 0 178.8 78"/>
+      <path class="head dot" style="--d:0.325s" pathLength="1" d="M183.2 78 A1.8 1.8 0 1 0 186.8 78 A1.8 1.8 0 1 0 183.2 78"/>
+      <path class="head" style="--d:0.360s" pathLength="1" d="M183 86 C181 92 181 98 184 104"/>
+      <path class="head" style="--d:0.395s" pathLength="1" d="M198 86 C204 92 208 100 208 108"/>
+    </g>
+  </g>
+</svg>
+
+<style>
+  .hawk {
+    --hawk-stroke: var(--acid);
+    --hawk-fill: var(--ink);
+    overflow: visible;
+  }
+  .hawk :global(path) {
+    fill: none;
+    stroke: var(--hawk-stroke);
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hawk :global(.head-g path) {
+    stroke-width: 3.85;
+  }
+  .hawk :global(.thin) {
+    stroke-width: 2.5;
+  }
+  .hawk :global(.fill) {
+    fill: var(--hawk-fill);
+  }
+  .hawk :global(.dot) {
+    fill: var(--hawk-stroke);
+    stroke: none;
+  }
+  .hawk--draw :global(path) {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: hawk-ink 1.5s var(--ease-in-out) both;
+    animation-delay: calc(var(--hawk-delay) + var(--d, 0s));
+  }
+  .hawk--draw :global(.fill),
+  .hawk--draw :global(.dot) {
+    fill-opacity: 0;
+    animation-name: hawk-ink, hawk-fill;
+  }
+  @keyframes hawk-ink {
+    0% { stroke-dashoffset: 1; stroke-opacity: 0; }
+    2% { stroke-opacity: 1; }
+    100% { stroke-dashoffset: 0; stroke-opacity: 1; }
+  }
+  @keyframes hawk-fill {
+    0% { fill-opacity: 0; }
+    100% { fill-opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hawk--draw :global(path) {
+      animation: none;
+      stroke-dashoffset: 0;
+      fill-opacity: 1;
+    }
+  }
+</style>

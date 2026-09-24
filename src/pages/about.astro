@@ -1,0 +1,542 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../site.config';
+import { bio, crafts, education, experience, impact, oddities, tools } from '../data/resume';
+import { roman } from '../lib/video';
+import portrait from '../assets/about/chris-shinjuku.jpg';
+import flipbookPoster from '../assets/about/tokyo-flipbook-poster.jpg';
+import neon from '../assets/backdrops/neon-yellow.jpg';
+
+const trips = (await getCollection('stills')).sort((a, b) => a.data.order - b.data.order);
+const teaser = trips.flatMap((t) => t.data.photos.slice(0, 3).map((p) => ({ ...p, trip: t.data.title }))).slice(0, 5);
+---
+
+<Base
+  title="About"
+  description="Chris Hawk — motion designer and video producer in Oklahoma City. Fifteen years across animation, live-action production, post and content strategy."
+  type="profile"
+>
+  <!-- ░░ Intro ░░ -->
+  <section class="container intro">
+    <figure class="intro__photo">
+      <Image
+        src={portrait}
+        alt="Chris Hawk in a red beanie and denim jacket, arms crossed and smiling under neon signs in Shinjuku, Tokyo."
+        widths={[480, 720, 960, 1200, 1600]}
+        sizes="(min-width: 900px) 42vw, 92vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </figure>
+    <div class="intro__copy">
+      <p class="kicker kicker--acid">About</p>
+      <h1 class="display intro__title">Chris <span class="blackletter">Hawk</span></h1>
+      <p class="intro__role">{site.role} · {site.location}</p>
+      <div class="intro__bio stack">
+        {bio.map((p) => <p>{p}</p>)}
+      </div>
+      <div class="intro__ctas">
+        <a class="btn btn--acid" href={site.resumeUrl} target="_blank" rel="noopener">
+          <Icon name="download" /> Download résumé
+        </a>
+        <a class="btn" href="/contact">Get in touch <Icon name="arrow" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ Impact ░░ -->
+  <section class="impact" aria-label="Impact">
+    <div class="container impact__grid">
+      {
+        impact.map((m, i) => (
+          <div class="metric" data-reveal style={`--i:${i}`}>
+            <p class="metric__value">{m.value}</p>
+            <p class="metric__label">{m.label}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ░░ Experience ░░ -->
+  <section class="section container" aria-labelledby="xp-title">
+    <header class="block-head">
+      <p class="kicker" data-reveal>Experience</p>
+      <h2 id="xp-title" class="h1" data-reveal style="--i:1">Four companies, fifteen-plus years, one throughline: the story.</h2>
+    </header>
+    <ol class="xp" role="list">
+      {
+        experience.map((job, i) => (
+          <li class="job" data-reveal>
+            <div class="job__when mono">
+              <span class="blackletter job__num numeral">{roman(experience.length - i)}</span>
+              {job.start} — {job.end}
+            </div>
+            <div class="job__what">
+              <h3 class="job__company">{job.company}</h3>
+              <p class="job__role">{job.role}</p>
+              <p class="job__summary">{job.summary}</p>
+              <ul class="job__list" role="list">
+                {job.highlights.map((h) => (
+                  <li>
+                    <Icon name="manicule" />
+                    <span>{h}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- ░░ Crafts & tools ░░ -->
+  <section class="section container crafts" aria-labelledby="craft-title">
+    <header class="block-head">
+      <p class="kicker" data-reveal>Crafts & tools</p>
+      <h2 id="craft-title" class="h1" data-reveal style="--i:1">From call sheet to color grade.</h2>
+    </header>
+    <div class="crafts__grid">
+      {
+        crafts.map((c, i) => (
+          <div class="craft" data-reveal style={`--i:${i}`}>
+            <span class="blackletter craft__num numeral">{roman(i + 1)}</span>
+            <h3>{c.title}</h3>
+            <p>{c.body}</p>
+          </div>
+        ))
+      }
+    </div>
+    <div class="tools" data-reveal>
+      <p class="kicker">In the kit</p>
+      <ul class="tools__list" role="list">
+        {tools.map((t) => <li class="chip">{t}</li>)}
+      </ul>
+    </div>
+    <div class="edu" data-reveal>
+      <p class="kicker">Education</p>
+      <div class="edu__row">
+        <h3>{education.school}</h3>
+        <p class="mono muted">{education.years}</p>
+      </div>
+      <p class="edu__degree">{education.degree}</p>
+      <p class="muted edu__body">{education.body}</p>
+    </div>
+  </section>
+
+  <!-- ░░ Off the clock ░░ -->
+  <section class="section offclock" aria-labelledby="odd-title">
+    <div class="backdrop" aria-hidden="true">
+      <Image class="backdrop__img" src={neon} alt="" widths={[800, 1400]} sizes="100vw" loading="lazy" />
+    </div>
+    <div class="container offclock__grid">
+      <figure class="flipbook" data-reveal>
+        <video
+          src="/media/tokyo-flipbook.mp4"
+          poster={flipbookPoster.src}
+          muted
+          loop
+          playsinline
+          preload="none"
+          aria-label="A stop-motion loop of Chris and Laura clowning around under neon in Shinjuku."
+          data-autoplay-visible
+        >
+        </video>
+        <figcaption class="mono">Off the clock with Laura — Shinjuku, Tokyo</figcaption>
+      </figure>
+      <div>
+        <p class="kicker kicker--acid" data-reveal>Mostly irrelevant</p>
+        <h2 id="odd-title" class="h1" data-reveal style="--i:1">…but somewhat interesting qualifications.</h2>
+        <ol class="odd" role="list">
+          {
+            oddities.map((o, i) => (
+              <li data-reveal style={`--i:${i}`}>
+                <span class="blackletter odd__num numeral">{roman(i + 1)}.</span>
+                <span>{o}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ Stills teaser ░░ -->
+  <section class="section container stills-teaser" aria-labelledby="stills-title">
+    <header class="block-head block-head--row">
+      <div>
+        <p class="kicker" data-reveal>Stills</p>
+        <h2 id="stills-title" class="h1" data-reveal style="--i:1">I never travel without a camera.</h2>
+      </div>
+      <a class="btn" href="/stills" data-reveal style="--i:2">See the photographs <Icon name="arrow" /></a>
+    </header>
+    <a class="strip" href="/stills" aria-label="See the photographs">
+      {
+        teaser.map((p, i) => (
+          <span class="strip__item" data-reveal style={`--i:${i}`}>
+            <Image src={p.src} alt={p.alt} widths={[360, 600]} sizes="(min-width: 900px) 18vw, 40vw" loading="lazy" />
+          </span>
+        ))
+      }
+    </a>
+  </section>
+</Base>
+
+<style>
+  .intro {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: end;
+    padding-top: calc(var(--header-h) + clamp(2rem, 6vw, 4rem));
+    padding-bottom: clamp(4rem, 8vw, 7rem);
+  }
+  .intro__photo :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: var(--radius);
+    box-shadow: 0 0 0 1px var(--line), 0 40px 120px -40px #000;
+    animation: rise 1.2s var(--ease-out) both;
+  }
+  .intro__copy {
+    display: grid;
+    gap: 1.4rem;
+  }
+  .intro__title {
+    animation: rise 1.1s var(--ease-out) 0.1s both;
+  }
+  .intro__title .blackletter {
+    color: var(--acid);
+    font-size: 1.08em;
+  }
+  .intro__role {
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bone-2);
+  }
+  .intro__bio {
+    --stack: 1em;
+    font-size: var(--fs-lg);
+    line-height: 1.55;
+    color: var(--bone-2);
+    max-width: 56ch;
+    animation: rise 1.1s var(--ease-out) 0.25s both;
+  }
+  .intro__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(24px); }
+  }
+  @media (max-width: 860px) {
+    .intro {
+      grid-template-columns: 1fr;
+    }
+    .intro__photo {
+      max-width: 28rem;
+    }
+  }
+
+  .impact {
+    border-block: 1px solid var(--line);
+    background: var(--ink-2);
+  }
+  .impact__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .metric {
+    padding: clamp(2rem, 4vw, 3rem) 1.5rem;
+  }
+  .metric + .metric {
+    border-left: 1px solid var(--line);
+  }
+  .metric__value {
+    font-size: clamp(2.25rem, 1.4rem + 3vw, 4.25rem);
+    font-weight: 620;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: var(--acid);
+  }
+  .metric__label {
+    margin-top: 0.7rem;
+    font-size: var(--fs-sm);
+    color: var(--bone-2);
+    max-width: 24ch;
+  }
+  @media (max-width: 900px) {
+    .impact__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .metric:nth-child(3) {
+      border-left: 0;
+    }
+    .metric:nth-child(n + 3) {
+      border-top: 1px solid var(--line);
+    }
+  }
+
+  .block-head {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+  .block-head h2 {
+    max-width: 20ch;
+  }
+  .block-head--row {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+
+  .xp {
+    border-top: 1px solid var(--line);
+  }
+  .job {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.6fr) minmax(0, 2fr);
+    gap: 1.5rem clamp(1.5rem, 5vw, 5rem);
+    padding-block: clamp(2rem, 4vw, 3rem);
+    border-bottom: 1px solid var(--line);
+  }
+  .job__when {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bone-3);
+  }
+  .job__num {
+    font-size: 2.75rem;
+    color: var(--acid);
+    letter-spacing: 0;
+  }
+  .job__company {
+    font-size: var(--fs-xl);
+  }
+  .job__role {
+    margin-top: 0.4rem;
+    color: var(--acid);
+    font-weight: 500;
+  }
+  .job__summary {
+    margin-top: 1rem;
+    color: var(--bone-2);
+    max-width: 62ch;
+  }
+  .job__list {
+    display: grid;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+  }
+  .job__list li {
+    display: flex;
+    gap: 0.85rem;
+    font-size: var(--fs-sm);
+    color: var(--bone-2);
+    line-height: 1.55;
+    max-width: 68ch;
+  }
+  .job__list :global(.icon--manicule) {
+    flex: none;
+    margin-top: 0.35em;
+    color: var(--bone-3);
+    font-size: 0.8rem;
+  }
+  @media (max-width: 760px) {
+    .job {
+      grid-template-columns: 1fr;
+    }
+    .job__when {
+      grid-auto-flow: column;
+      justify-content: start;
+      align-items: baseline;
+      gap: 1rem;
+    }
+  }
+
+  .crafts {
+    border-top: 1px solid var(--line);
+  }
+  .crafts__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2rem;
+  }
+  .craft {
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+  }
+  .craft__num {
+    font-size: 2.5rem;
+    color: var(--acid);
+  }
+  .craft h3 {
+    font-size: var(--fs-lg);
+    letter-spacing: -0.02em;
+  }
+  .craft p {
+    font-size: var(--fs-sm);
+    color: var(--bone-2);
+  }
+  .tools,
+  .edu {
+    margin-top: clamp(3rem, 6vw, 5rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+  .tools__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .edu__row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem 1rem;
+    margin-top: 1rem;
+  }
+  .edu__row h3 {
+    font-size: var(--fs-xl);
+  }
+  .edu__degree {
+    margin-top: 0.4rem;
+    color: var(--acid);
+  }
+  .edu__body {
+    margin-top: 0.8rem;
+    max-width: 62ch;
+  }
+  @media (max-width: 1000px) {
+    .crafts__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 560px) {
+    .crafts__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .offclock {
+    position: relative;
+    isolation: isolate;
+    border-top: 1px solid var(--line);
+  }
+  .offclock__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.55fr) minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: center;
+  }
+  .flipbook video {
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    border-radius: var(--radius);
+    box-shadow: 0 0 0 1px var(--line), 0 40px 100px -30px #000;
+    background: var(--ink-2);
+  }
+  .flipbook figcaption {
+    margin-top: 0.75rem;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.06em;
+    color: var(--bone-3);
+  }
+  .odd {
+    display: grid;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .odd li {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    font-size: var(--fs-lg);
+    line-height: 1.4;
+  }
+  .odd__num {
+    min-width: 3ch;
+    color: var(--acid);
+    font-size: 1.6em;
+  }
+  @media (max-width: 760px) {
+    .offclock__grid {
+      grid-template-columns: 1fr;
+    }
+    .flipbook {
+      max-width: 16rem;
+    }
+  }
+
+  .strip {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+  .strip__item {
+    display: block;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: var(--radius);
+    box-shadow: 0 0 0 1px var(--line);
+  }
+  .strip__item :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease-out);
+  }
+  .strip:hover .strip__item :global(img) {
+    transform: scale(1.04);
+  }
+  @media (max-width: 760px) {
+    .strip {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .strip__item:nth-child(n + 4) {
+      display: none;
+    }
+    .block-head--row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  // Only spin up the Tokyo flipbook while it's on screen.
+  document.addEventListener('astro:page-load', () => {
+    const videos = document.querySelectorAll<HTMLVideoElement>('video[data-autoplay-visible]');
+    if (!videos.length) return;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        const v = e.target as HTMLVideoElement;
+        if (e.isIntersecting && !reduce) {
+          v.preload = 'auto';
+          v.play().catch(() => {});
+        } else v.pause();
+      }
+    });
+    videos.forEach((v) => io.observe(v));
+    document.addEventListener('astro:before-swap', () => io.disconnect(), { once: true });
+  });
+</script>

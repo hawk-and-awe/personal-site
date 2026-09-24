@@ -1,0 +1,29 @@
+title: Prague · Vienna · Budapest
+places: Three capitals in ten days
+year: 2025
+order: 1
+photos:
+  - src: ./01.jpg
+    alt: A heraldic lion relief on an ornate cast-iron utility cabinet.
+    place: Budapest
+  - src: ./02.jpg
+    alt: A man in a striped track jacket pausing on a city sidewalk. Black and white.
+    place: Prague
+  - src: ./03.jpg
+    alt: Looking straight up into a gilded, coffered basilica dome.
+    place: Budapest
+  - src: ./04.jpg
+    alt: A bright yellow pedestrian crossing button on a black pole.
+    place: Prague
+  - src: ./05.jpg
+    alt: A vendor behind the counter of a packed market stall. Black and white.
+    place: Budapest
+  - src: ./06.jpg
+    alt: A baroque library hall lined with gilded shelves and a painted ceiling.
+    place: Prague
+  - src: ./07.jpg
+    alt: A father and young son resting side by side on broad stone steps. Black and white.
+    place: Budapest
+  - src: ./08.jpg
+    alt: Rows of hand-painted marionettes hanging in a shop window.
+    place: Prague

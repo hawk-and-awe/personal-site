@@ -1,0 +1,31 @@
+# One folder per trip or series. Photos are listed in display order.
+title: Italia
+places: Positano · The Amalfi Coast · Rome
+year: 2022
+order: 2
+photos:
+  - src: ./01.jpg
+    alt: Two waiters in aprons and masks deep in conversation in a restaurant doorway. Black and white.
+  - src: ./02.jpg
+    alt: An elderly man with a white ponytail and a blue work coat walking down a cobbled street.
+    place: Rome
+  - src: ./03.jpg
+    alt: The pastel houses of Positano stacked up the cliffside above the sea.
+    place: Positano
+  - src: ./04.jpg
+    alt: A woman with a cigarette between her lips adjusting her sleeve on a busy street. Black and white.
+  - src: ./05.jpg
+    alt: A bearded man on a red bicycle raising his hand toward the camera.
+    place: Rome
+  - src: ./06.jpg
+    alt: Two young women sitting against a sunlit brick wall on the pavement.
+    place: Rome
+  - src: ./07.jpg
+    alt: A mother resting her chin on her hand at a café table while her son eats. Black and white.
+  - src: ./08.jpg
+    alt: A woman in a bright yellow sweater walking through a crowded market street.
+  - src: ./09.jpg
+    alt: A visitor gazing up beneath the coffered dome of the Pantheon. Black and white.
+    place: Rome
+  - src: ./10.jpg
+    alt: A luggage porter dozing in a folding chair beside his truck, his dog asleep at his feet. Black and white.
