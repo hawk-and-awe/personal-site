@@ -242,19 +242,15 @@ ol[role='list'] {
   text-decoration-color: var(--acid);
   text-underline-offset: 0.2em;
 }
-/* Illuminated initial: a boxed capital, as in a manuscript. (A sans letter keeps I/J unambiguous.) */
+/* Illuminated initial: a boxed serif capital, as in a manuscript (and unambiguous, unlike blackletter I/J). */
 .prose--initial > p:first-child::first-letter {
   float: left;
-  display: block;
-  margin: 0.12em 0.55em 0 0;
-  padding: 0.1em 0.2em;
-  min-width: 1.35em;
-  font-family: var(--font-sans);
-  font-size: 3.35em;
-  font-weight: 650;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  text-align: center;
+  margin: 0.14em 0.45em 0 0;
+  padding: 0.06em 0.2em 0.02em;
+  font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  font-size: 3.4em;
+  font-weight: 700;
+  line-height: 0.92;
   color: var(--ink);
   background: var(--acid);
   border-radius: 2px;
