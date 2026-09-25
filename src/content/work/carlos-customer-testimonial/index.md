@@ -4,11 +4,13 @@ summary: A community specialist at a California school district tells how his di
 client: American Fidelity
 year: 2026
 types: [live-action, motion]
-role: Pre-Production & Post-Production
+role: Post-Production
 contributions:
-  - Pre-production planning
-  - Edit and post-production
-  - Motion design and animation
+  - Edit
+  - Color correction and grading
+  - Audio mastering
+  - Original motion design and animation
+tools: [DaVinci Resolve, After Effects]
 video:
   provider: file # TODO(chris): swap for the uploaded video's provider and ID
   id: /media/carlos-customer-testimonial.mp4
@@ -36,4 +38,4 @@ draft: true
 
 Carlos Flores is a community specialist at Kern High School District in Bakersfield, California. In 2021 the original strain of COVID-19 put him in the hospital for three months, and the disability coverage he'd added the year before kept his paycheck protected while he recovered.
 
-I handled pre-production for the shoot, then took the film through the edit and motion design from November 2025 to March 2026. The graphics are built around Carlos's own words, typed out on the page and signed on the dotted line, alongside archival CDC briefings and the plan brochure, so the story reads like a record of that year.
+In 2026 I took the film through post-production: the edit, color correction and grading, audio mastering, and original motion design and animation. The graphics are built around Carlos's own words, typed out on the page and signed on the dotted line, alongside archival CDC briefings and the plan brochure, so the story reads like a record of that year.
