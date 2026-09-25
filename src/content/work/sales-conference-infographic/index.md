@@ -25,7 +25,7 @@ stills:
   - src: ./stills/03.jpg
     alt: "A repeating pattern of customer icons across the ultra-wide frame."
 featured: true
-order: 4
+order: 5
 ---
 
 As part of a full conference video experience for our company's 2019 Sales Conference, I was tasked with building an impressive, data-driven infographic video from scratch.
