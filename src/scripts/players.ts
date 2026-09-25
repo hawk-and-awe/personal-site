@@ -124,12 +124,21 @@ function setupFile(player: HTMLElement, video: HTMLVideoElement) {
   });
   toggleBtn?.addEventListener('click', toggle);
   muteBtn?.addEventListener('click', () => (video.muted = !video.muted));
+  // The whole player goes fullscreen so the custom controls come with it (iPhone falls back to native).
   player.querySelector('[data-ctl="fullscreen"]')?.addEventListener('click', () => {
-    const stage = player.querySelector<HTMLElement>('.player__stage');
     if (document.fullscreenElement) document.exitFullscreen();
-    else if (stage?.requestFullscreen) stage.requestFullscreen();
+    else if (player.requestFullscreen) player.requestFullscreen();
     else (video as HTMLVideoElement & { webkitEnterFullscreen?: () => void }).webkitEnterFullscreen?.();
   });
+  // In fullscreen the controls fade out while the pointer rests (see PlayerControls.astro).
+  let idle: number | undefined;
+  const wake = () => {
+    player.classList.remove('is-idle');
+    window.clearTimeout(idle);
+    idle = window.setTimeout(() => player.classList.add('is-idle'), 2500);
+  };
+  player.addEventListener('pointermove', wake);
+  player.addEventListener('fullscreenchange', wake);
   player.addEventListener('keydown', (e) => {
     if ((e.target as HTMLElement).matches('input')) return;
     const k = e.key.toLowerCase();
@@ -152,10 +161,22 @@ function openTheater(opener: HTMLElement) {
 
   stage.style.setProperty('--aspect', aspect);
   stage.replaceChildren();
+  stage.classList.toggle('has-controls', provider === 'file');
+  let video: HTMLVideoElement | undefined;
   if (provider === 'file') {
-    const video = Object.assign(document.createElement('video'), { src, controls: true, autoplay: true, playsInline: true });
+    // Same custom controls as the inline player, cloned from the template in Theater.astro.
+    const controls = dialog.querySelector<HTMLTemplateElement>('[data-controls-template]');
+    const player = Object.assign(document.createElement('div'), { className: 'theater__player' });
+    player.dataset.player = '';
+    player.dataset.provider = 'file';
+    video = Object.assign(document.createElement('video'), { src, playsInline: true });
     video.setAttribute('aria-label', title);
-    stage.append(video);
+    player.append(video);
+    if (controls) player.append(controls.content.cloneNode(true));
+    stage.append(player);
+    setupFile(player, video);
+    player.classList.add('is-playing');
+    video.play().catch(() => player.classList.add('is-paused'));
   } else {
     const iframe = document.createElement('iframe');
     Object.assign(iframe, { src, title, allowFullscreen: true, referrerPolicy: 'strict-origin-when-cross-origin' });
@@ -172,6 +193,7 @@ function openTheater(opener: HTMLElement) {
   }
 
   dialog.showModal();
+  video?.focus({ preventScroll: true }); // so space, arrows, M and F work straight away
   document.documentElement.classList.add('theater-open');
 }
 

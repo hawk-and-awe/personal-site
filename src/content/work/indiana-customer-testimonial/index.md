@@ -31,8 +31,8 @@ stills:
     alt: "Close-up of an interview subject mid-answer."
   - src: ./stills/06.jpg
     alt: "Animated lower-third graphic over an interview."
-featured: true
-order: 4
+featured: false
+order: 8
 ---
 
 In 2019 we traveled to four cities in Indiana over the course of a week and filmed numerous customer testimonials.

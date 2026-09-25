@@ -6,6 +6,7 @@
 import type { ImageMetadata } from 'astro';
 import { Image, getImage } from 'astro:assets';
 import Icon from './Icon.astro';
+import PlayerControls from './PlayerControls.astro';
 import { embedUrl, timecode, type Video } from '../lib/video';
 
 interface Props {
@@ -61,34 +62,7 @@ const glow = ambient ? await getImage({ src: poster, width: 64, format: 'webp' }
     <span class="player__corners" aria-hidden="true"></span>
   </div>
 
-  {
-    isFile && (
-      <div class="player__controls" data-controls hidden>
-        <button type="button" class="ctl" data-ctl="toggle" aria-label="Pause">
-          <Icon name="pause" class="i-pause" />
-          <Icon name="play" class="i-play" />
-        </button>
-        <span class="ctl-time mono" data-time>
-          00:00
-        </span>
-        <div class="scrub" data-scrub>
-          <div class="scrub__buffer" data-buffer />
-          <div class="scrub__fill" data-fill />
-          <input type="range" min="0" max="1000" value="0" step="1" aria-label="Seek" data-seek />
-        </div>
-        <span class="ctl-time mono muted" data-total>
-          {timecode(video.duration)}
-        </span>
-        <button type="button" class="ctl" data-ctl="mute" aria-label="Mute">
-          <Icon name="volume" class="i-vol" />
-          <Icon name="mute" class="i-mute" />
-        </button>
-        <button type="button" class="ctl" data-ctl="fullscreen" aria-label="Fullscreen">
-          <Icon name="fullscreen" />
-        </button>
-      </div>
-    )
-  }
+  {isFile && <PlayerControls duration={video.duration} />}
 </figure>
 
 <style>
@@ -233,107 +207,18 @@ const glow = ambient ? await getImage({ src: poster, width: 64, format: 'webp' }
     to { transform: scale(0.9); opacity: 0.7; }
   }
 
-  /* Custom controls (self-hosted files) */
-  .player__controls {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-top: 0.75rem;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: rgb(19 18 16 / 0.8);
-    backdrop-filter: blur(12px);
-  }
-  .player__controls[hidden] {
-    display: none;
-  }
-  .ctl {
+  /* Fullscreen (self-hosted files): the whole player goes fullscreen so its controls come along. */
+  .player:fullscreen {
     display: grid;
-    place-items: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 50%;
-    color: var(--bone);
-    transition: background-color 0.2s;
+    background: #000;
   }
-  .ctl:hover {
-    background: var(--line);
-  }
-  .ctl :global(.i-play),
-  .player.is-paused .ctl :global(.i-pause),
-  .ctl :global(.i-mute),
-  .player.is-muted .ctl :global(.i-vol) {
+  .player:fullscreen .player__ambient {
     display: none;
   }
-  .player.is-paused .ctl :global(.i-play),
-  .player.is-muted .ctl :global(.i-mute) {
-    display: block;
-  }
-  .ctl-time {
-    font-size: var(--fs-xs);
-    min-width: 5ch;
-    text-align: center;
-  }
-  .scrub {
-    position: relative;
-    flex: 1;
-    height: 2.25rem;
-    display: flex;
-    align-items: center;
-  }
-  .scrub::before,
-  .scrub__buffer,
-  .scrub__fill {
-    content: '';
-    position: absolute;
-    left: 0;
-    height: 3px;
-    border-radius: 3px;
-  }
-  .scrub::before {
-    right: 0;
-    background: var(--line-2);
-  }
-  .scrub__buffer {
-    width: 0;
-    background: var(--bone-3);
-  }
-  .scrub__fill {
-    width: 0;
-    background: var(--acid);
-  }
-  .scrub input {
-    position: relative;
-    width: 100%;
-    margin: 0;
-    background: transparent;
-    appearance: none;
-    cursor: pointer;
-  }
-  .scrub input::-webkit-slider-runnable-track {
-    height: 2.25rem;
-    background: transparent;
-  }
-  .scrub input::-moz-range-track {
-    height: 2.25rem;
-    background: transparent;
-  }
-  .scrub input::-webkit-slider-thumb {
-    appearance: none;
-    width: 14px;
-    height: 14px;
-    margin-top: calc(1.125rem - 7px);
-    border-radius: 50%;
-    background: var(--acid);
-    border: 0;
-  }
-  .scrub input::-moz-range-thumb {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: var(--acid);
-    border: 0;
+  .player:fullscreen .player__stage {
+    aspect-ratio: auto;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   @media (max-width: 600px) {
