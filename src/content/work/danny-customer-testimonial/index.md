@@ -15,7 +15,7 @@ video:
   id: nsnngz1kdq
   duration: 198
 cover: ./cover.jpg
-coverAlt: Danny Rodriguez in his office, framed with a lower-third title.
+coverAlt: Danny in his office, framed with a lower-third title.
 stills:
   - src: ./stills/01.jpg
     alt: "Aerial view over downtown Fresno."

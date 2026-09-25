@@ -48,7 +48,9 @@ takes a few minutes, mostly the download and the transcript, so run it in the ba
 Look at every contact sheet and read the whole transcript, then work out:
 
 - **Who:** take names from on-screen titles and lower thirds, not the file name (the Carlos master was called
-  "Carolos"; his lower third says Carlos Flores).
+  "Carolos"; his lower third says Carlos). Use **first names only** in everything you write (title,
+  summary, body, alt text), because search engines read all of it and Chris doesn't want subjects finding
+  the films by searching their own names.
 - **Where, and the story** in one sentence: that sentence becomes the summary.
 - **What shows Chris's craft:** kinetic type, graphics, archival compositing, color. The second paragraph and
   the stills should show it off.
