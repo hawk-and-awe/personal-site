@@ -29,7 +29,7 @@ stills:
     alt: "A State of Health chart over an aerial view of battery containers."
   - src: ./stills/06.jpg
     alt: "Market price and power capacity panels over scrolling ticker figures."
-featured: false
+featured: true
 order: 3
 draft: false
 ---
