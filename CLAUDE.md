@@ -34,7 +34,7 @@ House style, taken from the existing entries (match it):
 - **People on camera: first names only**, everywhere search engines read (title, summary, body, `coverAlt`,
   `alt`, iframe titles). Chris doesn't want the subjects finding these films by searching their own names.
   Names inside the pictures (lower thirds, nameplates) are fine.
-- **Client** is `American Fidelity` for all the corporate work so far.
+- **Client** is `American Fidelity` for all the corporate work so far; `FlexGen` for the HybridOS promo.
 - **title**: plain and descriptive — `Danny — Customer Testimonial`, `Hands-Free Billing Promo`.
 - **summary**: one sentence, a hook, no period-stacking. E.g. "A documentary-style story filmed in Fresno,
   California, about an employee whose cancer coverage carried him through the hardest stretch of his life."
@@ -52,9 +52,9 @@ House style, taken from the existing entries (match it):
   below). Older entries still use `wistia` / `youtube` / `vimeo` IDs. `duration` is in seconds; set `aspect`
   when it isn't 16:9 (e.g. `2.39/1` for scope).
 - **order** / **featured**: lower `order` sorts first; the home page shows the first four `featured: true`.
-  Current orders: 1 carlos, 2 classic-auto-case-study, 3 billing-new-feature-promo, 4 danny,
-  5 sales-conference-infographic, 6 guided-enrollment-pandemic-safety, 7 enrollment-platform-promo,
-  8 hands-free-billing-promo, 9 indiana (kept last and unfeatured on purpose — it's the oldest).
+  Current orders: 1 carlos, 2 classic-auto-case-study, 3 hybridos-launch-promo (unfeatured), 4 billing-new-feature-promo,
+  5 danny, 6 sales-conference-infographic, 7 guided-enrollment-pandemic-safety, 8 enrollment-platform-promo,
+  9 hands-free-billing-promo, 10 indiana (kept last and unfeatured on purpose — it's the oldest).
 - New entries start as `draft: true` until Chris has confirmed role, contributions and copy.
 
 ## Adding a video

@@ -30,7 +30,7 @@ stills:
   - src: ./stills/06.jpg
     alt: "“Ready to get started?” end card with the customer smiling."
 featured: true
-order: 3
+order: 4
 ---
 
 In 2021 we began rolling out a major new feature to our billing platform. This promo told our employer customers about the big changes — and how they'd save time month after month.
