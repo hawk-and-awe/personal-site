@@ -31,7 +31,7 @@ The folder name is the URL (`/work/<slug>`). `_template/` shows every field; the
 
 House style, taken from the existing entries (match it):
 
-- **Client** is `American Fidelity` for all the corporate work so far (Chris's former employer).
+- **Client** is `American Fidelity` for all the corporate work so far.
 - **title**: plain and descriptive — `Danny — Customer Testimonial`, `Hands-Free Billing Promo`.
 - **summary**: one sentence, a hook, no period-stacking. E.g. "A documentary-style story filmed in Fresno,
   California, about an employee whose cancer coverage carried him through the hardest stretch of his life."
