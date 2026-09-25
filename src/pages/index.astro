@@ -5,7 +5,7 @@ import Hawk from '../components/Hawk.astro';
 import Icon from '../components/Icon.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { site } from '../site.config';
-import { crafts, impact } from '../data/resume';
+import { crafts } from '../data/resume';
 import { embedUrl, roman, timecode } from '../lib/video';
 import { getProjects } from '../lib/work';
 import loopPoster from '../assets/reel/loop-poster.jpg';
@@ -117,20 +117,6 @@ const reel = site.reel;
           ))
         }
       </ol>
-    </div>
-  </section>
-
-  <!-- ░░ Impact ░░ -->
-  <section class="impact" aria-label="Impact">
-    <div class="container impact__grid">
-      {
-        impact.map((m, i) => (
-          <div class="metric" data-reveal style={`--i:${i}`}>
-            <p class="metric__value">{m.value}</p>
-            <p class="metric__label">{m.label}</p>
-          </div>
-        ))
-      }
     </div>
   </section>
 
@@ -416,55 +402,6 @@ const reel = site.reel;
       padding-left: 0;
       border-left: 0;
       border-top: 1px solid var(--line);
-    }
-  }
-
-  /* ── Impact ────────────────────────────────────────── */
-  .impact {
-    border-block: 1px solid var(--line);
-    background: var(--ink-2);
-  }
-  .impact__grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-  .metric {
-    padding: clamp(2rem, 4vw, 3.25rem) 1.5rem;
-  }
-  .metric + .metric {
-    border-left: 1px solid var(--line);
-  }
-  .metric__value {
-    font-size: clamp(2.5rem, 1.5rem + 3.5vw, 4.75rem);
-    font-weight: 620;
-    letter-spacing: -0.05em;
-    line-height: 1;
-    color: var(--acid);
-  }
-  .metric__label {
-    margin-top: 0.75rem;
-    max-width: 24ch;
-    font-size: var(--fs-sm);
-    color: var(--bone-2);
-  }
-  @media (max-width: 900px) {
-    .impact__grid {
-      grid-template-columns: 1fr 1fr;
-    }
-    .metric:nth-child(3) {
-      border-left: 0;
-    }
-    .metric:nth-child(n + 3) {
-      border-top: 1px solid var(--line);
-    }
-  }
-  @media (max-width: 480px) {
-    .metric {
-      padding-inline: 1rem;
-    }
-    .metric:first-child,
-    .metric:nth-child(3) {
-      padding-left: 0;
     }
   }
 

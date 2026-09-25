@@ -22,7 +22,7 @@ Node 22.12+ is required.
 | To change…                                   | Edit                                          |
 | -------------------------------------------- | --------------------------------------------- |
 | Name, email, socials, résumé link, "open to new roles" badge, the reel | `src/site.config.ts` |
-| Bio, experience, impact numbers, tools, fun facts | `src/data/resume.ts`                     |
+| Bio, experience, tools, fun facts            | `src/data/resume.ts`                          |
 | Projects (case studies)                      | `src/content/work/<slug>/`                    |
 | Photographs (page currently hidden)          | `src/content/stills/<trip>/`                  |
 | Colors, type scale, grain                    | `src/styles/global.css` (tokens at the top)   |

@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { site } from '../site.config';
-import { bio, crafts, education, experience, impact, oddities, tools } from '../data/resume';
+import { bio, crafts, education, experience, oddities, tools } from '../data/resume';
 import { roman } from '../lib/video';
 import portrait from '../assets/about/chris-shinjuku.jpg';
 import flipbookPoster from '../assets/about/tokyo-flipbook-poster.jpg';
@@ -41,20 +41,6 @@ import neon from '../assets/backdrops/neon-yellow.jpg';
         </a>
         <a class="btn" href="/contact">Get in touch <Icon name="arrow" /></a>
       </div>
-    </div>
-  </section>
-
-  <!-- ░░ Impact ░░ -->
-  <section class="impact" aria-label="Impact">
-    <div class="container impact__grid">
-      {
-        impact.map((m, i) => (
-          <div class="metric" data-reveal style={`--i:${i}`}>
-            <p class="metric__value">{m.value}</p>
-            <p class="metric__label">{m.label}</p>
-          </div>
-        ))
-      }
     </div>
   </section>
 
@@ -221,45 +207,6 @@ import neon from '../assets/backdrops/neon-yellow.jpg';
     }
     .intro__photo {
       max-width: 28rem;
-    }
-  }
-
-  .impact {
-    border-block: 1px solid var(--line);
-    background: var(--ink-2);
-  }
-  .impact__grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-  .metric {
-    padding: clamp(2rem, 4vw, 3rem) 1.5rem;
-  }
-  .metric + .metric {
-    border-left: 1px solid var(--line);
-  }
-  .metric__value {
-    font-size: clamp(2.25rem, 1.4rem + 3vw, 4.25rem);
-    font-weight: 620;
-    letter-spacing: -0.05em;
-    line-height: 1;
-    color: var(--acid);
-  }
-  .metric__label {
-    margin-top: 0.7rem;
-    font-size: var(--fs-sm);
-    color: var(--bone-2);
-    max-width: 24ch;
-  }
-  @media (max-width: 900px) {
-    .impact__grid {
-      grid-template-columns: 1fr 1fr;
-    }
-    .metric:nth-child(3) {
-      border-left: 0;
-    }
-    .metric:nth-child(n + 3) {
-      border-top: 1px solid var(--line);
     }
   }
 
