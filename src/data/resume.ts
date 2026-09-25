@@ -6,14 +6,6 @@ export const bio = [
   "I'm at home in high-pressure, deadline-driven production pipelines, and in the room with internal and external stakeholders making sure the work lands.",
 ];
 
-/** Headline numbers, pulled from the experience below. */
-export const impact = [
-  { value: '+30%', label: 'Yearly video views across American Fidelity' },
-  { value: '200%+', label: 'Course output growth at Digital-Tutors (12 → 35 a month)' },
-  { value: '$50K+', label: 'New video business generated at BigWing in 2018' },
-  { value: '200K', label: 'Subscribers on the Pluralsight Creative newsletter' },
-];
-
 export const crafts = [
   {
     title: 'Motion Design',
