@@ -32,7 +32,7 @@ stills:
   - src: ./stills/06.jpg
     alt: "Animated lower-third graphic over an interview."
 featured: false
-order: 8
+order: 9
 ---
 
 In 2019 we traveled to four cities in Indiana over the course of a week and filmed numerous customer testimonials.

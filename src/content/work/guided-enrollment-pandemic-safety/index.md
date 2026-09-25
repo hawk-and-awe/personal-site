@@ -19,7 +19,7 @@ stills:
     alt: "An illustrated representative with a branded video-call badge."
   - src: ./stills/03.jpg
     alt: "Two illustrated characters reviewing benefits on a laptop."
-order: 5
+order: 6
 ---
 
 During COVID-19 in 2020, many of our account managers adjusted how enrollments were done. This video reassured customers that their safety was our priority.

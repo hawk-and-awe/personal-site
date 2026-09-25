@@ -17,7 +17,7 @@ stills:
     alt: "An illustrated upload dashboard with charts."
   - src: ./stills/03.jpg
     alt: "An illustrated employee at a laptop beside the AFenroll logo."
-order: 6
+order: 7
 ---
 
 As we launched a major update to our customer enrollment platform, this ad showed how the comprehensive, interactive platform set us apart from our competitors.
