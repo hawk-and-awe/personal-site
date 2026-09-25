@@ -45,7 +45,7 @@ House style, taken from the existing entries (match it):
 - **cover.jpg**: a strong frame, ≥1920 px wide, letterbox bars cropped off (the testimonials are 1920×811).
 - **stills/**: 3–6 frames at 1920 px wide, JPEG ~150–300 KB each, every one with a short factual `alt`
   in double quotes (`alt: "Danny at his desk in profile."`).
-- **video**: Chris prefers self-hosting: `provider: file`, `id: /media/<slug>.mp4` (see "Self-hosted video"
+- **video**: Chris prefers self-hosting: `provider: file`, `id: /media/<slug>.mp4` (see "Adding a video"
   below). Older entries still use `wistia` / `youtube` / `vimeo` IDs. `duration` is in seconds; set `aspect`
   when it isn't 16:9 (e.g. `2.39/1` for scope).
 - **order** / **featured**: lower `order` sorts first; the home page shows the first four `featured: true`.
@@ -54,52 +54,16 @@ House style, taken from the existing entries (match it):
   (kept last and unfeatured on purpose — it's the oldest).
 - New entries start as `draft: true` until Chris has confirmed role, contributions and copy.
 
-## Source footage
+## Adding a video
 
-- Masters and exports live on Chris's PC under `D:\AE_PROJECTS\PortfolioSite 2026\`, and in the
-  **thechrishawk@gmail.com** Google Drive under "Chris AF Projects". The Drive connector, when present, is signed
-  in as hawk@chrishawk.net and can't see that account's files.
-- A cloud session can't reach the D: drive. Scanning local footage needs a session running on Chris's PC.
+Use the **`add-work-video` skill** (`.claude/skills/add-work-video/`, or `/add-work-video`): it scans the cut,
+picks frames, drafts the entry, encodes and self-hosts the film, and checks it, with scripts for each step.
+The facts it relies on:
 
-### Scanning a video for an entry
-
-Needs ffmpeg (Windows: `winget install Gyan.FFmpeg`, or `pip install imageio-ffmpeg`) and, for the transcript,
-`pip install faster-whisper`. Work in a scratch folder, never in the repo.
-
-```bash
-ffprobe -v error -show_entries format=duration:stream=width,height,r_frame_rate -of default=nw=1 "in.mov"
-# Contact sheet: one frame every 5 s, tiled, to see the whole film at a glance
-ffmpeg -i "in.mov" -vf "fps=1/5,scale=480:-1,tile=6x6" -frames:v 1 sheet-%02d.jpg
-# Scene-change frames, full size, as candidate stills
-ffmpeg -i "in.mov" -vf "select='gt(scene,0.3)',scale=1920:-1" -vsync vfr -q:v 3 scene-%03d.jpg
-# One exact frame (for the cover or a chosen still); add crop=1920:811 to trim letterbox bars
-ffmpeg -ss 00:00:42.5 -i "in.mov" -frames:v 1 -vf "scale=1920:-1" -q:v 3 still.jpg
-# Audio for transcription
-ffmpeg -i "in.mov" -vn -ac 1 -ar 16000 audio.wav
-```
-
-```python
-from faster_whisper import WhisperModel
-m = WhisperModel("small.en", device="cpu", compute_type="int8")
-for s in m.transcribe("audio.wav")[0]:
-    print(f"[{s.start:6.1f}] {s.text.strip()}")
-```
-
-Use the transcript and frames to draft the title, summary, story and alt text, then ask Chris for anything the
-footage can't show: his role, contributions, year and location.
-
-### Self-hosted video
-
-Films live in `public/media/<slug>.mp4` and play in the site's own player (`VideoPlayer.astro` +
-`PlayerControls.astro`, wired in `src/scripts/players.ts`; the theater modal uses the same controls). The player
-uses `preload="none"`, so nothing downloads until someone presses play. Encode from the master like this:
-
-```bash
-ffmpeg -i master.mp4 -vf "scale=1920:-2:flags=lanczos" -c:v libx264 -preset slow -crf 22 -maxrate 5M \
-  -bufsize 10M -profile:v high -pix_fmt yuv420p -c:a aac -b:a 160k -ac 2 -movflags +faststart <slug>.mp4
-```
-
-That's about 14 MB per minute (Carlos, 3:02, is 42 MB) and looks the same as the master. **Keep every file under
-50 MB** — GitHub warns above 50 MB and rejects files over 100 MB — so drop to `scale=1280:-2` for films longer
-than about 3½ minutes. Every pushed file stays in git history for good, so only commit final cuts.
-Playwright's bundled Chromium can't decode H.264; to screenshot a playing video, route the MP4 to a VP9 WebM.
+- Masters live on Chris's PC under `D:\AE_PROJECTS\PortfolioSite 2026\` and in the **thechrishawk@gmail.com**
+  Google Drive ("Chris AF Projects"). A cloud session can reach neither: the Drive connector is signed in as
+  hawk@chrishawk.net, so ask Chris for a Drive link shared as "Anyone with the link".
+- Self-hosted films live in `public/media/<slug>.mp4` and play in the site's own player (`VideoPlayer.astro` +
+  `PlayerControls.astro`, wired in `src/scripts/players.ts`; the theater modal uses the same controls).
+  **Keep every file under 50 MB**: GitHub warns above 50 MB, rejects files over 100 MB, and keeps every pushed
+  file in history for good.
