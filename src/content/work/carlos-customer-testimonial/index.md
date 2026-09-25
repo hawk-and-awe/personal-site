@@ -12,7 +12,7 @@ contributions:
   - Original motion design and animation
 tools: [DaVinci Resolve, After Effects]
 video:
-  provider: file # TODO(chris): swap for the uploaded video's provider and ID
+  provider: file
   id: /media/carlos-customer-testimonial.mp4
   duration: 182
   aspect: 2.39/1
@@ -33,7 +33,7 @@ stills:
     alt: "Split frame of Carlos and a visitor in a suit sharing a laugh."
 featured: true
 order: 1
-draft: true
+draft: false
 ---
 
 Carlos Flores is a community specialist at Kern High School District in Bakersfield, California. In 2021 the original strain of COVID-19 put him in the hospital for three months, and the disability coverage he'd added the year before kept his paycheck protected while he recovered.

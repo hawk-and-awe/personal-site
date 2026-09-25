@@ -17,7 +17,7 @@ stills:
     alt: "A customer and a support representative in circular frames."
   - src: ./stills/03.jpg
     alt: "The representative surrounded by a network of contacts."
-order: 8
+order: 7
 ---
 
 This video showcases one of the biggest features in our company's billing platform. The hands-free option was a major time-saver for our employer customers and took some of the burden off their shoulders.
