@@ -30,7 +30,7 @@ stills:
   - src: ./stills/06.jpg
     alt: "Close-up of Danny mid-interview."
 featured: true
-order: 2
+order: 3
 ---
 
 In early 2020 we traveled to Fresno, California, to film this story from an employee customer who used our cancer benefits to help him through the most challenging time of his life.

@@ -48,8 +48,8 @@ House style, taken from the existing entries (match it):
 - **video**: `wistia` / `youtube` / `vimeo` ID, or `provider: file` with an MP4 in `public/media/`.
   `duration` is in seconds.
 - **order** / **featured**: lower `order` sorts first; the home page shows the first four `featured: true`.
-  Current orders: 1 billing-new-feature-promo, 2 danny, 3 sales-conference-infographic, 4 indiana,
-  5 guided-enrollment-pandemic-safety, 6 enrollment-platform-promo, 7 hands-free-billing-promo.
+  Current orders: 1 carlos, 2 billing-new-feature-promo, 3 danny, 4 sales-conference-infographic,
+  5 indiana, 6 guided-enrollment-pandemic-safety, 7 enrollment-platform-promo, 8 hands-free-billing-promo.
 - New entries start as `draft: true` until Chris has confirmed role, contributions and copy.
 
 ## Source footage

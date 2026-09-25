@@ -2,13 +2,13 @@
 title: Carlos — Customer Testimonial
 summary: A community specialist at a California school district tells how his disability coverage kept his paycheck coming through three months in the hospital with COVID-19.
 client: American Fidelity
-year: 2026 # TODO(chris): confirm — the master is dated March 2026
+year: 2026
 types: [live-action, motion]
-role: Production & Post-Production # TODO(chris): confirm
-contributions: # TODO(chris): confirm what you did
+role: Pre-Production & Post-Production
+contributions:
   - Pre-production planning
-  - On-location production
-  - Edit and motion design
+  - Edit and post-production
+  - Motion design and animation
 video:
   provider: file # TODO(chris): swap for the uploaded video's provider and ID
   id: /media/carlos-customer-testimonial.mp4
@@ -29,12 +29,11 @@ stills:
     alt: "Carlos at his desk beneath a hand-drawn “Mr. Flores” sign."
   - src: ./stills/06.jpg
     alt: "Split frame of Carlos and a visitor in a suit sharing a laugh."
-order: 8
+featured: true
+order: 1
 draft: true
 ---
 
 Carlos Flores is a community specialist at Kern High School District in Bakersfield, California. In 2021 the original strain of COVID-19 put him in the hospital for three months, and the disability coverage he'd added the year before kept his paycheck protected while he recovered.
 
-The film sets his interview against a typed-out page of his own words, a signature on the dotted line, archival CDC briefings and the plan brochure, so the story reads like a record of that year.
-
-TODO(chris): your part — e.g. "I planned and filmed the shoot, and handled the edit and motion design."
+I handled pre-production for the shoot, then took the film through the edit and motion design from November 2025 to March 2026. The graphics are built around Carlos's own words, typed out on the page and signed on the dotted line, alongside archival CDC briefings and the plan brochure, so the story reads like a record of that year.
