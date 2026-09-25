@@ -31,6 +31,9 @@ The folder name is the URL (`/work/<slug>`). `_template/` shows every field; the
 
 House style, taken from the existing entries (match it):
 
+- **People on camera: first names only**, everywhere search engines read (title, summary, body, `coverAlt`,
+  `alt`, iframe titles). Chris doesn't want the subjects finding these films by searching their own names.
+  Names inside the pictures (lower thirds, nameplates) are fine.
 - **Client** is `American Fidelity` for all the corporate work so far.
 - **title**: plain and descriptive — `Danny — Customer Testimonial`, `Hands-Free Billing Promo`.
 - **summary**: one sentence, a hook, no period-stacking. E.g. "A documentary-style story filmed in Fresno,
