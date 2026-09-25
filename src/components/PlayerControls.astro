@@ -1,0 +1,215 @@
+---
+/**
+ * Custom controls for self-hosted films. Shared by the inline player and the theater, and wired up by
+ * setupFile() in src/scripts/players.ts, which looks for the data-* hooks below inside a [data-player].
+ */
+import Icon from './Icon.astro';
+import { timecode } from '../lib/video';
+
+interface Props {
+  duration?: number;
+}
+
+const { duration } = Astro.props;
+---
+
+<div class="player__controls" data-controls hidden>
+  <button type="button" class="ctl ctl--play" data-ctl="toggle" aria-label="Pause">
+    <Icon name="pause" class="i-pause" />
+    <Icon name="play" class="i-play" />
+  </button>
+  <span class="ctl-time ctl-time--now mono" data-time>00:00</span>
+  <div class="scrub" data-scrub>
+    <div class="scrub__buffer" data-buffer></div>
+    <div class="scrub__fill" data-fill></div>
+    <input type="range" min="0" max="1000" value="0" step="1" aria-label="Seek" data-seek />
+  </div>
+  <span class="ctl-time mono muted" data-total>{timecode(duration)}</span>
+  <button type="button" class="ctl" data-ctl="mute" aria-label="Mute">
+    <Icon name="volume" class="i-vol" />
+    <Icon name="mute" class="i-mute" />
+  </button>
+  <button type="button" class="ctl" data-ctl="fullscreen" aria-label="Fullscreen">
+    <Icon name="fullscreen" />
+  </button>
+</div>
+
+<style>
+  .player__controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    padding: 0.4rem 0.75rem 0.4rem 0.4rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgb(19 18 16 / 0.8);
+    backdrop-filter: blur(12px);
+    transition: opacity 0.4s var(--ease-out), border-color 0.3s;
+  }
+  .player__controls[hidden] {
+    display: none;
+  }
+  .player__controls:hover,
+  .player__controls:focus-within {
+    border-color: var(--line-2);
+  }
+
+  .ctl {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    color: var(--bone);
+    transition: background-color 0.2s, color 0.2s, transform 0.3s var(--ease-out);
+  }
+  .ctl:hover {
+    background: var(--acid-dim);
+    color: var(--acid);
+  }
+  /* Play/pause is the same acid disc as the poster's play button. */
+  .ctl--play {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--acid);
+    color: var(--ink);
+  }
+  .ctl--play:hover {
+    background: var(--bone);
+    color: var(--ink);
+    transform: scale(1.06);
+  }
+  .ctl :global(.i-play),
+  :global([data-player].is-paused) .ctl :global(.i-pause),
+  .ctl :global(.i-mute),
+  :global([data-player].is-muted) .ctl :global(.i-vol) {
+    display: none;
+  }
+  :global([data-player].is-paused) .ctl :global(.i-play),
+  :global([data-player].is-muted) .ctl :global(.i-mute) {
+    display: block;
+  }
+  .ctl--play :global(.i-play) {
+    translate: 8% 0;
+  }
+
+  .ctl-time {
+    flex: none;
+    font-size: var(--fs-xs);
+    min-width: 5ch;
+    text-align: center;
+  }
+  .ctl-time--now {
+    color: var(--acid);
+  }
+
+  .scrub {
+    --track: 3px;
+    position: relative;
+    flex: 1;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+  }
+  .scrub:hover,
+  .scrub:focus-within {
+    --track: 5px;
+  }
+  .scrub::before,
+  .scrub__buffer,
+  .scrub__fill {
+    content: '';
+    position: absolute;
+    left: 0;
+    height: var(--track);
+    border-radius: var(--track);
+    transition: height 0.2s var(--ease-out);
+  }
+  .scrub::before {
+    right: 0;
+    background: var(--line-2);
+  }
+  .scrub__buffer {
+    width: 0;
+    background: var(--bone-3);
+    opacity: 0.6;
+  }
+  .scrub__fill {
+    width: 0;
+    background: var(--acid);
+    box-shadow: 0 0 12px rgb(228 240 74 / 0.35);
+  }
+  .scrub input {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    background: transparent;
+    appearance: none;
+    cursor: pointer;
+  }
+  .scrub input:focus-visible {
+    outline: none;
+  }
+  .scrub input::-webkit-slider-runnable-track {
+    height: 2.25rem;
+    background: transparent;
+  }
+  .scrub input::-moz-range-track {
+    height: 2.25rem;
+    background: transparent;
+  }
+  .scrub input::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    margin-top: calc(1.125rem - 7px);
+    border-radius: 50%;
+    background: var(--acid);
+    border: 0;
+    transition: box-shadow 0.2s;
+  }
+  .scrub input::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--acid);
+    border: 0;
+    transition: box-shadow 0.2s;
+  }
+  .scrub:hover input::-webkit-slider-thumb,
+  .scrub input:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 6px var(--acid-dim);
+  }
+  .scrub:hover input::-moz-range-thumb,
+  .scrub input:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 6px var(--acid-dim);
+  }
+
+  /* Fullscreen: the controls float over the picture and fade out while the pointer rests. */
+  :global([data-player]:fullscreen) .player__controls {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(1rem, 3vh, 2rem);
+    width: min(92%, 960px);
+    margin: 0;
+    translate: -50% 0;
+    z-index: 2;
+  }
+  :global([data-player].is-idle:fullscreen) .player__controls {
+    opacity: 0;
+  }
+  :global([data-player].is-idle:fullscreen) {
+    cursor: none;
+  }
+
+  @media (max-width: 600px) {
+    .player__controls {
+      gap: 0.4rem;
+    }
+    .ctl-time.muted {
+      display: none;
+    }
+  }
+</style>

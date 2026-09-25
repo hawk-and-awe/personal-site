@@ -45,11 +45,13 @@ House style, taken from the existing entries (match it):
 - **cover.jpg**: a strong frame, ≥1920 px wide, letterbox bars cropped off (the testimonials are 1920×811).
 - **stills/**: 3–6 frames at 1920 px wide, JPEG ~150–300 KB each, every one with a short factual `alt`
   in double quotes (`alt: "Danny at his desk in profile."`).
-- **video**: `wistia` / `youtube` / `vimeo` ID, or `provider: file` with an MP4 in `public/media/`.
-  `duration` is in seconds.
+- **video**: Chris prefers self-hosting: `provider: file`, `id: /media/<slug>.mp4` (see "Self-hosted video"
+  below). Older entries still use `wistia` / `youtube` / `vimeo` IDs. `duration` is in seconds; set `aspect`
+  when it isn't 16:9 (e.g. `2.39/1` for scope).
 - **order** / **featured**: lower `order` sorts first; the home page shows the first four `featured: true`.
   Current orders: 1 carlos, 2 billing-new-feature-promo, 3 danny, 4 sales-conference-infographic,
-  5 indiana, 6 guided-enrollment-pandemic-safety, 7 enrollment-platform-promo, 8 hands-free-billing-promo.
+  5 guided-enrollment-pandemic-safety, 6 enrollment-platform-promo, 7 hands-free-billing-promo, 8 indiana
+  (kept last and unfeatured on purpose — it's the oldest).
 - New entries start as `draft: true` until Chris has confirmed role, contributions and copy.
 
 ## Source footage
@@ -84,4 +86,20 @@ for s in m.transcribe("audio.wav")[0]:
 ```
 
 Use the transcript and frames to draft the title, summary, story and alt text, then ask Chris for anything the
-footage can't show: his role, contributions, year, location, and where the public cut is hosted.
+footage can't show: his role, contributions, year and location.
+
+### Self-hosted video
+
+Films live in `public/media/<slug>.mp4` and play in the site's own player (`VideoPlayer.astro` +
+`PlayerControls.astro`, wired in `src/scripts/players.ts`; the theater modal uses the same controls). The player
+uses `preload="none"`, so nothing downloads until someone presses play. Encode from the master like this:
+
+```bash
+ffmpeg -i master.mp4 -vf "scale=1920:-2:flags=lanczos" -c:v libx264 -preset slow -crf 22 -maxrate 5M \
+  -bufsize 10M -profile:v high -pix_fmt yuv420p -c:a aac -b:a 160k -ac 2 -movflags +faststart <slug>.mp4
+```
+
+That's about 14 MB per minute (Carlos, 3:02, is 42 MB) and looks the same as the master. **Keep every file under
+50 MB** — GitHub warns above 50 MB and rejects files over 100 MB — so drop to `scale=1280:-2` for films longer
+than about 3½ minutes. Every pushed file stays in git history for good, so only commit final cuts.
+Playwright's bundled Chromium can't decode H.264; to screenshot a playing video, route the MP4 to a VP9 WebM.
