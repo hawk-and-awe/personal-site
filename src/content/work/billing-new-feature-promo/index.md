@@ -29,7 +29,7 @@ stills:
     alt: "Animated checklist showing matched and unmatched records."
   - src: ./stills/06.jpg
     alt: "“Ready to get started?” end card with the customer smiling."
-featured: true
+featured: false
 order: 4
 ---
 

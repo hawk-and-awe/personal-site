@@ -52,7 +52,7 @@ House style, taken from the existing entries (match it):
   below). Older entries still use `wistia` / `youtube` / `vimeo` IDs. `duration` is in seconds; set `aspect`
   when it isn't 16:9 (e.g. `2.39/1` for scope).
 - **order** / **featured**: lower `order` sorts first; the home page shows the first four `featured: true`.
-  Current orders: 1 carlos, 2 classic-auto-case-study, 3 hybridos-launch-promo (unfeatured), 4 billing-new-feature-promo,
+  Current orders: 1 carlos, 2 classic-auto-case-study, 3 hybridos-launch-promo, 4 billing-new-feature-promo (unfeatured),
   5 danny, 6 sales-conference-infographic, 7 guided-enrollment-pandemic-safety, 8 enrollment-platform-promo,
   9 hands-free-billing-promo, 10 indiana (kept last and unfeatured on purpose — it's the oldest).
 - New entries start as `draft: true` until Chris has confirmed role, contributions and copy.
