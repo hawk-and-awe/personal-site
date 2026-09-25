@@ -32,7 +32,7 @@ stills:
   - src: ./stills/06.jpg
     alt: "Split frame of Carlos and a visitor in a suit sharing a laugh."
 featured: true
-order: 2
+order: 1
 draft: false
 ---
 

@@ -11,8 +11,7 @@ contributions:
   - Edit
   - Color grading
   - Reusable branded After Effects case-study template
-# TODO(chris): anything besides After Effects, e.g. DaVinci Resolve for the edit and grade?
-tools: [After Effects]
+tools: [DaVinci Resolve, After Effects]
 video:
   provider: file
   id: /media/classic-auto-case-study.mp4
@@ -33,10 +32,9 @@ stills:
     alt: "Animated figures: 60% of employees purchase at least one product."
   - src: ./stills/06.jpg
     alt: "Bently’s words on one-on-one conversations set as a pull quote beside the interview."
-# TODO(chris): confirm where it sorts and whether it's featured on the home page.
 featured: true
-order: 1
-draft: true
+order: 2
+draft: false
 ---
 
 We traveled to three dealerships in the Classic family to film this case study. Bently, chief operating officer of Classic Chevrolet and the group's general counsel, explains how one-on-one benefits enrollment reaches nearly every employee, even with one or two payroll people in most stores, and helps him keep the people he has trained.
