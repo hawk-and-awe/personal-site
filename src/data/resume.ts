@@ -38,17 +38,18 @@ export const tools = ['After Effects', 'Premiere Pro', 'Audition', 'DaVinci Reso
 export const experience = [
   {
     company: 'American Fidelity',
-    role: 'Multimedia Design Specialist',
+    role: 'Motion Designer + Video Producer II',
     start: 'Jan 2019',
     end: 'Present',
     summary:
       'Creating realistic and stylized multimedia content for marketing efforts across the entire organization — end-to-end live and animated production, plus hundreds of custom video requests from remote sales staff across the U.S.',
     highlights: [
       'Completed many full-pipeline productions, on set and on location across the country, with RED cameras and advanced video equipment.',
-      'Increased yearly video views across the organization by 30%.',
-      'Re-imagined the corporate animation style to include character animation using After Effects and DUIK Bassel.',
+      'Championed and facilitated agentic workflows across various video pipelines, improving pre- and post-production speed with human-in-the-loop AI processes.',
+      'Re-imagined the corporate animation style to include rigged and animated 2D characters for personalized storytelling using After Effects.',
       'Introduced a Lottie workflow for animation, helping the development team ship it on the website.',
-      'Managed tight deadlines and fast-turnaround projects while keeping stakeholders informed.',
+      'Navigated tight deadlines and fast-turnaround projects while maintaining strong communication with internal and external stakeholders.',
+      'Handled multimedia production for live on-site events: media presentations for 1,000+ attendees, including custom branding design and creative direction.',
     ],
   },
   {
